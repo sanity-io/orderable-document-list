@@ -6,7 +6,7 @@
   "scripts": {
     "build": "sanipack build",
     "watch": "sanipack build --watch",
-    "postinstall": "husky install",
+    "_postinstall": "husky install",
     "prepublishOnly": "pinst --disable && sanipack build && sanipack verify",
     "postpublish": "pinst --enable",
     "lint": "eslint .",
@@ -54,6 +54,7 @@
   },
   "peerDependencies": {
     "@sanity/desk-tool": "^2.20.0",
+    "@sanity/icons": "^1.2.1",
     "@sanity/ui": "^0.36.12",
     "prop-types": "15.7.2",
     "react": "^17.0.0"
