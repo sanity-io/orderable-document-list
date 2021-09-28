@@ -85,29 +85,28 @@ Document.propTypes = {
 
 const ChildEditLink = ({id, children}) => {
   const router = usePaneRouter()
-  // console.log(router)
 
-  if (!router) return null
+  // if (!router) return null
 
-  // const {ChildLink, routerPanesState} = router
+  const {ChildLink, routerPanesState} = router
   // console.log(ChildLink)
 
   // Is this document currently being edited
-  // const isOpen = useMemo(
-  //   () => routerPanesState.some((pane) => pane[0]?.id === id.replace(`drafts.`, ``)),
-  //   [id, routerPanesState]
-  // )
+  const isOpen = useMemo(
+    () => routerPanesState.some((pane) => pane[0]?.id === id.replace(`drafts.`, ``)),
+    [id, routerPanesState]
+  )
 
-  // const Link = useCallback(
-  //   (linkProps) => <ChildLink {...linkProps} childId={id.replace(`drafts.`, ``)} />,
-  //   [ChildLink, id]
-  // )
+  const Link = useCallback(
+    (linkProps) => <ChildLink {...linkProps} childId={id.replace(`drafts.`, ``)} />,
+    [ChildLink, id]
+  )
 
   return (
     <Button
-      // as={Link}
-      // mode={isOpen ? `default` : `ghost`}
-      // tone={isOpen ? `primary` : `transparent`}
+      as={Link}
+      mode={isOpen ? `default` : `ghost`}
+      tone={isOpen ? `primary` : `transparent`}
       padding={2}
     >
       {children}

@@ -6,12 +6,11 @@ Uses [kvandakes](https://github.com/kvandake)'s [TypeScript implementation](http
 
 Put simply it can updates the position of an individual – or many – Documents in a list without updating any others. It's fast.
 
-It also aims to be OS-like in that you can select and move multiple documents by holding `shift` and clicking a second item, and toggling on/off selections by holding `command/control`.
+This plugin aims to be OS-like in that you can select and move multiple documents by holding `shift` and clicking a second item, and toggling on/off selections by holding `command/control`.
 
 ## Requirements
 
 1. A Sanity Studio with [Desk Structure](https://www.sanity.io/docs/structure-builder-introduction) configured
-2. The addition of a `orderRank` field to any schema you wish to make "orderable" (instructions below)
 
 ## Installation
 
@@ -20,6 +19,8 @@ sanity install orderable-document-list
 ```
 
 ### 1. Import the Document List into your Desk Structure
+
+The config parameter requires `type` and also accepts `title` and `icon`.
 
 ```js
 // ./src/desk-structure/index.js (or similar)
@@ -31,7 +32,14 @@ export default () =>
   S.list()
     .title('Content')
     .items([
+      // Minimum required configuration
       orderableDocumentListDeskItem({type: `category`}),
+      // Optional configuration
+      orderableDocumentListDeskItem({
+        type: `project`,
+        title: `Projects`,
+        icon: Paint
+      }),
       // ... all other desk items
 ```
 
@@ -39,7 +47,9 @@ export default () =>
 
 You must pass in the `type` of the schema, to create an `initialValue` value.
 
-Additionally, pass in overrides for the field, such as making it visible by passing `hidden: false`. You cannot override the `name`, `type` or `initialValue` attributes.
+Additionally, pass in overrides for the field, such as making it visible by passing `hidden: false`.
+
+You cannot override the `name`, `type` or `initialValue` attributes.
 
 Example:
 

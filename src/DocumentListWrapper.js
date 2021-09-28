@@ -75,11 +75,9 @@ export default function DocumentListWrapper({type, showIncrements, resetOrderTra
   }
 
   return (
-    <PaneRouterContext.Provider>
-      <OrderableContext.Provider value={{showIncrements}}>
-        <DocumentListQuery type={type} />
-      </OrderableContext.Provider>
-    </PaneRouterContext.Provider>
+    <OrderableContext.Provider value={{showIncrements}}>
+      <DocumentListQuery type={type} />
+    </OrderableContext.Provider>
   )
 }
 
