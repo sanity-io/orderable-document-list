@@ -2,6 +2,8 @@
 
 Drag-and-drop Document Ordering without leaving the Editing surface.
 
+![2021-09-28 16 33 51](https://user-images.githubusercontent.com/9684022/135118990-5e20ac68-d010-40c2-a722-f596089c631a.gif)
+
 Uses [kvandakes](https://github.com/kvandake)'s [TypeScript implementation](https://github.com/kvandake/lexorank-ts) of [Jira's Lexorank](https://www.youtube.com/watch?v=OjQv9xMoFbg) to create a "lexographical" Document order.
 
 Put simply it can updates the position of an individual – or many – Documents in a list without updating any others. It's fast.
@@ -54,7 +56,7 @@ You cannot override the `name`, `type` or `initialValue` attributes.
 Example:
 
 ```js
-// `./src/schema/category.js (or similar)
+// ./src/schema/category.js (or similar)
 
 import {
   orderRankField,

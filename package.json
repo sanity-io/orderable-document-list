@@ -1,12 +1,12 @@
 {
   "name": "sanity-plugin-orderable-document-list",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Drag-and-drop Document Ordering without leaving the Editing surface",
   "main": "lib/index.js",
   "scripts": {
     "build": "sanipack build",
     "watch": "sanipack build --watch",
-    "_postinstall": "husky install",
+    "postinstall": "husky install",
     "prepublishOnly": "pinst --disable && sanipack build && sanipack verify",
     "postpublish": "pinst --enable",
     "lint": "eslint .",
@@ -28,7 +28,10 @@
   "author": "Simeon Griggs <simeon@sanity.io>",
   "license": "MIT",
   "dependencies": {
+    "@sanity/icons": "^1.2.1",
+    "@sanity/ui": "^0.36.12",
     "lexorank": "^1.0.4",
+    "prop-types": "15.7.2",
     "react-beautiful-dnd": "^13.1.0"
   },
   "devDependencies": {
@@ -54,9 +57,6 @@
   },
   "peerDependencies": {
     "@sanity/desk-tool": "^2.20.0",
-    "@sanity/icons": "^1.2.1",
-    "@sanity/ui": "^0.36.12",
-    "prop-types": "15.7.2",
     "react": "^17.0.0"
   },
   "bugs": {
