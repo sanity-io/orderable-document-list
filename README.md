@@ -4,15 +4,11 @@ Drag-and-drop Document Ordering without leaving the Editing surface.
 
 ![2021-09-28 16 33 51](https://user-images.githubusercontent.com/9684022/135118990-5e20ac68-d010-40c2-a722-f596089c631a.gif)
 
-Uses [kvandakes](https://github.com/kvandake)'s [TypeScript implementation](https://github.com/kvandake/lexorank-ts) of [Jira's Lexorank](https://www.youtube.com/watch?v=OjQv9xMoFbg) to create a "lexographical" Document order.
-
-Put simply it can updates the position of an individual – or many – Documents in a list without updating any others. It's fast.
-
 This plugin aims to be OS-like in that you can select and move multiple documents by holding `shift` and clicking a second item, and toggling on/off selections by holding `command/control`.
 
 ## Requirements
 
-1. A Sanity Studio with [Desk Structure](https://www.sanity.io/docs/structure-builder-introduction) configured
+A Sanity Studio with [Desk Structure](https://www.sanity.io/docs/structure-builder-introduction) configured.
 
 ## Installation
 
@@ -36,16 +32,18 @@ export default () =>
     .items([
       // Minimum required configuration
       orderableDocumentListDeskItem({type: `category`}),
+
       // Optional configuration
       orderableDocumentListDeskItem({
         type: `project`,
         title: `Projects`,
         icon: Paint
       }),
+
       // ... all other desk items
 ```
 
-### 2. Add the `orderRank` field, and ordering settings, to your schema(s).
+### 2. Add the `orderRank` field to your schema(s).
 
 You must pass in the `type` of the schema, to create an `initialValue` value.
 
@@ -67,16 +65,23 @@ export default {
   name: "category",
   title: "Category",
   type: "document",
+  // Optional: The plugin also exports a set of `orderings` for use in other Document Lists
   orderings: [orderRankOrdering],
   fields: [
-    // Unfortunately because of a limitation with initialValue we need to pass in the `type` again
+    // Minimum required configuration
+    orderRankField({ type: "category" }),
+
+    // OR you can override _some_ of the field settings
     orderRankField({ type: "category", hidden: false }),
+
     // ...all other fields
 ```
 
 ### 3. Generate initial Ranks
 
 On first load, your Document list will not have any Order. You can select "Reset Order" from the menu in the top right of the list. You can also re-run this at any time.
+
+The `orderRankField` will query the last Document to set an `initialValue` to come after it. New Documents always start at the end of the Ordered list.
 
 ## Querying Ordered Documents
 
@@ -93,9 +98,14 @@ To get this first version out the door there are few configuration settings and 
 - The `name` of the `orderRank` field is constant
 - The ability to only sort across _all_ Documents of a `type`
 - The absence of a `filter` configuration on the Document List
-- The `initialValue` configuration searches for the _last_ ordered Document of the current `type` and creates a rank _after_ it
 
 Feedback and PRs welcome :)
+
+## How it works
+
+Uses [kvandakes](https://github.com/kvandake)'s [TypeScript implementation](https://github.com/kvandake/lexorank-ts) of [Jira's Lexorank](https://www.youtube.com/watch?v=OjQv9xMoFbg) to create a "lexographical" Document order.
+
+Put simply it updates the position of an individual – or many – Documents in an ordered list without updating any others. It's fast.
 
 ## License
 
