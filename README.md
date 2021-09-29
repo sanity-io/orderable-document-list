@@ -4,6 +4,8 @@ Drag-and-drop Document Ordering without leaving the Editing surface.
 
 ![2021-09-28 16 33 51](https://user-images.githubusercontent.com/9684022/135118990-5e20ac68-d010-40c2-a722-f596089c631a.gif)
 
+📹 [Installation Walkthrough Video](https://www.loom.com/share/309f21cce37e44739365a94d425e2e19) (including a bug that is now fixed 😅)
+
 This plugin aims to be OS-like in that you can select and move multiple documents by holding `shift` and clicking a second item, and toggling on/off selections by holding `command/control`.
 
 ## Requirements

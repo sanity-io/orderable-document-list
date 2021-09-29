@@ -29,7 +29,7 @@ export const orderRankField = (config = {}) => {
         {type, order: ORDER_FIELD_NAME}
       )
 
-      return lastDocOrderRank ? initialRank(lastDocOrderRank) : ``
+      return initialRank(lastDocOrderRank)
     },
   }
 }

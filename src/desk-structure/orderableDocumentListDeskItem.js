@@ -13,15 +13,20 @@ export function orderableDocumentListDeskItem(config = {}) {
 
   const {type, title, icon} = config
 
+  const listTitle = title ?? `Orderable ${type}`
+  const listId = `orderable-${type}`
+  const listIcon = icon ?? SortIcon
+
   return (
     S.listItem()
-      .title(title ?? `Orderable ${type}`)
-      .id(`orderable-${type}`)
-      .icon(icon ?? SortIcon)
+      .title(listTitle)
+      .id(listId)
+      .icon(listIcon)
       .child(
         S.component(OrderableDocumentList)
           .options({type})
-          .title(title ?? `Orderable ${type}`)
+          .title(listTitle)
+          .id(listId)
           .child(() => S.editor())
           .menuItems([
             S.menuItem().title(`Reset Order`).icon(GenerateIcon).action(`resetOrder`),
@@ -30,8 +35,8 @@ export function orderableDocumentListDeskItem(config = {}) {
               .title(`New`)
               .icon(ComposeIcon)
               .intent({
-                type: `change`,
-                params: {type: `change`, template: 'change'},
+                type: `create`,
+                params: {template: type, type},
               })
               .showAsAction(true),
           ])
