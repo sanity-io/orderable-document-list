@@ -27,7 +27,7 @@ export function orderableDocumentListDeskItem(config = {}) {
           .options({type})
           .title(listTitle)
           .id(listId)
-          .child(() => S.editor())
+          .child((id) => S.documentWithInitialValueTemplate(type).id(id))
           .menuItems([
             S.menuItem().title(`Reset Order`).icon(GenerateIcon).action(`resetOrder`),
             S.menuItem().title(`Show Increments`).icon(SortIcon).action(`showIncrements`),
@@ -36,7 +36,7 @@ export function orderableDocumentListDeskItem(config = {}) {
               .icon(ComposeIcon)
               .intent({
                 type: `create`,
-                params: {template: type, type},
+                params: {template: listId, type},
               })
               .showAsAction(true),
           ])
