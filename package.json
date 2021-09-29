@@ -1,6 +1,6 @@
 {
   "name": "sanity-plugin-orderable-document-list",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Drag-and-drop Document Ordering without leaving the Editing surface",
   "main": "lib/index.js",
   "scripts": {
