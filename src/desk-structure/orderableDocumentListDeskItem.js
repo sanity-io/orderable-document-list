@@ -1,5 +1,5 @@
 import S from '@sanity/desk-tool/structure-builder'
-import {SortIcon, ComposeIcon, GenerateIcon} from '@sanity/icons'
+import {SortIcon, GenerateIcon} from '@sanity/icons'
 import OrderableDocumentList from '../OrderableDocumentList'
 
 export function orderableDocumentListDeskItem(config = {}) {
@@ -17,31 +17,22 @@ export function orderableDocumentListDeskItem(config = {}) {
   const listId = `orderable-${type}`
   const listIcon = icon ?? SortIcon
 
-  return (
-    S.listItem()
-      .title(listTitle)
-      .id(listId)
-      .icon(listIcon)
-      .child(
-        S.component(OrderableDocumentList)
-          .options({type})
-          .title(listTitle)
-          .id(listId)
-          .child((id) => S.documentWithInitialValueTemplate(type).id(id))
-          .menuItems([
-            S.menuItem().title(`Reset Order`).icon(GenerateIcon).action(`resetOrder`),
-            S.menuItem().title(`Show Increments`).icon(SortIcon).action(`showIncrements`),
-            S.menuItem()
-              .title(`New`)
-              .icon(ComposeIcon)
-              .intent({
-                type: `create`,
-                params: {template: listId, type},
-              })
-              .showAsAction(true),
-          ])
-      )
-      // .serialize() is necessary for export
-      .serialize()
-  )
+  return S.listItem(type)
+    .title(listTitle)
+    .id(listId)
+    .icon(listIcon)
+    .child(
+      // This appears to be the only way to have a custom component in a list AND have a "compose" button that works
+      Object.assign(S.documentTypeList(type).serialize(), {
+        type: 'component',
+        component: OrderableDocumentList,
+        options: {type},
+        menuItems: [
+          ...S.documentTypeList(type).menuItems().serialize().menuItems,
+          S.menuItem().title(`Reset Order`).icon(GenerateIcon).action(`resetOrder`).serialize(),
+          S.menuItem().title(`Show Increments`).icon(SortIcon).action(`showIncrements`).serialize(),
+        ],
+      })
+    )
+    .serialize()
 }
