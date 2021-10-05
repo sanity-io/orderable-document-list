@@ -1,4 +1,4 @@
-# sanity-plugin-orderable-document-list
+# @sanity/orderable-document-list
 
 Drag-and-drop Document Ordering without leaving the Editing surface.
 
@@ -15,7 +15,7 @@ A Sanity Studio with [Desk Structure](https://www.sanity.io/docs/structure-build
 ## Installation
 
 ```
-sanity install orderable-document-list
+sanity install @sanity/orderable-document-list
 ```
 
 ### 1. Import the Document List into your Desk Structure
@@ -26,19 +26,19 @@ The config parameter requires `type` and also accepts `title` and `icon`.
 // ./src/desk-structure/index.js (or similar)
 
 import S from '@sanity/desk-tool/structure-builder'
-import {orderableDocumentListDeskItem} from 'sanity-plugin-orderable-document-list'
+import {orderableDocumentListDeskItem} from '@sanity/orderable-document-list'
 
 export default () =>
   S.list()
     .title('Content')
     .items([
       // Minimum required configuration
-      orderableDocumentListDeskItem({type: `category`}),
+      orderableDocumentListDeskItem({type: 'category'}),
 
       // Optional configuration
       orderableDocumentListDeskItem({
-        type: `project`,
-        title: `Projects`,
+        type: 'project',
+        title: 'Projects',
         icon: Paint
       }),
 
@@ -61,20 +61,20 @@ Example:
 import {
   orderRankField,
   orderRankOrdering,
-} from "sanity-plugin-orderable-document-list";
+} from '@sanity/orderable-document-list';
 
 export default {
-  name: "category",
-  title: "Category",
-  type: "document",
-  // Optional: The plugin also exports a set of `orderings` for use in other Document Lists
+  name: 'category',
+  title: 'Category',
+  type: 'document',
+  // Optional: The plugin also exports a set of 'orderings' for use in other Document Lists
   orderings: [orderRankOrdering],
   fields: [
     // Minimum required configuration
-    orderRankField({ type: "category" }),
+    orderRankField({ type: 'category' }),
 
     // OR you can override _some_ of the field settings
-    orderRankField({ type: "category", hidden: false }),
+    orderRankField({ type: 'category', hidden: false }),
 
     // ...all other fields
 ```

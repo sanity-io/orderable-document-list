@@ -85,11 +85,7 @@ Document.propTypes = {
 
 const ChildEditLink = ({id, children}) => {
   const router = usePaneRouter()
-
-  // if (!router) return null
-
   const {ChildLink, routerPanesState} = router
-  // console.log(ChildLink)
 
   // Is this document currently being edited
   const isOpen = useMemo(

@@ -1,6 +1,6 @@
 {
-  "name": "sanity-plugin-orderable-document-list",
-  "version": "0.0.6",
+  "name": "@sanity/orderable-document-list",
+  "version": "0.0.1",
   "description": "Drag-and-drop Document Ordering without leaving the Editing surface",
   "main": "lib/index.js",
   "scripts": {
@@ -19,13 +19,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/SimeonGriggs/sanity-plugin-orderable-document-list"
+    "url": "git+ssh://git@github.com/sanity-io/sanity-plugin-orderable-document-list"
   },
   "keywords": [
     "sanity",
     "sanity-plugin"
   ],
-  "author": "Simeon Griggs <simeon@sanity.io>",
+  "author": "Sanity.io <hello@sanity.io>",
   "license": "MIT",
   "dependencies": {
     "@sanity/icons": "^1.2.1",
@@ -60,7 +60,7 @@
     "react": "^17.0.0"
   },
   "bugs": {
-    "url": "https://github.com/SimeonGriggs/sanity-plugin-orderable-document-list/issues"
+    "url": "https://github.com/sanity-io/sanity-plugin-orderable-document-list/issues"
   },
-  "homepage": "https://github.com/SimeonGriggs/sanity-plugin-orderable-document-list#readme"
+  "homepage": "https://github.com/sanity-io/sanity-plugin-orderable-document-list#readme"
 }
