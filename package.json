@@ -1,6 +1,6 @@
 {
   "name": "@sanity/orderable-document-list",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Drag-and-drop Document Ordering without leaving the Editing surface",
   "main": "lib/index.js",
   "scripts": {
@@ -56,8 +56,8 @@
     "sanipack": "2.0.1"
   },
   "peerDependencies": {
-    "@sanity/desk-tool": "^2.20.0",
-    "react": "^17.0.0"
+    "@sanity/desk-tool": "^2.21.3",
+    "react": "^17.0.2"
   },
   "bugs": {
     "url": "https://github.com/sanity-io/sanity-plugin-orderable-document-list/issues"

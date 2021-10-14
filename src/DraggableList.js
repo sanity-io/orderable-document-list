@@ -197,67 +197,69 @@ export default function DraggableList({data, isUpdating, setIsUpdating}) {
   }, [])
 
   return (
-    <div>
-      <DragDropContext
-        onDragStart={handleDragStart}
-        onDragEnd={(result) => handleDragEnd(result, orderedData)}
-        style={{overflow: `auto`}}
-      >
-        <Droppable droppableId="documentSortZone">
-          {(provided, snapshot) => (
-            <div {...provided.droppableProps} ref={provided.innerRef}>
-              {orderedData.map((item, index) => (
-                <Draggable
-                  key={`${item._id}-${item[ORDER_FIELD_NAME]}`}
-                  draggableId={item._id}
-                  index={index}
-                  // onClick={(event) => handleDraggableClick(event, provided, snapshot)}
-                >
-                  {(innerProvided, innerSnapshot) => {
-                    const itemIsSelected = selectedIds.includes(item._id)
-                    const itemIsDragging = innerSnapshot.isDragging
-                    const isGhosting = !itemIsDragging && draggingId && itemIsSelected
-                    const itemIsUpdating = isUpdating && itemIsSelected
+    <DragDropContext
+      onDragStart={handleDragStart}
+      onDragEnd={(result) => handleDragEnd(result, orderedData)}
+    >
+      <Droppable droppableId="documentSortZone">
+        {(provided, snapshot) => (
+          <div {...provided.droppableProps} ref={provided.innerRef}>
+            {orderedData.map((item, index) => (
+              <Draggable
+                key={`${item._id}-${item[ORDER_FIELD_NAME]}`}
+                draggableId={item._id}
+                index={index}
+                // onClick={(event) => handleDraggableClick(event, provided, snapshot)}
+              >
+                {(innerProvided, innerSnapshot) => {
+                  const itemIsSelected = selectedIds.includes(item._id)
+                  const itemIsDragging = innerSnapshot.isDragging
+                  const isGhosting = !itemIsDragging && draggingId && itemIsSelected
+                  const itemIsUpdating = isUpdating && itemIsSelected
+                  const isDisabled = Boolean(!item?.[ORDER_FIELD_NAME])
 
-                    return (
-                      <div
-                        ref={innerProvided.innerRef}
-                        {...innerProvided.draggableProps}
-                        {...innerProvided.dragHandleProps}
-                        style={getItemStyle(
-                          innerProvided.draggableProps.style,
-                          itemIsUpdating,
-                          isGhosting
-                        )}
-                      >
-                        <Box paddingBottom={1}>
-                          <Card
-                            tone={cardTone(isGhosting, itemIsDragging, itemIsSelected)}
-                            shadow={itemIsDragging ? `2` : undefined}
-                            radius={2}
-                          >
-                            <Document
-                              doc={item}
-                              entities={orderedData}
-                              handleSelect={handleSelect}
-                              increment={incrementIndex}
-                              index={index}
-                              isFirst={index === 0}
-                              isLast={index === orderedData.length - 1}
-                            />
-                          </Card>
-                        </Box>
-                      </div>
-                    )
-                  }}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
-    </div>
+                  return (
+                    <div
+                      ref={innerProvided.innerRef}
+                      {...innerProvided.draggableProps}
+                      {...innerProvided.dragHandleProps}
+                      style={
+                        isDisabled
+                          ? {opacity: 0.2, pointerEvents: `none`}
+                          : getItemStyle(
+                              innerProvided.draggableProps.style,
+                              itemIsUpdating,
+                              isGhosting
+                            )
+                      }
+                    >
+                      <Box paddingBottom={1}>
+                        <Card
+                          tone={cardTone(isGhosting, itemIsDragging, itemIsSelected)}
+                          shadow={itemIsDragging ? `2` : undefined}
+                          radius={2}
+                        >
+                          <Document
+                            doc={item}
+                            entities={orderedData}
+                            handleSelect={handleSelect}
+                            increment={incrementIndex}
+                            index={index}
+                            isFirst={index === 0}
+                            isLast={index === orderedData.length - 1}
+                          />
+                        </Card>
+                      </Box>
+                    </div>
+                  )
+                }}
+              </Draggable>
+            ))}
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
+    </DragDropContext>
   )
 }
 
