@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types'
 import React, {useEffect, useState, useMemo} from 'react'
 import sanityClient from 'part:@sanity/base/client'
-import {Box, Flex, Spinner} from '@sanity/ui'
+import {Stack, Box, Flex, Spinner} from '@sanity/ui'
+import {usePaneRouter} from '@sanity/desk-tool'
+
 import DraggableList from './DraggableList'
 import {ORDER_FIELD_NAME} from './helpers/constants'
 import Feedback from './Feedback'
@@ -14,6 +16,7 @@ export default function DocumentListQuery({type}) {
   const [isLoading, setIsLoading] = useState(true)
   const [isUpdating, setIsUpdating] = useState(false)
   const [data, setData] = useState([])
+  const router = usePaneRouter()
 
   useEffect(() => {
     const query = `*[_type == $type]|order(@[$order] asc)`
@@ -75,7 +78,7 @@ export default function DocumentListQuery({type}) {
     )
 
   return (
-    <>
+    <Stack space={1} style={{overflow: `scroll`, height: `100%`}}>
       {unorderedDataCount > 0 && (
         <Feedback>
           {unorderedDataCount}/{data.length} Documents have no Order. Select{' '}
@@ -85,7 +88,7 @@ export default function DocumentListQuery({type}) {
       <Box padding={1}>
         <DraggableList data={data} isUpdating={isUpdating} setIsUpdating={setIsUpdating} />
       </Box>
-    </>
+    </Stack>
   )
 }
 
