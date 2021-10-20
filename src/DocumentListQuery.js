@@ -63,7 +63,7 @@ export default function DocumentListQuery({type}) {
 
     return () => subscription?.unsubscribe()
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
-  }, [])
+  }, [type])
 
   const unorderedDataCount = useMemo(
     () => (data.length ? data.filter((doc) => !doc[ORDER_FIELD_NAME]).length : 0),
