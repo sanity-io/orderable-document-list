@@ -25,6 +25,24 @@ export default function Document({doc, increment, entities, handleSelect, index,
           <DragHandleIcon />
         </Text>
       </Box>
+      {showIncrements && (
+        <Flex style={{flexShrink: 0}} align="center" gap={1} paddingRight={1}>
+          <Button
+            padding={2}
+            mode="ghost"
+            onClick={() => increment(index, index + -1, doc._id, entities)}
+            disabled={isFirst}
+            icon={ChevronUpIcon}
+          />
+          <Button
+            padding={2}
+            mode="ghost"
+            disabled={isLast}
+            onClick={() => increment(index, index + 1, doc._id, entities)}
+            icon={ChevronDownIcon}
+          />
+        </Flex>
+      )}
       <Button
         style={{width: `100%`}}
         padding={2}
@@ -32,24 +50,6 @@ export default function Document({doc, increment, entities, handleSelect, index,
         onClick={(e) => handleSelect(doc._id, index, e.nativeEvent)}
       >
         <Flex flex={1} align="center">
-          {showIncrements && (
-            <Flex style={{flexShrink: 0}} align="center" gap={1} paddingRight={2}>
-              <Button
-                padding={2}
-                mode="ghost"
-                onClick={() => increment(index, index + -1, doc._id, entities)}
-                disabled={isFirst}
-                icon={ChevronUpIcon}
-              />
-              <Button
-                padding={2}
-                mode="ghost"
-                disabled={isLast}
-                onClick={() => increment(index, index + 1, doc._id, entities)}
-                icon={ChevronDownIcon}
-              />
-            </Flex>
-          )}
           <Box flex={1}>
             <Preview value={doc} type={schema.get(doc._type)} />
           </Box>

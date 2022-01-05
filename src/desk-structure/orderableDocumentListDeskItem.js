@@ -1,5 +1,7 @@
 import S from '@sanity/desk-tool/structure-builder'
 import {SortIcon, GenerateIcon} from '@sanity/icons'
+import schema from 'part:@sanity/base/schema'
+
 import OrderableDocumentList from '../OrderableDocumentList'
 
 export function orderableDocumentListDeskItem(config = {}) {
@@ -16,6 +18,7 @@ export function orderableDocumentListDeskItem(config = {}) {
   const listTitle = title ?? `Orderable ${type}`
   const listId = `orderable-${type}`
   const listIcon = icon ?? SortIcon
+  const typeTitle = schema.get(type)?.title ?? type
 
   return S.listItem(type)
     .title(listTitle)
@@ -28,7 +31,10 @@ export function orderableDocumentListDeskItem(config = {}) {
         component: OrderableDocumentList,
         options: {type},
         menuItems: [
-          ...S.documentTypeList(type).menuItems().serialize().menuItems,
+          S.menuItem()
+            .title(`Create new ${typeTitle}`)
+            .intent({type: 'create', params: {type}})
+            .serialize(),
           S.menuItem().title(`Reset Order`).icon(GenerateIcon).action(`resetOrder`).serialize(),
           S.menuItem().title(`Show Increments`).icon(SortIcon).action(`showIncrements`).serialize(),
         ],
