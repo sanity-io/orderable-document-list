@@ -38,10 +38,14 @@ export default class OrderableDocumentList extends Component {
 
       const update = await resetOrder(this.props.options.type)
 
+      const reorderWasSuccessful = update?.results?.length
+
       this.setState(() => ({
         resetOrderTransaction: {
-          status: `success`,
-          title: `Reordered ${update.results.length} Documents`,
+          status: reorderWasSuccessful ? `success` : `info`,
+          title: reorderWasSuccessful
+            ? `Reordered ${update.results.length === 1 ? `Document` : `Documents`}`
+            : `Reordering failed`,
           closable: true,
         },
       }))
