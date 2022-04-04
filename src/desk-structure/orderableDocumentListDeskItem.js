@@ -25,8 +25,8 @@ export function orderableDocumentListDeskItem(config = {}) {
     .id(listId)
     .icon(listIcon)
     .child(
-      // This appears to be the only way to have a custom component in a list AND have a "compose" button that works
       Object.assign(S.documentTypeList(type).serialize(), {
+        __preserveInstance: true,
         type: 'component',
         component: OrderableDocumentList,
         options: {type},

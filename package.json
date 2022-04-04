@@ -1,6 +1,6 @@
 {
   "name": "@sanity/orderable-document-list",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Drag-and-drop Document Ordering without leaving the Editing surface",
   "main": "lib/index.js",
   "scripts": {
@@ -29,9 +29,9 @@
   "license": "MIT",
   "dependencies": {
     "@sanity/icons": "^1.2.1",
-    "@sanity/ui": "^0.36.12",
+    "@sanity/ui": "^0.37.6",
     "lexorank": "^1.0.4",
-    "prop-types": "15.7.2",
+    "prop-types": "^15.8.1",
     "react-beautiful-dnd": "^13.1.0"
   },
   "devDependencies": {
@@ -53,10 +53,10 @@
     "husky": "^7.0.2",
     "pinst": "^2.1.6",
     "prettier": "^2.4.1",
-    "sanipack": "2.0.1"
+    "sanipack": "^2.1.0"
   },
   "peerDependencies": {
-    "@sanity/desk-tool": "^2.21.3",
+    "@sanity/desk-tool": "^2.29.0",
     "react": "^17.0.2"
   },
   "bugs": {

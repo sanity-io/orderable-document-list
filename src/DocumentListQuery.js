@@ -17,7 +17,9 @@ export default function DocumentListQuery({type}) {
   const [data, setData] = useState([])
 
   useEffect(() => {
-    const query = `*[_type == $type]|order(@[$order] asc)`
+    const query = `*[_type == $type]|order(@[$order] asc){
+      _id, _type, ${ORDER_FIELD_NAME}
+    }`
     const queryParams = {type, order: ORDER_FIELD_NAME}
     let subscription = null
 
