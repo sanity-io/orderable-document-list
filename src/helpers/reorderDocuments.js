@@ -88,18 +88,6 @@ export const reorderDocuments = ({entities, selectedIds, source, destination, de
           betweenRank = isMovingUp ? betweenRank.between(curRank) : betweenRank.between(nextRank)
         }
 
-        // This data is not actually used by the plugin
-        // console.table(
-        //   createManifest({
-        //     entities,
-        //     selectedItems,
-        //     isMovingUp,
-        //     curIndex,
-        //     nextIndex,
-        //     prevIndex,
-        //   })
-        // )
-
         return {
           // The `all` array gets sorted by order field later anyway
           // so that this probably isn't necessary ¯\_(ツ)_/¯
