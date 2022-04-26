@@ -222,7 +222,7 @@ export default function DraggableList({data, type, listIsUpdating, setListIsUpda
                   const isSelected = selectedIds.includes(item._id)
                   const isDragging = innerSnapshot.isDragging
                   const isGhosting = Boolean(!isDragging && draggingId && isSelected)
-                  const isUpdating = isUpdating && isSelected
+                  const isUpdating = listIsUpdating && isSelected
                   const isDisabled = Boolean(!item[ORDER_FIELD_NAME])
                   const isDuplicate = duplicateOrders.includes(item[ORDER_FIELD_NAME])
                   const tone = cardTone({isDuplicate, isGhosting, isDragging, isSelected})
