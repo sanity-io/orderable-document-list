@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types'
-import React, {useState, useEffect} from 'react'
+import React, {useMemo, useState, useEffect} from 'react'
 import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd'
-import sanityClient from 'part:@sanity/base/client'
+import {usePaneRouter} from '@sanity/desk-tool'
 import {Box, Card, useToast} from '@sanity/ui'
+import sanityClient from 'part:@sanity/base/client'
 
 import Document from './Document'
 import {reorderDocuments} from './helpers/reorderDocuments'
@@ -20,24 +21,27 @@ const getItemStyle = (draggableStyle, itemIsUpdating) => ({
   ...draggableStyle,
 })
 
-const cardTone = (isGhosting, isDragging, isSelected) => {
+const cardTone = (settings) => {
+  const {isDuplicate, isGhosting, isDragging, isSelected} = settings
+
   if (isGhosting) return `transparent`
-  if (isDragging || isSelected) {
-    return `primary`
-  }
+  if (isDragging || isSelected) return `primary`
+  if (isDuplicate) return `caution`
 
   return undefined
 }
 
-export default function DraggableList({data, isUpdating, setIsUpdating}) {
+export default function DraggableList({data, type, listIsUpdating, setListIsUpdating}) {
   const toast = useToast()
+  const router = usePaneRouter()
+  const {navigateIntent} = router
 
   // Maintains local state order before transaction completes
   const [orderedData, setOrderedData] = useState(data)
 
   // Update local state when documents change from an outside source
   useEffect(() => {
-    if (!isUpdating) setOrderedData(data)
+    if (!listIsUpdating) setOrderedData(data)
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [data])
 
@@ -54,8 +58,11 @@ export default function DraggableList({data, isUpdating, setIsUpdating}) {
 
     let updatedIds = []
 
-    // No modifiers, update selected to just this one
+    // No modifier keys pressed during click:
+    // - update selected to just this one
+    // - open document
     if (!selectMultiple && !selectAdditional) {
+      navigateIntent('edit', {id: clickedId, type})
       return setSelectedIds([clickedId])
     }
 
@@ -94,7 +101,7 @@ export default function DraggableList({data, isUpdating, setIsUpdating}) {
       .then((updated) => {
         clearSelected()
         setDraggingId(``)
-        setIsUpdating(false)
+        setListIsUpdating(false)
         toast.push({
           title: `${
             updated.results.length === 1 ? `1 Document` : `${updated.results.length} Documents`
@@ -102,19 +109,10 @@ export default function DraggableList({data, isUpdating, setIsUpdating}) {
           status: `success`,
           description: message,
         })
-
-        // Another "I didn't write tests but I'm going to console.log my way to victory" piece of programming
-        // fetch(
-        //   `https://i2v7h052.api.sanity.io/v2021-03-25/data/query/production?query=*%5B_type%20%3D%3D%20%22category%22%5D%7Corder(orderRank)%7B%0A%20%20title%2C%20orderRank%0A%7D`
-        // )
-        //   .then((res) => res.json())
-        //   .then((res) => {
-        //     console.table(res.result.map((item) => item?.title).join(', '))
-        //   })
       })
       .catch(() => {
         setDraggingId(``)
-        setIsUpdating(false)
+        setListIsUpdating(false)
         toast.push({
           title: `Reordering failed`,
           status: `critical`,
@@ -140,7 +138,7 @@ export default function DraggableList({data, isUpdating, setIsUpdating}) {
     if (!effectedIds?.length) return
 
     // Update state to update styles + prevent data refetching
-    setIsUpdating(true)
+    setListIsUpdating(true)
     setSelectedIds(effectedIds)
 
     const {newOrder, patches, message} = reorderDocuments({
@@ -196,6 +194,15 @@ export default function DraggableList({data, isUpdating, setIsUpdating}) {
     }
   }, [])
 
+  // Find all items with duplicate order field
+  const duplicateOrders = useMemo(() => {
+    if (!orderedData.length) return []
+
+    const orderField = orderedData.map((item) => item[ORDER_FIELD_NAME])
+
+    return orderField.filter((item, index) => orderField.indexOf(item) !== index)
+  }, [orderedData])
+
   return (
     <DragDropContext
       onDragStart={handleDragStart}
@@ -212,11 +219,13 @@ export default function DraggableList({data, isUpdating, setIsUpdating}) {
                 // onClick={(event) => handleDraggableClick(event, provided, snapshot)}
               >
                 {(innerProvided, innerSnapshot) => {
-                  const itemIsSelected = selectedIds.includes(item._id)
-                  const itemIsDragging = innerSnapshot.isDragging
-                  const isGhosting = !itemIsDragging && draggingId && itemIsSelected
-                  const itemIsUpdating = isUpdating && itemIsSelected
-                  const isDisabled = Boolean(!item?.[ORDER_FIELD_NAME])
+                  const isSelected = selectedIds.includes(item._id)
+                  const isDragging = innerSnapshot.isDragging
+                  const isGhosting = Boolean(!isDragging && draggingId && isSelected)
+                  const isUpdating = isUpdating && isSelected
+                  const isDisabled = Boolean(!item[ORDER_FIELD_NAME])
+                  const isDuplicate = duplicateOrders.includes(item[ORDER_FIELD_NAME])
+                  const tone = cardTone({isDuplicate, isGhosting, isDragging, isSelected})
 
                   return (
                     <div
@@ -226,19 +235,11 @@ export default function DraggableList({data, isUpdating, setIsUpdating}) {
                       style={
                         isDisabled
                           ? {opacity: 0.2, pointerEvents: `none`}
-                          : getItemStyle(
-                              innerProvided.draggableProps.style,
-                              itemIsUpdating,
-                              isGhosting
-                            )
+                          : getItemStyle(innerProvided.draggableProps.style, isUpdating, isGhosting)
                       }
                     >
                       <Box paddingBottom={1}>
-                        <Card
-                          tone={cardTone(isGhosting, itemIsDragging, itemIsSelected)}
-                          shadow={itemIsDragging ? `2` : undefined}
-                          radius={2}
-                        >
+                        <Card tone={tone} shadow={isDragging ? `2` : undefined} radius={2}>
                           <Document
                             doc={item}
                             entities={orderedData}
@@ -269,6 +270,7 @@ DraggableList.propTypes = {
       _id: PropTypes.string,
     }).isRequired
   ).isRequired,
-  isUpdating: PropTypes.bool.isRequired,
-  setIsUpdating: PropTypes.func.isRequired,
+  type: PropTypes.string.isRequired,
+  listIsUpdating: PropTypes.bool.isRequired,
+  setListIsUpdating: PropTypes.func.isRequired,
 }

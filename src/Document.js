@@ -1,15 +1,8 @@
 import PropTypes from 'prop-types'
 // eslint-disable-next-line no-unused-vars
-import React, {useCallback, useContext, useMemo} from 'react'
-import {
-  DragHandleIcon,
-  ChevronUpIcon,
-  ChevronDownIcon,
-  ChevronRightIcon,
-  EditIcon,
-} from '@sanity/icons'
+import React, {useContext} from 'react'
+import {DragHandleIcon, ChevronUpIcon, ChevronDownIcon} from '@sanity/icons'
 import {Text, Flex, Box, Button} from '@sanity/ui'
-import {usePaneRouter} from '@sanity/desk-tool'
 import Preview from 'part:@sanity/base/preview'
 import schema from 'part:@sanity/base/schema'
 
@@ -55,13 +48,6 @@ export default function Document({doc, increment, entities, handleSelect, index,
           </Box>
         </Flex>
       </Button>
-      <Box paddingX={3} style={{flexShrink: 0}}>
-        <ChildEditLink id={doc._id}>
-          <Text fontSize={4}>
-            {doc._id.startsWith(`drafts.`) ? <EditIcon /> : <ChevronRightIcon />}
-          </Text>
-        </ChildEditLink>
-      </Box>
     </Flex>
   )
 }
@@ -81,36 +67,4 @@ Document.propTypes = {
   index: PropTypes.number.isRequired,
   isFirst: PropTypes.bool.isRequired,
   isLast: PropTypes.bool.isRequired,
-}
-
-const ChildEditLink = ({id, children}) => {
-  const router = usePaneRouter()
-  const {ChildLink, routerPanesState} = router
-
-  // Is this document currently being edited
-  const isOpen = useMemo(
-    () => routerPanesState.some((pane) => pane[0]?.id === id.replace(`drafts.`, ``)),
-    [id, routerPanesState]
-  )
-
-  const Link = useCallback(
-    (linkProps) => <ChildLink {...linkProps} childId={id.replace(`drafts.`, ``)} />,
-    [ChildLink, id]
-  )
-
-  return (
-    <Button
-      as={Link}
-      mode={isOpen ? `default` : `ghost`}
-      tone={isOpen ? `primary` : `transparent`}
-      padding={2}
-    >
-      {children}
-    </Button>
-  )
-}
-
-ChildEditLink.propTypes = {
-  id: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
 }

@@ -13,7 +13,7 @@ const client = sanityClient.withConfig({
 
 export default function DocumentListQuery({type}) {
   const [isLoading, setIsLoading] = useState(true)
-  const [isUpdating, setIsUpdating] = useState(false)
+  const [listIsUpdating, setListIsUpdating] = useState(false)
   const [data, setData] = useState([])
 
   useEffect(() => {
@@ -57,7 +57,7 @@ export default function DocumentListQuery({type}) {
     }
 
     // Get data but only if a document isn't being patched or we don't yet have data
-    if (!isUpdating && !data.length) {
+    if (!listIsUpdating && !data.length) {
       prepareData()
     }
 
@@ -86,7 +86,12 @@ export default function DocumentListQuery({type}) {
         </Feedback>
       )}
       <Box padding={1}>
-        <DraggableList data={data} isUpdating={isUpdating} setIsUpdating={setIsUpdating} />
+        <DraggableList
+          data={data}
+          type={type}
+          listIsUpdating={listIsUpdating}
+          setListIsUpdating={setListIsUpdating}
+        />
       </Box>
     </Stack>
   )
