@@ -26,7 +26,11 @@ export function orderableDocumentListDeskItem(config = {}) {
     .icon(listIcon)
     .child(
       Object.assign(S.documentTypeList(type).serialize(), {
+        // Prevents the component from re-rendering when switching documents
         __preserveInstance: true,
+        // Prevents the component from NOT re-rendering when switching listItems
+        key: listId,
+
         type: 'component',
         component: OrderableDocumentList,
         options: {type},
