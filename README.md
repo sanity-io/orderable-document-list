@@ -36,6 +36,7 @@ export default () =>
       // Optional configuration
       orderableDocumentListDeskItem({
         type: 'project',
+        filter: `'e-fca35c8b2edc19f66675e200d2b376b8' in teamMembers[]._ref`
         title: 'Projects',
         icon: Paint
       }),
@@ -97,7 +98,6 @@ To get this first version out the door there are few configuration settings and 
 
 - The `name` of the `orderRank` field is constant
 - The ability to only sort across _all_ Documents of a `type`
-- The absence of a `filter` configuration on the Document List
 
 Feedback and PRs welcome :)
 

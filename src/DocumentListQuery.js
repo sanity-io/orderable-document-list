@@ -11,13 +11,13 @@ const client = sanityClient.withConfig({
   apiVersion: '2021-09-01',
 })
 
-export default function DocumentListQuery({type}) {
+export default function DocumentListQuery({type, filter}) {
   const [isLoading, setIsLoading] = useState(true)
   const [listIsUpdating, setListIsUpdating] = useState(false)
   const [data, setData] = useState([])
 
   useEffect(() => {
-    const query = `*[_type == $type]|order(@[$order] asc){
+    const query = `*[_type == $type ${filter ? '&&' + filter : ''}]|order(@[$order] asc){
       _id, _type, ${ORDER_FIELD_NAME}
     }`
     const queryParams = {type, order: ORDER_FIELD_NAME}
@@ -99,4 +99,5 @@ export default function DocumentListQuery({type}) {
 
 DocumentListQuery.propTypes = {
   type: PropTypes.string.isRequired,
+  type: PropTypes.string
 }
