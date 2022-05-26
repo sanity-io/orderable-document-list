@@ -9,7 +9,8 @@ export default class OrderableDocumentList extends Component {
   static propTypes = {
     options: PropTypes.shape({
       type: PropTypes.string,
-      filter: PropTypes.string
+      filter: PropTypes.string,
+      params: PropTypes.object,
     }).isRequired,
   }
 
@@ -58,6 +59,7 @@ export default class OrderableDocumentList extends Component {
       <DocumentListWrapper
         type={this?.props?.options?.type}
         filter={this?.props?.options?.filter}
+        params={this?.props?.options?.params}
         showIncrements={this.state.showIncrements}
         resetOrderTransaction={this.state.resetOrderTransaction}
       />

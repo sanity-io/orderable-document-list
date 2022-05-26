@@ -36,7 +36,10 @@ export default () =>
       // Optional configuration
       orderableDocumentListDeskItem({
         type: 'project',
-        filter: `'e-fca35c8b2edc19f66675e200d2b376b8' in teamMembers[]._ref`
+        filter: `$id in teamMembers[]._ref`,
+        params: {
+          id: 'e-fca35c8b2edc19f66675e200d2b376b8'
+        },
         title: 'Projects',
         icon: Paint
       }),

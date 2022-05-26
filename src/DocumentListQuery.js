@@ -11,7 +11,7 @@ const client = sanityClient.withConfig({
   apiVersion: '2021-09-01',
 })
 
-export default function DocumentListQuery({type, filter}) {
+export default function DocumentListQuery({type, filter, params}) {
   const [isLoading, setIsLoading] = useState(true)
   const [listIsUpdating, setListIsUpdating] = useState(false)
   const [data, setData] = useState([])
@@ -20,7 +20,7 @@ export default function DocumentListQuery({type, filter}) {
     const query = `*[_type == $type ${filter ? '&&' + filter : ''}]|order(@[$order] asc){
       _id, _type, ${ORDER_FIELD_NAME}
     }`
-    const queryParams = {type, order: ORDER_FIELD_NAME}
+    const queryParams = Object.assign(params, {type, order: ORDER_FIELD_NAME})
     let subscription = null
 
     // eslint-disable-next-line require-await
