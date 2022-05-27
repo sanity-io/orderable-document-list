@@ -12,7 +12,13 @@ import Feedback from './Feedback'
 
 // 1. Validate first that the schema has been configured for ordering
 // 2. Setup context for showIncrements
-export default function DocumentListWrapper({type, filter, params, showIncrements, resetOrderTransaction}) {
+export default function DocumentListWrapper({
+  type,
+  filter,
+  params,
+  showIncrements,
+  resetOrderTransaction,
+}) {
   const toast = useToast()
 
   useEffect(() => {
@@ -76,7 +82,7 @@ export default function DocumentListWrapper({type, filter, params, showIncrement
 
   return (
     <OrderableContext.Provider value={{showIncrements}}>
-      <DocumentListQuery type={type} filter={filter} params={params}/>
+      <DocumentListQuery type={type} filter={filter} params={params} />
     </OrderableContext.Provider>
   )
 }
@@ -90,4 +96,9 @@ DocumentListWrapper.propTypes = {
     title: PropTypes.string,
     status: PropTypes.string,
   }).isRequired,
+}
+
+DocumentListWrapper.defaultProps = {
+  filter: ``,
+  params: {},
 }

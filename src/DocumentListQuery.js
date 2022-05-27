@@ -17,7 +17,7 @@ export default function DocumentListQuery({type, filter, params}) {
   const [data, setData] = useState([])
 
   useEffect(() => {
-    const query = `*[_type == $type ${filter ? '&&' + filter : ''}]|order(@[$order] asc){
+    const query = `*[_type == $type ${filter ? `&& ${filter}` : ''}]|order(@[$order] asc){
       _id, _type, ${ORDER_FIELD_NAME}
     }`
     const queryParams = Object.assign(params, {type, order: ORDER_FIELD_NAME})
@@ -99,5 +99,11 @@ export default function DocumentListQuery({type, filter, params}) {
 
 DocumentListQuery.propTypes = {
   type: PropTypes.string.isRequired,
-  type: PropTypes.string
+  filter: PropTypes.string,
+  params: PropTypes.object,
+}
+
+DocumentListQuery.defaultProps = {
+  filter: ``,
+  params: {},
 }
