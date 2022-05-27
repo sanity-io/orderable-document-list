@@ -38,10 +38,21 @@ export default () =>
         type: 'project',
         title: 'Projects',
         icon: Paint
+        // See notes on adding a `filter` below
+        filter: `__i18n_lang == $lang`,
+        params: {
+          lang: 'en_US'
+        },
       }),
 
       // ... all other desk items
 ```
+
+** Caution: Adding a `filter` **
+
+By default, the plugin will display _all_ documents of the same `type`. However, you may wish to add a `filter` to reduce this down to a subset of documents. A typical usecase is for [internationalized document schema](https://github.com/sanity-io/document-internationalization) to order documents of just the base language version.
+
+However, order ranks are still computed based on _all_ documents of the same `type`. Creating multiple lists with different `filter` settings could produce unexpected results.
 
 ### 2. Add the `orderRank` field to your schema(s).
 
@@ -97,7 +108,6 @@ To get this first version out the door there are few configuration settings and 
 
 - The `name` of the `orderRank` field is constant
 - The ability to only sort across _all_ Documents of a `type`
-- The absence of a `filter` configuration on the Document List
 
 Feedback and PRs welcome :)
 

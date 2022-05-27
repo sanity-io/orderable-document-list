@@ -13,7 +13,7 @@ export function orderableDocumentListDeskItem(config = {}) {
     `)
   }
 
-  const {type, title, icon} = config
+  const {type, filter, params, title, icon} = config
 
   const listTitle = title ?? `Orderable ${type}`
   const listId = `orderable-${type}`
@@ -33,7 +33,7 @@ export function orderableDocumentListDeskItem(config = {}) {
 
         type: 'component',
         component: OrderableDocumentList,
-        options: {type},
+        options: {type, filter, params},
         menuItems: [
           S.menuItem()
             .title(`Create new ${typeTitle}`)
