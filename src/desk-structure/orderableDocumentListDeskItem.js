@@ -13,10 +13,10 @@ export function orderableDocumentListDeskItem(config = {}) {
     `)
   }
 
-  const {type, filter, params, title, icon} = config
+  const {type, filter, params, title, icon, id} = config
 
   const listTitle = title ?? `Orderable ${type}`
-  const listId = `orderable-${type}`
+  const listId = id ? id : `orderable-${type}`
   const listIcon = icon ?? SortIcon
   const typeTitle = schema.get(type)?.title ?? type
 
