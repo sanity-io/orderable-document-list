@@ -38,6 +38,8 @@ export default () =>
         type: 'project',
         title: 'Projects',
         icon: Paint
+        // Required if using multiple lists of the same 'type'
+        id: 'en-projects',
         // See notes on adding a `filter` below
         filter: `__i18n_lang == $lang`,
         params: {
@@ -48,7 +50,7 @@ export default () =>
       // ... all other desk items
 ```
 
-** Caution: Adding a `filter` **
+**Caution: Adding a `filter`**
 
 By default, the plugin will display _all_ documents of the same `type`. However, you may wish to add a `filter` to reduce this down to a subset of documents. A typical usecase is for [internationalized document schema](https://github.com/sanity-io/document-internationalization) to order documents of just the base language version.
 
