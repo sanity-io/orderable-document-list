@@ -39,7 +39,7 @@ export default () =>
         title: 'Projects',
         icon: Paint
         // Required if using multiple lists of the same 'type'
-        id: 'en-projects',
+        id: 'orderable-en-projects',
         // See notes on adding a `filter` below
         filter: `__i18n_lang == $lang`,
         params: {
