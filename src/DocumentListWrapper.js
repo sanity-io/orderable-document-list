@@ -53,7 +53,7 @@ export default function DocumentListWrapper({
     if (!typeSchema.fields.some((field) => field?.name === ORDER_FIELD_NAME)) {
       return (
         <>
-          Schema <code>{type}</code> must have an <code>order</code> field of type{' '}
+          Schema <code>{type}</code> must have an <code>{ORDER_FIELD_NAME}</code> field of type{' '}
           <code>string</code>
         </>
       )
