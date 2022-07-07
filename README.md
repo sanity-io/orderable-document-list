@@ -79,6 +79,7 @@ export default {
   title: 'Category',
   type: 'document',
   // Optional: The plugin also exports a set of 'orderings' for use in other Document Lists
+  // https://www.sanity.io/docs/sort-orders
   orderings: [orderRankOrdering],
   fields: [
     // Minimum required configuration
