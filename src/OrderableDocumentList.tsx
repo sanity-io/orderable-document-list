@@ -1,20 +1,27 @@
-import PropTypes from 'prop-types'
 import React, {Component} from 'react'
 
+import {SanityClient} from '@sanity/client'
+import type {ToastParams} from '@sanity/ui'
 import DocumentListWrapper from './DocumentListWrapper'
 import {resetOrder} from './helpers/resetOrder'
 
-// Must use a Class Component here so the actionHandlers can be called
-export default class OrderableDocumentList extends Component {
-  static propTypes = {
-    options: PropTypes.shape({
-      type: PropTypes.string,
-      filter: PropTypes.string,
-      params: PropTypes.object,
-    }).isRequired,
+export interface OrderableDocumentListProps {
+  options: {
+    type: string
+    client: SanityClient,
+    filter?: string,
+    params?: Record<string, unknown>
   }
+}
 
-  constructor(props) {
+interface State {
+  showIncrements: boolean
+  resetOrderTransaction: ToastParams
+}
+
+// Must use a Class Component here so the actionHandlers can be called
+export default class OrderableDocumentList extends Component<OrderableDocumentListProps, State> {
+  constructor(props: OrderableDocumentListProps) {
     super(props)
     this.state = {
       showIncrements: false,
@@ -38,7 +45,7 @@ export default class OrderableDocumentList extends Component {
         },
       }))
 
-      const update = await resetOrder(this.props.options.type)
+      const update = await resetOrder(this.props.options.type, this.props.options.client)
 
       const reorderWasSuccessful = update?.results?.length
 
@@ -55,11 +62,15 @@ export default class OrderableDocumentList extends Component {
   }
 
   render() {
+    const type = this?.props?.options?.type
+    if (!type) {
+      return null
+    }
     return (
       <DocumentListWrapper
-        type={this?.props?.options?.type}
         filter={this?.props?.options?.filter}
         params={this?.props?.options?.params}
+        type={type}
         showIncrements={this.state.showIncrements}
         resetOrderTransaction={this.state.resetOrderTransaction}
       />

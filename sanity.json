@@ -1,7 +1,8 @@
 {
-  "paths": {
-    "source": "./src",
-    "compiled": "./lib"
-  },
-  "parts": []
+  "parts": [
+    {
+      "implements": "part:@sanity/base/sanity-root",
+      "path": "./v2-incompatible.js"
+    }
+  ]
 }

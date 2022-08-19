@@ -1,26 +1,42 @@
-import S from '@sanity/desk-tool/structure-builder'
-import {SortIcon, GenerateIcon} from '@sanity/icons'
-import schema from 'part:@sanity/base/schema'
+import {GenerateIcon, SortIcon} from '@sanity/icons'
+import type {ConfigContext} from 'sanity'
 
+import {ComponentType} from 'react'
+import {StructureBuilder} from 'sanity/desk'
 import OrderableDocumentList from '../OrderableDocumentList'
+import {sanityClientChanged} from './globalClientWorkaround'
 
-export function orderableDocumentListDeskItem(config = {}) {
-  if (!config?.type) {
+export interface OrderableListConfig {
+  type: string
+  id?: string
+  title?: string
+  icon?: ComponentType
+  params?: Record<string, unknown>
+  filter?: string
+  context: ConfigContext
+  S: StructureBuilder
+}
+
+export function orderableDocumentListDeskItem(config: OrderableListConfig) {
+  if (!config?.type || !config.context || !config.S) {
     throw new Error(`
-    "type" not defined in orderableDocumentListDeskItem parameters.
-    \n\n
+    type, context and S (StructureBuilder) must be provided.
+    context and S are available when configuring structure.
     Example: orderableDocumentListDeskItem({type: 'category'})
     `)
   }
 
-  const {type, filter, params, title, icon, id} = config
+  const {type, filter, params, title, icon, id, context, S} = config
+  const {schema, client} = context
+  // workaround so schemas can get access to client in callbacks
+  sanityClientChanged(context)
 
   const listTitle = title ?? `Orderable ${type}`
   const listId = id ?? `orderable-${type}`
   const listIcon = icon ?? SortIcon
   const typeTitle = schema.get(type)?.title ?? type
 
-  return S.listItem(type)
+  return S.listItem()
     .title(listTitle)
     .id(listId)
     .icon(listIcon)
@@ -33,7 +49,7 @@ export function orderableDocumentListDeskItem(config = {}) {
 
         type: 'component',
         component: OrderableDocumentList,
-        options: {type, filter, params},
+        options: {type, filter, params, client},
         menuItems: [
           S.menuItem()
             .title(`Create new ${typeTitle}`)

@@ -1,32 +1,39 @@
-import PropTypes from 'prop-types'
-import React, {useMemo, useEffect} from 'react'
-import schema from 'part:@sanity/base/schema'
+import React, {useEffect, useMemo} from 'react'
 import {useToast} from '@sanity/ui'
-import {PaneRouterContext} from '@sanity/desk-tool'
 
+import {useSchema} from 'sanity'
+import type {ToastParams} from '@sanity/ui'
 import DocumentListQuery from './DocumentListQuery'
 import {OrderableContext} from './OrderableContext'
 
 import {ORDER_FIELD_NAME} from './helpers/constants'
 import Feedback from './Feedback'
 
+export interface DocumentListWrapperProps {
+  showIncrements: boolean
+  type: string
+  resetOrderTransaction: ToastParams
+  filter?: string
+  params?: Record<string, unknown>
+}
+
 // 1. Validate first that the schema has been configured for ordering
 // 2. Setup context for showIncrements
 export default function DocumentListWrapper({
   type,
-  filter,
-  params,
   showIncrements,
   resetOrderTransaction,
-}) {
+  filter,
+  params,
+}: DocumentListWrapperProps) {
   const toast = useToast()
+  const schema = useSchema()
 
   useEffect(() => {
     if (resetOrderTransaction?.title && resetOrderTransaction?.status) {
       toast.push(resetOrderTransaction)
     }
-    /* eslint-disable-next-line react-hooks/exhaustive-deps */
-  }, [resetOrderTransaction])
+  }, [resetOrderTransaction, toast])
 
   const schemaIsInvalid = useMemo(() => {
     // Option not passed
@@ -50,7 +57,10 @@ export default function DocumentListWrapper({
     }
 
     // Schema lacks an order field
-    if (!typeSchema.fields.some((field) => field?.name === ORDER_FIELD_NAME)) {
+    if (
+      !('fields' in typeSchema) ||
+      !typeSchema.fields.some((field) => field?.name === ORDER_FIELD_NAME)
+    ) {
       return (
         <>
           Schema <code>{type}</code> must have an <code>{ORDER_FIELD_NAME}</code> field of type{' '}
@@ -61,6 +71,7 @@ export default function DocumentListWrapper({
 
     // Schema's order field is not a string
     if (
+      'fields' in typeSchema &&
       typeSchema.fields.some(
         (field) => field?.name === ORDER_FIELD_NAME && field?.type?.name !== 'string'
       )
@@ -73,8 +84,8 @@ export default function DocumentListWrapper({
       )
     }
 
-    return ``
-  }, [type])
+    return ''
+  }, [type, schema])
 
   if (schemaIsInvalid) {
     return <Feedback>{schemaIsInvalid}</Feedback>
@@ -85,20 +96,4 @@ export default function DocumentListWrapper({
       <DocumentListQuery type={type} filter={filter} params={params} />
     </OrderableContext.Provider>
   )
-}
-
-DocumentListWrapper.propTypes = {
-  showIncrements: PropTypes.bool.isRequired,
-  type: PropTypes.string.isRequired,
-  filter: PropTypes.string,
-  params: PropTypes.object,
-  resetOrderTransaction: PropTypes.shape({
-    title: PropTypes.string,
-    status: PropTypes.string,
-  }).isRequired,
-}
-
-DocumentListWrapper.defaultProps = {
-  filter: ``,
-  params: {},
 }

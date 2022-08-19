@@ -18,17 +18,9 @@ module.exports = {
   rules: {
     'no-use-before-define': 'off',
     '@typescript-eslint/no-var-requires': 'off',
-    'import/no-extraneous-dependencies': 'off', // because of parts
-    'import/no-unresolved': ['error', {ignore: ['.*:.*']}], // because of parts
-    'prettier/prettier': [
-      'error',
-      {
-        semi: false,
-        printWidth: 100,
-        bracketSpacing: false,
-        singleQuote: true,
-      },
-    ],
+    'import/no-extraneous-dependencies': 'off',
+    'import/no-unresolved': 'off',
+    'import/named': 'off',
     'sort-imports': 'off', // prefer import/order
     'react/jsx-no-bind': [
       1,

@@ -1,20 +1,36 @@
-import PropTypes from 'prop-types'
-// eslint-disable-next-line no-unused-vars
 import React, {useContext} from 'react'
-import {DragHandleIcon, ChevronUpIcon, ChevronDownIcon} from '@sanity/icons'
-import {Text, Flex, Box, Button} from '@sanity/ui'
-import Preview from 'part:@sanity/base/preview'
-import schema from 'part:@sanity/base/schema'
+import {ChevronDownIcon, ChevronUpIcon, DragHandleIcon} from '@sanity/icons'
+import {Box, Button, Flex, Text} from '@sanity/ui'
+import {SanityPreview as Preview} from 'sanity/_unstable'
 
+import {useSchema, SanityDocument, SchemaType} from 'sanity'
 import {OrderableContext} from './OrderableContext'
 
-export default function Document({doc, increment, entities, handleSelect, index, isFirst, isLast}) {
-  const {showIncrements} = useContext(OrderableContext)
+export interface DocumentProps {
+  doc: SanityDocument
+  entities: SanityDocument[]
+  handleSelect: (docId: string, index: number, event: MouseEvent) => void
+  increment: (index: number, nextIndex: number, docId: string, entities: SanityDocument[]) => void
+  index: number
+  isFirst: boolean
+  isLast: boolean
+}
 
+export default function Document({
+  doc,
+  increment,
+  entities,
+  handleSelect,
+  index,
+  isFirst,
+  isLast,
+}: DocumentProps) {
+  const {showIncrements} = useContext(OrderableContext)
+  const schema = useSchema()
   return (
     <Flex align="center">
       <Box paddingX={3} style={{flexShrink: 0}}>
-        <Text fontSize={4}>
+        <Text size={4}>
           <DragHandleIcon />
         </Text>
       </Box>
@@ -44,27 +60,14 @@ export default function Document({doc, increment, entities, handleSelect, index,
       >
         <Flex flex={1} align="center">
           <Box flex={1}>
-            <Preview value={doc} type={schema.get(doc._type)} />
+            <Preview
+              layout="default"
+              value={doc}
+              schemaType={schema.get(doc._type) as SchemaType}
+            />
           </Box>
         </Flex>
       </Button>
     </Flex>
   )
-}
-
-Document.propTypes = {
-  doc: PropTypes.shape({
-    _id: PropTypes.string,
-    _type: PropTypes.string,
-  }).isRequired,
-  entities: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string,
-    }).isRequired
-  ).isRequired,
-  handleSelect: PropTypes.func.isRequired,
-  increment: PropTypes.func.isRequired,
-  index: PropTypes.number.isRequired,
-  isFirst: PropTypes.bool.isRequired,
-  isLast: PropTypes.bool.isRequired,
 }

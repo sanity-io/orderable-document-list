@@ -1,31 +1,46 @@
-import PropTypes from 'prop-types'
-import React, {useEffect, useState, useMemo} from 'react'
-import sanityClient from 'part:@sanity/base/client'
-import {Stack, Box, Flex, Spinner} from '@sanity/ui'
+import React, {useEffect, useMemo, useState} from 'react'
+import {Box, Flex, Spinner, Stack} from '@sanity/ui'
 
+import type {SanityDocument} from 'sanity'
 import DraggableList from './DraggableList'
 import {ORDER_FIELD_NAME} from './helpers/constants'
 import Feedback from './Feedback'
+import {useSanityClient} from './helpers/client'
 
-const client = sanityClient.withConfig({
-  apiVersion: '2021-09-01',
-})
+export interface DocumentListQueryProps {
+  type: string
+  filter?: string
+  params?: Record<string, unknown>
+}
 
-export default function DocumentListQuery({type, filter, params}) {
+//rxjs Subscription does not seem to comply with sanity client subscribe anymore
+type ClientSubscription = ReturnType<
+  ReturnType<ReturnType<typeof useSanityClient>['listen']>['subscribe']
+>
+
+const DEFAULT_PARAMS = {}
+
+export default function DocumentListQuery({
+  type,
+  filter,
+  params = DEFAULT_PARAMS,
+}: DocumentListQueryProps) {
   const [isLoading, setIsLoading] = useState(true)
   const [listIsUpdating, setListIsUpdating] = useState(false)
-  const [data, setData] = useState([])
+  const [data, setData] = useState<SanityDocument[]>([])
+
+  const client = useSanityClient()
 
   useEffect(() => {
     const query = `*[_type == $type ${filter ? `&& ${filter}` : ''}]|order(@[$order] asc){
       _id, _type, ${ORDER_FIELD_NAME}
     }`
     const queryParams = Object.assign(params, {type, order: ORDER_FIELD_NAME})
-    let subscription = null
+    let subscription: ClientSubscription | undefined
 
     // eslint-disable-next-line require-await
     const fetchData = async () => {
-      client.fetch(query, queryParams).then((documents) => {
+      client.fetch<SanityDocument[]>(query, queryParams).then((documents) => {
         // Remove published document from list if draft also exists
         const filteredDocuments = documents.reduce((acc, cur) => {
           if (!cur._id.startsWith(`drafts.`)) {
@@ -36,7 +51,7 @@ export default function DocumentListQuery({type, filter, params}) {
           }
 
           return [...acc, cur]
-        }, [])
+        }, [] as SanityDocument[])
 
         setData(filteredDocuments)
 
@@ -95,15 +110,4 @@ export default function DocumentListQuery({type, filter, params}) {
       </Box>
     </Stack>
   )
-}
-
-DocumentListQuery.propTypes = {
-  type: PropTypes.string.isRequired,
-  filter: PropTypes.string,
-  params: PropTypes.object,
-}
-
-DocumentListQuery.defaultProps = {
-  filter: ``,
-  params: {},
 }

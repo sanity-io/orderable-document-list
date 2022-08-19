@@ -1,8 +1,7 @@
-import PropTypes from 'prop-types'
-import React from 'react'
+import React, {PropsWithChildren} from 'react'
 import {Box, Card, Text} from '@sanity/ui'
 
-export default function Feedback({children}) {
+export default function Feedback({children}: PropsWithChildren<{}>) {
   return (
     <Box padding={3}>
       <Card padding={4} radius={2} shadow={1} tone="caution">
@@ -10,8 +9,4 @@ export default function Feedback({children}) {
       </Card>
     </Box>
   )
-}
-
-Feedback.propTypes = {
-  children: PropTypes.node.isRequired,
 }

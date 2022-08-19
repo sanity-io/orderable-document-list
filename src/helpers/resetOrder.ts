@@ -1,14 +1,9 @@
 import {LexoRank} from 'lexorank'
-import sanityClient from 'part:@sanity/base/client'
 import {ORDER_FIELD_NAME} from './constants'
-
-const client = sanityClient.withConfig({
-  apiVersion: '2021-09-01',
-})
-
+import {SanityClient} from '@sanity/client'
 // Function to wipe and re-do ordering with LexoRank
 // Will at least attempt to start with the current order
-export async function resetOrder(type = ``) {
+export async function resetOrder(type = ``, client: SanityClient) {
   const query = `*[_type == $type]|order(@[$order] asc)._id`
   const queryParams = {type, order: ORDER_FIELD_NAME}
   const documents = await client.fetch(query, queryParams)
@@ -25,7 +20,7 @@ export async function resetOrder(type = ``) {
     aLexoRank = aLexoRank.genNext().genNext()
 
     transaction.patch(documents[index], {
-      set: {[ORDER_FIELD_NAME]: aLexoRank.value},
+      set: {[ORDER_FIELD_NAME]: (aLexoRank as any).value as string},
     })
   }
 
