@@ -1,0 +1,22 @@
+name: CI & Release
+on:
+  # Build on pushes to release branches
+  push:
+    branches: [v3]
+  # Build on pull requests targeting release branches
+  pull_request:
+    branches: [v3]
+  workflow_dispatch:
+    inputs:
+      release:
+        description: Release new version
+        required: true
+        default: false
+        type: boolean
+
+jobs:
+  log-the-inputs:
+    name: Log inputs
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Placeholder for v3 branch"
