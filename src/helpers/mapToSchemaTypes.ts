@@ -1,7 +1,7 @@
 import {orderRankOrdering} from './../fields/orderRankOrdering'
 import {orderRankField} from './../fields/orderRankField'
 
-type orderMethodOptions = 'overwrite' | 'prepend' | 'append'
+type orderMethodOptions = 'overwrite' | 'prepend' | 'append' | 'none'
 type TypeConfig = string | [string, orderMethodOptions]
 
 const DEFAULT_ORDER_METHOD: orderMethodOptions = 'overwrite'
@@ -43,6 +43,7 @@ const getRankOrdering = (previousOrderings: [], orderingMethod: orderMethodOptio
       return [orderRankOrdering, ...previousOrderings]
     case 'append':
       return [...previousOrderings, orderRankOrdering]
+    case 'none':
     default:
       return previousOrderings
   }

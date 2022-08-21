@@ -124,29 +124,10 @@ export default createConfig({
         deskTool({structure: (S, context) => {/* snip */}})
     ],
     schema: {
-        // pass context to orderRankField
-        types: (previousTypes, context) => {
-            return [
-                ...previousTypes, 
-                {
-                    name: "category",
-                    title: "Category",
-                    type: "document",
-                    // Optional: The plugin also exports a set of 'orderings' for use in other Document Lists
-                    // https://www.sanity.io/docs/sort-orders
-                    orderings: [orderRankOrdering],
-                    fields: [
-                        // Minimum required configuration
-                        orderRankField({ type: "category", context }),
-
-                        // OR you can override _some_ of the field settings
-                        orderRankField({ type: 'category', hidden: false, context }),
-
-                        // ...all other fields
-                    ],
-                },
-            ]
-        }
+        /* first argument is type name, second is how you want the orderings to be applied 
+        default 'overwrite', other options are 'append', 'prepend', 'none' )
+        */
+    types: mapToSchemaTypes(schemaTypes, ["category", "post", ["project", "prepend"]]),
     }
 }
 ```
