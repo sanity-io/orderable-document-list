@@ -1,3 +1,4 @@
+import { mapToSchemaTypes } from './helpers/mapToSchemaTypes';
 import {orderRankField, RankFieldConfig} from './fields/orderRankField'
 import {orderRankOrdering} from './fields/orderRankOrdering'
 import {
@@ -6,4 +7,4 @@ import {
 } from './desk-structure/orderableDocumentListDeskItem'
 
 export type {OrderableListConfig, RankFieldConfig}
-export {orderRankField, orderRankOrdering, orderableDocumentListDeskItem}
+export {orderRankField, orderRankOrdering, orderableDocumentListDeskItem, mapToSchemaTypes}

@@ -116,7 +116,7 @@ from the schema configuration context as shown in the following example:
 // sanity.config.js
 import {createConfig} from "sanity";
 import {deskTool, StructureBuilder} from "sanity/desk";
-import {orderableDocumentListDeskItem} from '@sanity/orderable-document-list'
+import {orderableDocumentListDeskItem, mapToSchemaTypes} from '@sanity/orderable-document-list'
 
 export default createConfig({
     //...
