@@ -26,7 +26,7 @@ export const orderRankField = (config: RankFieldConfig) => {
     ...config,
     name: ORDER_FIELD_NAME,
     type: 'string',
-    initialValue: async ({getClient}) => {
+    initialValue: async (p, {getClient}) => {
       const lastDocOrderRank = await getClient({apiVersion: '2021-09-01'}).fetch(
         `*[_type == $type]|order(@[$order] desc)[0][$order]`,
         {type, order: ORDER_FIELD_NAME}
