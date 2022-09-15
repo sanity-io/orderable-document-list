@@ -4,7 +4,6 @@ import type {ConfigContext} from 'sanity'
 import {ComponentType} from 'react'
 import {StructureBuilder} from 'sanity/desk'
 import OrderableDocumentList from '../OrderableDocumentList'
-import {sanityClientChanged} from './globalClientWorkaround'
 
 export interface OrderableListConfig {
   type: string
@@ -27,9 +26,8 @@ export function orderableDocumentListDeskItem(config: OrderableListConfig) {
   }
 
   const {type, filter, params, title, icon, id, context, S} = config
-  const {schema, client} = context
-  // workaround so schemas can get access to client in callbacks
-  sanityClientChanged(context)
+  const {schema, getClient} = context
+  const client = getClient({apiVersion: '2021-09-01'})
 
   const listTitle = title ?? `Orderable ${type}`
   const listId = id ?? `orderable-${type}`

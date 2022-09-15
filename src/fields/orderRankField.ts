@@ -1,8 +1,6 @@
-import {ConfigContext} from 'sanity'
-import type {SanityClient} from '@sanity/client'
+import {type ConfigContext, defineField} from 'sanity'
 import {ORDER_FIELD_NAME} from '../helpers/constants'
 import initialRank from '../helpers/initialRank'
-import {subscribeSanityClient} from '../desk-structure/globalClientWorkaround'
 
 export type SchemaContext = Omit<ConfigContext, 'schema' | 'currentUser' | 'client'>
 
@@ -22,24 +20,19 @@ export const orderRankField = (config: RankFieldConfig) => {
   }
 
   const {type} = config
-
-  let client: SanityClient | undefined
-  subscribeSanityClient(config.context, (updatedClient) => {
-    client = updatedClient
-  })
-  return {
+  return defineField({
     title: 'Order Rank',
     readOnly: true,
     hidden: true,
     ...config,
     name: ORDER_FIELD_NAME,
     type: 'string',
-    initialValue: async () => {
-      const lastDocOrderRank = await client?.fetch(
+    initialValue: async ({getClient}) => {
+      const lastDocOrderRank = await getClient({apiVersion: '2021-09-01'}).fetch(
         `*[_type == $type]|order(@[$order] desc)[0][$order]`,
         {type, order: ORDER_FIELD_NAME}
       )
       return initialRank(lastDocOrderRank)
     },
-  }
+  })
 }

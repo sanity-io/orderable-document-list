@@ -204,4 +204,6 @@ on how to run this plugin with hotreload in the studio.d & watch
 Run ["CI & Release" workflow](https://github.com/sanity-io/orderable-document-list/actions).
 Make sure to select the `v3` branch and check "Release new version".
 
+Version will be automatically bumped based on [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) since the last release.
+
 Semantic release will only release on configured branches, so it is safe to run release on any branch.
