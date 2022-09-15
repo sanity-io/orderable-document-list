@@ -6,15 +6,14 @@ export type SchemaContext = Omit<ConfigContext, 'schema' | 'currentUser' | 'clie
 
 export interface RankFieldConfig {
   type: string
-  context: SchemaContext
 }
 
 export const orderRankField = (config: RankFieldConfig) => {
-  if (!config?.type || !config.context) {
+  if (!config?.type) {
     throw new Error(
       `
-      type and context must be provided. context is available when configuring schema.
-      Example: orderRankField({type: 'category', context})
+      type must be provided.
+      Example: orderRankField({type: 'category'})
       `
     )
   }

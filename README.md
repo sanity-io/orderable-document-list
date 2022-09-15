@@ -109,9 +109,6 @@ Additionally, pass in overrides for the field, such as making it visible by pass
 
 You cannot override the `name`, `type` or `initialValue` attributes.
 
-Take note that orderRankField requires a configured sanity client, that must be passed
-from the schema configuration context as shown in the following example:
-
 ```js
 // sanity.config.js
 import {createConfig} from "sanity";
@@ -124,8 +121,7 @@ export default createConfig({
         deskTool({structure: (S, context) => {/* snip */}})
     ],
     schema: {
-        // pass context to orderRankField
-        types: (previousTypes, context) => {
+        types: (previousTypes) => {
             return [
                 ...previousTypes, 
                 {
@@ -137,10 +133,10 @@ export default createConfig({
                     orderings: [orderRankOrdering],
                     fields: [
                         // Minimum required configuration
-                        orderRankField({ type: "category", context }),
+                        orderRankField({ type: "category" }),
 
                         // OR you can override _some_ of the field settings
-                        orderRankField({ type: 'category', hidden: false, context }),
+                        orderRankField({ type: 'category', hidden: false }),
 
                         // ...all other fields
                     ],
@@ -177,7 +173,7 @@ To get this first version out the door there are few configuration settings and 
 Feedback and PRs welcome :)
 
 ### Breaking change in the v3 version
-`orderRank` and `orderableDocumentListDeskItem` requires context from sanity config now.
+`orderableDocumentListDeskItem` requires context from sanity config now.
 See the examples above.
 
 ## How it works
