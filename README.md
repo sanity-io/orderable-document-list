@@ -163,6 +163,12 @@ Now when writing a GROQ Query for Documents, use the `orderRank` field value to 
 *[_type == "category"]|order(orderRank)
 ```
 
+If fetching documents using [the `document-internationalization` plugin](https://github.com/sanity-io/document-internationalization), you may want to sort by the rank of the base document when the document is not in the base language, so all locales share the same order. When changing the order of documents using this plugin, the `orderRank` field of documents in alternate locales won't be updated. The query below ensures a consistent order for documents in the base language and in alternate languages.
+
+```groq
+*[_type == "category" && __i18n_lang == $lang]|order(__i18n_base->orderRank, orderRank)
+```
+
 ## Notes
 
 To get this first version out the door there are few configuration settings and a lot of opinions. Such as:
