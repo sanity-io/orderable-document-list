@@ -46,7 +46,7 @@
   "license": "MIT",
   "dependencies": {
     "@sanity/icons": "^1.2.1",
-    "@sanity/incompatible-plugin": "^1.0.1",
+    "@sanity/incompatible-plugin": "^1.0.4",
     "@sanity/ui": "^0.38.0",
     "lexorank": "^1.0.4",
     "prop-types": "^15.8.1",
