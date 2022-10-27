@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.0-v3-studio.5](https://github.com/sanity-io/sanity-plugin-orderable-document-list/compare/v1.0.0-v3-studio.4...v1.0.0-v3-studio.5) (2022-10-27)
+
+### Bug Fixes
+
+- **deps:** dev-preview.22 ([4b860ff](https://github.com/sanity-io/sanity-plugin-orderable-document-list/commit/4b860ffab1c54a1050e9aa32228fcfc3aadb36ae))
+
 ## [1.0.0-v3-studio.4](https://github.com/sanity-io/sanity-plugin-orderable-document-list/compare/v1.0.0-v3-studio.3...v1.0.0-v3-studio.4) (2022-10-07)
 
 ### Bug Fixes
