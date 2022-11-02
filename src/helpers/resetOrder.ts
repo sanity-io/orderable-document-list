@@ -1,6 +1,6 @@
 import {LexoRank} from 'lexorank'
-import {ORDER_FIELD_NAME} from './constants'
 import {SanityClient} from '@sanity/client'
+import {ORDER_FIELD_NAME} from './constants'
 // Function to wipe and re-do ordering with LexoRank
 // Will at least attempt to start with the current order
 export async function resetOrder(type = ``, client: SanityClient) {

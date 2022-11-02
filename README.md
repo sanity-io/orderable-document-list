@@ -190,8 +190,7 @@ Put simply it updates the position of an individual – or many – Documents in
 
 ## License
 
-MIT © Simeon Griggs
-See LICENSE
+MIT-licensed. See LICENSE.
 
 ## Develop & test
 
@@ -199,13 +198,11 @@ This plugin uses [@sanity/plugin-kit](https://github.com/sanity-io/plugin-kit)
 with default configuration for build & watch scripts.
 
 See [Testing a plugin in Sanity Studio](https://github.com/sanity-io/plugin-kit#testing-a-plugin-in-sanity-studio)
-on how to run this plugin with hotreload in the studio.d & watch
+on how to run this plugin with hotreload in the studio.
 
-## Release new version
+### Release new version
 
-Run ["CI & Release" workflow](https://github.com/sanity-io/orderable-document-list/actions).
-Make sure to select the `v3` branch and check "Release new version".
-
-Version will be automatically bumped based on [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) since the last release.
+Run ["CI & Release" workflow](https://github.com/sanity-io/orderable-document-list/actions/workflows/main.yml).
+Make sure to select the v3 branch and check "Release new version".
 
 Semantic release will only release on configured branches, so it is safe to run release on any branch.
