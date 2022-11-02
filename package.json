@@ -1,6 +1,6 @@
 {
   "name": "@sanity/orderable-document-list",
-  "version": "1.0.0-v3-studio.6",
+  "version": "1.0.0-v3-studio.7",
   "description": "Drag-and-drop Document Ordering without leaving the Editing surface",
   "author": "Sanity.io <hello@sanity.io>",
   "license": "MIT",

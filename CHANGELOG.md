@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.0-v3-studio.7](https://github.com/sanity-io/orderable-document-list/compare/v1.0.0-v3-studio.6...v1.0.0-v3-studio.7) (2022-11-02)
+
+### Bug Fixes
+
+- **docs:** use defineConfig in examples ([c5e62ed](https://github.com/sanity-io/orderable-document-list/commit/c5e62edc07e1221793aaaa023ca94f2d52e31a05))
+
 ## [1.0.0-v3-studio.6](https://github.com/sanity-io/orderable-document-list/compare/v1.0.0-v3-studio.5...v1.0.0-v3-studio.6) (2022-11-02)
 
 ### Bug Fixes
