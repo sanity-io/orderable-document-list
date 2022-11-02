@@ -18,10 +18,10 @@ This plugin aims to be OS-like in that you can select and move multiple document
 A Sanity Studio with [Desk Structure](https://www.sanity.io/docs/structure-builder-introduction) configured:
 
 ```ts
-import {createConfig} from "sanity";
+import {defineConfig} from "sanity";
 import {deskTool, StructureBuilder} from "sanity/desk";
 
-export default createConfig({
+export default defineConfig({
     //...
     plugins: [
         deskTool({
@@ -54,11 +54,11 @@ The config parameter requires `type`, `S` and `context`. It also accepts `title`
 `S` and `context` are available in desk-tool structure callback, and should be forwarded as is:
 
 ```ts
-import {createConfig} from "sanity";
+import {defineConfig} from "sanity";
 import {deskTool, StructureBuilder} from "sanity/desk";
 import {orderableDocumentListDeskItem} from '@sanity/orderable-document-list'
 
-export default createConfig({
+export default defineConfig({
     //...
     plugins: [
         deskTool({
@@ -111,11 +111,11 @@ You cannot override the `name`, `type` or `initialValue` attributes.
 
 ```js
 // sanity.config.js
-import {createConfig} from "sanity";
+import {defineConfig} from "sanity";
 import {deskTool, StructureBuilder} from "sanity/desk";
 import {orderableDocumentListDeskItem} from '@sanity/orderable-document-list'
 
-export default createConfig({
+export default defineConfig({
     //...
     plugins: [
         deskTool({structure: (S, context) => {/* snip */}})
