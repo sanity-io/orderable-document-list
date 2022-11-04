@@ -2,9 +2,20 @@
   "name": "@sanity/orderable-document-list",
   "version": "1.0.0-v3-studio.7",
   "description": "Drag-and-drop Document Ordering without leaving the Editing surface",
-  "author": "Sanity.io <hello@sanity.io>",
+  "keywords": [
+    "sanity",
+    "sanity-plugin"
+  ],
+  "homepage": "https://github.com/sanity-io/orderable-document-list#readme",
+  "bugs": {
+    "url": "https://github.com/sanity-io/orderable-document-list/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sanity-io/orderable-document-list.git"
+  },
   "license": "MIT",
-  "source": "./src/index.ts",
+  "author": "Sanity.io <hello@sanity.io>",
   "exports": {
     ".": {
       "types": "./lib/src/index.d.ts",
@@ -12,10 +23,12 @@
       "import": "./lib/index.esm.js",
       "require": "./lib/index.js",
       "default": "./lib/index.esm.js"
-    }
+    },
+    "./package.json": "./package.json"
   },
   "main": "./lib/index.js",
   "module": "./lib/index.esm.js",
+  "source": "./src/index.ts",
   "types": "./lib/src/index.d.ts",
   "files": [
     "src",
@@ -24,35 +37,27 @@
     "sanity.json"
   ],
   "scripts": {
-    "clean": "rimraf lib",
     "prebuild": "npm run clean && plugin-kit verify-package --silent && pkg-utils",
-    "build": "pkg-utils build",
-    "watch": "pkg-utils watch",
-    "link-watch": "plugin-kit link-watch",
-    "prepublishOnly": "npm run build",
+    "build": "pkg-utils build --strict",
+    "clean": "rimraf lib",
     "compile": "tsc --noEmit",
+    "format": "prettier src -w",
+    "link-watch": "plugin-kit link-watch",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "format": "prettier src -w",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "prepublishOnly": "npm run build",
+    "watch": "pkg-utils watch"
   },
   "husky": {
     "hooks": {
       "pre-commit": "npm run lint:fix"
     }
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/sanity-io/orderable-document-list.git"
-  },
-  "keywords": [
-    "sanity",
-    "sanity-plugin"
-  ],
   "dependencies": {
     "@sanity/icons": "^1.2.1",
     "@sanity/incompatible-plugin": "^1.0.4",
-    "@sanity/ui": "^1.0.0-beta.31",
+    "@sanity/ui": "1.0.0-beta.32",
     "lexorank": "^1.0.4",
     "prop-types": "^15.8.1",
     "react-beautiful-dnd": "^13.1.0"
@@ -60,10 +65,8 @@
   "devDependencies": {
     "@commitlint/cli": "^17.2.0",
     "@commitlint/config-conventional": "^17.2.0",
-    "@parcel/packager-ts": "^2.6.0",
-    "@parcel/transformer-typescript-types": "^2.6.0",
-    "@sanity/pkg-utils": "^1.16.2",
-    "@sanity/plugin-kit": "^2.0.6",
+    "@sanity/pkg-utils": "^1.17.2",
+    "@sanity/plugin-kit": "^2.1.4",
     "@sanity/semantic-release-preset": "^2.0.2",
     "@types/react-beautiful-dnd": "^13.1.2",
     "@typescript-eslint/eslint-plugin": "^5.42.0",
@@ -83,24 +86,20 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
-    "parcel": "^2.6.0",
     "prettier": "^2.7.1",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
+    "prettier-plugin-packagejson": "^2.3.0",
+    "react": "^18",
+    "react-dom": "^18",
     "rimraf": "^3.0.2",
-    "sanity": "dev-preview || 3.0.0-rc.0",
+    "sanity": "3.0.0-rc.0",
     "typescript": "^4.8.4"
   },
   "peerDependencies": {
-    "react": "^18.0.0",
+    "react": "^18",
     "sanity": "dev-preview || 3.0.0-rc.0"
   },
-  "bugs": {
-    "url": "https://github.com/sanity-io/orderable-document-list/issues"
-  },
-  "homepage": "https://github.com/sanity-io/orderable-document-list#readme",
-  "sanityExchangeUrl": "https://www.sanity.io/plugins/orderable-document-list",
   "engines": {
-    "node": ">=14.0.0"
-  }
+    "node": ">=14"
+  },
+  "sanityExchangeUrl": "https://www.sanity.io/plugins/orderable-document-list"
 }
