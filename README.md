@@ -1,12 +1,9 @@
 # @sanity/orderable-document-list
 
-> **NOTE**
->
-> This is the **Sanity Studio v3 version** of @sanity/orderable-document-list.
->
-> For the v2 version, please refer to the [v2-branch](https://github.com/sanity-io/orderable-document-list).
-
-## What is it?
+>This is a **Sanity Studio v2** plugin.
+> For the v2 version, please refer to the [v2-branch](https://github.com/sanity-io/orderable-document-list/tree/studio-v2).
+#
+# What is it?
 Drag-and-drop Document Ordering without leaving the Editing surface.
 
 ![2022-04-26 12 23 39](https://user-images.githubusercontent.com/9684022/165289621-dbd9d841-028e-40c7-be14-7398fcdb1210.gif)
@@ -37,13 +34,13 @@ export default defineConfig({
 Run the following command in your studio directory
 
 ```sh
-npm install --save @sanity/orderable-document-list@studio-v3
+npm install --save @sanity/orderable-document-list
 ```
 
 or
 
 ```sh
-yarn add @sanity/orderable-document-list@studio-v3
+yarn add @sanity/orderable-document-list
 ```
 
 ## Usage
