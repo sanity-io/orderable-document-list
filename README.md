@@ -1,5 +1,8 @@
 # @sanity/orderable-document-list
 
+>This is a **Sanity Studio v2** plugin.
+> For the v3 version, please refer to the [v3-branch](https://github.com/sanity-io/orderable-document-list).
+
 Drag-and-drop Document Ordering without leaving the Editing surface.
 
 ![2022-04-26 12 23 39](https://user-images.githubusercontent.com/9684022/165289621-dbd9d841-028e-40c7-be14-7398fcdb1210.gif)
@@ -13,7 +16,7 @@ A Sanity Studio with [Desk Structure](https://www.sanity.io/docs/structure-build
 ## Installation
 
 ```
-sanity install @sanity/orderable-document-list
+sanity install @sanity/orderable-document-list@studio-v2
 ```
 
 ### 1. Import the Document List into your Desk Structure
