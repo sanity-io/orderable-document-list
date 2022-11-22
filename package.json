@@ -2,31 +2,35 @@
   "name": "@sanity/orderable-document-list",
   "version": "0.0.10",
   "description": "Drag-and-drop Document Ordering without leaving the Editing surface",
+  "keywords": [
+    "sanity",
+    "sanity-plugin"
+  ],
+  "homepage": "https://github.com/sanity-io/sanity-plugin-orderable-document-list#readme",
+  "bugs": {
+    "url": "https://github.com/sanity-io/sanity-plugin-orderable-document-list/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/sanity-io/sanity-plugin-orderable-document-list"
+  },
+  "license": "MIT",
+  "author": "Sanity.io <hello@sanity.io>",
   "main": "lib/index.js",
   "scripts": {
     "build": "sanipack build",
-    "watch": "sanipack build --watch",
     "postinstall": "husky install",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "prepublishOnly": "pinst --disable && sanipack build && sanipack verify",
     "postpublish": "pinst --enable",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "watch": "sanipack build --watch"
   },
   "husky": {
     "hooks": {
       "pre-commit": "npm run lint:fix"
     }
   },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/sanity-io/sanity-plugin-orderable-document-list"
-  },
-  "keywords": [
-    "sanity",
-    "sanity-plugin"
-  ],
-  "author": "Sanity.io <hello@sanity.io>",
-  "license": "MIT",
   "dependencies": {
     "@sanity/icons": "^1.2.1",
     "@sanity/ui": "^0.37.6",
@@ -35,6 +39,9 @@
     "react-beautiful-dnd": "^13.1.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.1.2",
+    "@commitlint/config-conventional": "^17.1.0",
+    "@sanity/semantic-release-preset": "^2.0.1",
     "@typescript-eslint/eslint-plugin": "^4.32.0",
     "@typescript-eslint/parser": "^4.32.0",
     "autoprefixer": "^10.3.6",
@@ -58,9 +65,5 @@
   "peerDependencies": {
     "@sanity/desk-tool": "^2.29.0",
     "react": "^17.0.2"
-  },
-  "bugs": {
-    "url": "https://github.com/sanity-io/sanity-plugin-orderable-document-list/issues"
-  },
-  "homepage": "https://github.com/sanity-io/sanity-plugin-orderable-document-list#readme"
+  }
 }

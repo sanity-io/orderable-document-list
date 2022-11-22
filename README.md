@@ -15,8 +15,15 @@ A Sanity Studio with [Desk Structure](https://www.sanity.io/docs/structure-build
 
 ## Installation
 
+```sh
+yarn add @sanity/orderable-document-list@studio-v2
 ```
-sanity install @sanity/orderable-document-list@studio-v2
+
+Next, add `"@sanity/orderable-document-list"` to `sanity.json` plugins array:
+```json
+"plugins": [
+  "@sanity/orderable-document-list"
+]
 ```
 
 ### 1. Import the Document List into your Desk Structure
