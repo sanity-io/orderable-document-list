@@ -41,6 +41,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
+    "@sanity/desk-tool": "^2.29.0",
     "@sanity/semantic-release-preset": "^2.0.1",
     "@typescript-eslint/eslint-plugin": "^4.32.0",
     "@typescript-eslint/parser": "^4.32.0",
@@ -60,7 +61,8 @@
     "husky": "^7.0.2",
     "pinst": "^2.1.6",
     "prettier": "^2.4.1",
-    "sanipack": "^2.1.0"
+    "sanipack": "^2.1.0",
+    "react": "^17.0.2"
   },
   "peerDependencies": {
     "@sanity/desk-tool": "^2.29.0",

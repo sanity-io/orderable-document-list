@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types'
-import React, {useMemo, useEffect} from 'react'
+import React, {useEffect, useMemo} from 'react'
 import schema from 'part:@sanity/base/schema'
 import {useToast} from '@sanity/ui'
-import {PaneRouterContext} from '@sanity/desk-tool'
 
 import DocumentListQuery from './DocumentListQuery'
 import {OrderableContext} from './OrderableContext'
