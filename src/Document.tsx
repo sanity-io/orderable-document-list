@@ -2,7 +2,7 @@ import React, {useContext} from 'react'
 import {ChevronDownIcon, ChevronUpIcon, DragHandleIcon} from '@sanity/icons'
 import {Box, Button, Flex, Text} from '@sanity/ui'
 
-import {useSchema, SanityDocument, SchemaType, SanityPreview as Preview} from 'sanity'
+import {useSchema, SanityDocument, SchemaType, Preview} from 'sanity'
 import {OrderableContext} from './OrderableContext'
 
 export interface DocumentProps {
