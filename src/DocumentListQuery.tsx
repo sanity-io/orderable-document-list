@@ -93,7 +93,7 @@ export default function DocumentListQuery({
     )
 
   return (
-    <Stack space={1} style={{overflow: `scroll`, height: `100%`}}>
+    <Stack space={1} style={{overflow: `auto`, height: `100%`}}>
       {unorderedDataCount > 0 && (
         <Feedback>
           {unorderedDataCount}/{data.length} Documents have no Order. Select{' '}
