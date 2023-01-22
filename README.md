@@ -110,7 +110,7 @@ You cannot override the `name`, `type` or `initialValue` attributes.
 // sanity.config.js
 import {defineConfig} from "sanity";
 import {deskTool, StructureBuilder} from "sanity/desk";
-import {orderableDocumentListDeskItem} from '@sanity/orderable-document-list'
+import {orderRankField, orderRankOrdering} from '@sanity/orderable-document-list'
 
 export default defineConfig({
     //...
