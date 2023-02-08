@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useMemo, useCallback, CSSProperties} from 'react'
-import {DragDropContext, Draggable, Droppable, type DropResult} from 'react-beautiful-dnd'
+import {DragDropContext, Draggable, Droppable, type DropResult} from '@hello-pangea/dnd'
 import {Box, Card, useToast} from '@sanity/ui'
 import {usePaneRouter} from 'sanity/desk'
 import type {SanityDocument, PatchOperations} from 'sanity'
