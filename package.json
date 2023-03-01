@@ -1,6 +1,6 @@
 {
   "name": "@sanity/orderable-document-list",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "Drag-and-drop Document Ordering without leaving the Editing surface",
   "keywords": [
     "sanity",
@@ -55,12 +55,12 @@
     }
   },
   "dependencies": {
+    "@hello-pangea/dnd": "^16.2.0",
     "@sanity/icons": "^2.0.0",
     "@sanity/incompatible-plugin": "^1.0.4",
     "@sanity/ui": "^1.0.0",
     "lexorank": "^1.0.4",
-    "prop-types": "^15.8.1",
-    "react-beautiful-dnd": "^13.1.0"
+    "prop-types": "^15.8.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.2.0",
@@ -68,7 +68,6 @@
     "@sanity/pkg-utils": "^1.17.2",
     "@sanity/plugin-kit": "^2.1.4",
     "@sanity/semantic-release-preset": "^2.0.2",
-    "@types/react-beautiful-dnd": "^13.1.2",
     "@typescript-eslint/eslint-plugin": "^5.42.0",
     "@typescript-eslint/parser": "^5.42.0",
     "autoprefixer": "^10.3.6",
