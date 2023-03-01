@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.3](https://github.com/sanity-io/orderable-document-list/compare/v1.0.2...v1.0.3) (2023-03-01)
+
+### Bug Fixes
+
+- replaced react-beautiful-dnd ([#56](https://github.com/sanity-io/orderable-document-list/issues/56)) ([4558023](https://github.com/sanity-io/orderable-document-list/commit/4558023da24aa342afe68876f0f8dde7aee1436c)), closes [#44](https://github.com/sanity-io/orderable-document-list/issues/44)
+
 ## [1.0.2](https://github.com/sanity-io/orderable-document-list/compare/v1.0.1...v1.0.2) (2022-12-05)
 
 ### Bug Fixes
