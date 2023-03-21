@@ -1,16 +1,21 @@
 import React, {useContext} from 'react'
 import {ChevronDownIcon, ChevronUpIcon, DragHandleIcon} from '@sanity/icons'
-import {Box, Button, Flex, Text} from '@sanity/ui'
+import {Box, Button, Card, Flex, Text} from '@sanity/ui'
 import {useSchema, SchemaType, Preview} from 'sanity'
 
 import {OrderableContext} from './OrderableContext'
-import { SanityDocumentWithOrder } from './types'
+import {SanityDocumentWithOrder} from './types'
 
 export interface DocumentProps {
   doc: SanityDocumentWithOrder
   entities: SanityDocumentWithOrder[]
   handleSelect: (docId: string, index: number, event: MouseEvent) => void
-  increment: (index: number, nextIndex: number, docId: string, entities: SanityDocumentWithOrder[]) => void
+  increment: (
+    index: number,
+    nextIndex: number,
+    docId: string,
+    entities: SanityDocumentWithOrder[]
+  ) => void
   index: number
   isFirst: boolean
   isLast: boolean
@@ -59,13 +64,13 @@ export default function Document({
         onClick={(e) => handleSelect(doc._id, index, e.nativeEvent)}
       >
         <Flex flex={1} align="center">
-          <Box flex={1}>
+          <Card tone="default">
             <Preview
               layout="default"
               value={doc}
               schemaType={schema.get(doc._type) as SchemaType}
             />
-          </Box>
+          </Card>
         </Flex>
       </Button>
     </Flex>
