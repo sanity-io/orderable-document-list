@@ -54,7 +54,7 @@ export function orderableDocumentListDeskItem(config: OrderableListConfig) {
             .intent({type: 'create', params: {type}})
             .serialize(),
           S.menuItem().title(`Reset Order`).icon(GenerateIcon).action(`resetOrder`).serialize(),
-          S.menuItem().title(`Show Increments`).icon(SortIcon).action(`showIncrements`).serialize(),
+          S.menuItem().title(`Toggle Increments`).icon(SortIcon).action(`showIncrements`).serialize(),
         ],
       })
     )
