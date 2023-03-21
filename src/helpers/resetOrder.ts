@@ -20,7 +20,7 @@ export async function resetOrder(type = ``, client: SanityClient) {
     aLexoRank = aLexoRank.genNext().genNext()
 
     transaction.patch(documents[index], {
-      set: {[ORDER_FIELD_NAME]: (aLexoRank as any).value as string},
+      set: {[ORDER_FIELD_NAME]: aLexoRank.toString()},
     })
   }
 

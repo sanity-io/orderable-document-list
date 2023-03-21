@@ -6,5 +6,5 @@ export default function initialRank(lastRankValue = ``): string {
   const lastRank = lastRankValue ? LexoRank.parse(lastRankValue) : LexoRank.min()
   const nextRank = lastRank.genNext().genNext()
 
-  return (nextRank as any).value
+  return nextRank.toString()
 }

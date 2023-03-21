@@ -1,15 +1,16 @@
 import React, {useContext} from 'react'
 import {ChevronDownIcon, ChevronUpIcon, DragHandleIcon} from '@sanity/icons'
 import {Box, Button, Flex, Text} from '@sanity/ui'
+import {useSchema, SchemaType, Preview} from 'sanity'
 
-import {useSchema, SanityDocument, SchemaType, Preview} from 'sanity'
 import {OrderableContext} from './OrderableContext'
+import { SanityDocumentWithOrder } from './types'
 
 export interface DocumentProps {
-  doc: SanityDocument
-  entities: SanityDocument[]
+  doc: SanityDocumentWithOrder
+  entities: SanityDocumentWithOrder[]
   handleSelect: (docId: string, index: number, event: MouseEvent) => void
-  increment: (index: number, nextIndex: number, docId: string, entities: SanityDocument[]) => void
+  increment: (index: number, nextIndex: number, docId: string, entities: SanityDocumentWithOrder[]) => void
   index: number
   isFirst: boolean
   isLast: boolean

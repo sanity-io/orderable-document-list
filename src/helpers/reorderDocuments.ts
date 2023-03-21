@@ -1,10 +1,12 @@
 import {LexoRank} from 'lexorank'
-import type {PatchOperations, SanityDocument} from 'sanity'
+import type {PatchOperations} from 'sanity'
+
+import { SanityDocumentWithOrder } from '../types'
 import {ORDER_FIELD_NAME} from './constants'
 
 export interface MaifestArgs {
-  entities: SanityDocument[]
-  selectedItems: SanityDocument[]
+  entities: SanityDocumentWithOrder[]
+  selectedItems: SanityDocumentWithOrder[]
   isMovingUp: boolean
   curIndex: number
   nextIndex: number
@@ -12,18 +14,18 @@ export interface MaifestArgs {
 }
 
 export interface ReorderArgs {
-  entities: SanityDocument[]
+  entities: SanityDocumentWithOrder[]
   selectedIds: string[]
   source: any
   destination: any
-  debug?: boolean
 }
 
-function lexicographicalSort(a: {[ORDER_FIELD_NAME]: string}, b: {[ORDER_FIELD_NAME]: string}) {
-  if (a[ORDER_FIELD_NAME] < b[ORDER_FIELD_NAME]) {
+function lexicographicalSort(a: SanityDocumentWithOrder, b: SanityDocumentWithOrder) {
+  if (!a[ORDER_FIELD_NAME] || !b[ORDER_FIELD_NAME]) {
+    return 0
+  } else if (a[ORDER_FIELD_NAME] < b[ORDER_FIELD_NAME]) {
     return -1
-  }
-  if (a[ORDER_FIELD_NAME] > b[ORDER_FIELD_NAME]) {
+  } else if (a[ORDER_FIELD_NAME] > b[ORDER_FIELD_NAME]) {
     return 1
   }
   return 0
@@ -34,7 +36,6 @@ export const reorderDocuments = ({
   selectedIds,
   source,
   destination,
-  debug = false,
 }: ReorderArgs) => {
   const startIndex = source.index
   const endIndex = destination.index
@@ -48,14 +49,17 @@ export const reorderDocuments = ({
     `${startIndex + 1} to ${endIndex + 1}`,
   ].join(' ')
 
-  const {all, selected} = entities.reduce(
+  const {all, selected} = entities.reduce<{
+    all: SanityDocumentWithOrder[]
+    selected: SanityDocumentWithOrder[]
+  }>(
     (acc, cur, curIndex) => {
       // Selected items get spread in below, so skip them here
       if (selectedIds.includes(cur._id)) {
         return {all: acc.all, selected: acc.selected}
       }
 
-      // Drop seleced items in
+      // Drop selected items in
       if (curIndex === endIndex) {
         const prevIndex = curIndex - 1
         const prevRank = entities[prevIndex]?.[ORDER_FIELD_NAME]
@@ -73,7 +77,7 @@ export const reorderDocuments = ({
 
         // For each selected item, assign a new orderRank between now and next
         for (let selectedIndex = 0; selectedIndex < selectedItems.length; selectedIndex += 1) {
-          selectedItems[selectedIndex][ORDER_FIELD_NAME] = (betweenRank as any).value as string
+          selectedItems[selectedIndex][ORDER_FIELD_NAME] = betweenRank.toString()
           betweenRank = isMovingUp ? betweenRank.between(curRank) : betweenRank.between(nextRank)
         }
 
@@ -89,7 +93,7 @@ export const reorderDocuments = ({
 
       return {all: [...acc.all, cur], selected: acc.selected}
     },
-    {all: [] as SanityDocument[], selected: [] as SanityDocument[]}
+    {all: [], selected: []}
   )
 
   const patches: [string, PatchOperations][] = selected.map((doc) => {
@@ -104,7 +108,7 @@ export const reorderDocuments = ({
   })
 
   // Safety-check to make sure everything is in order
-  const allSorted = (all as unknown as {[ORDER_FIELD_NAME]: string}[]).sort(lexicographicalSort)
+  const allSorted = all.sort(lexicographicalSort)
 
   return {newOrder: allSorted, patches, message}
 }

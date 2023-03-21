@@ -2,11 +2,13 @@ import React, {useEffect, useState, useMemo, useCallback, CSSProperties} from 'r
 import {DragDropContext, Draggable, Droppable, type DropResult} from '@hello-pangea/dnd'
 import {Box, Card, useToast} from '@sanity/ui'
 import {usePaneRouter} from 'sanity/desk'
-import type {SanityDocument, PatchOperations} from 'sanity'
+import type {PatchOperations} from 'sanity'
+
 import Document from './Document'
 import {reorderDocuments} from './helpers/reorderDocuments'
 import {ORDER_FIELD_NAME} from './helpers/constants'
 import {useSanityClient} from './helpers/client'
+import { SanityDocumentWithOrder } from './types'
 
 const getItemStyle = (
   draggableStyle: CSSProperties | undefined,
@@ -37,7 +39,7 @@ interface ListSetting {
 }
 
 export interface DraggableListProps {
-  data: SanityDocument[]
+  data: SanityDocumentWithOrder[]
   type: string
   listIsUpdating: boolean
   setListIsUpdating: (val: boolean) => void
@@ -54,7 +56,7 @@ export default function DraggableList({
   const {navigateIntent} = router
 
   // Maintains local state order before transaction completes
-  const [orderedData, setOrderedData] = useState<SanityDocument[]>(data)
+  const [orderedData, setOrderedData] = useState<SanityDocumentWithOrder[]>(data)
 
   // Update local state when documents change from an outside source
   useEffect(() => {
@@ -146,7 +148,7 @@ export default function DraggableList({
   )
 
   const handleDragEnd = useCallback(
-    (result: DropResult | undefined, entities: SanityDocument[]) => {
+    (result: DropResult | undefined, entities: SanityDocumentWithOrder[]) => {
       setDraggingId(``)
 
       const {source, destination, draggableId} = result ?? {}
@@ -176,7 +178,7 @@ export default function DraggableList({
 
       // Update local state
       if (newOrder?.length) {
-        setOrderedData(newOrder as any)
+        setOrderedData(newOrder)
       }
 
       // Transact new order patches
@@ -202,7 +204,7 @@ export default function DraggableList({
 
   // Move one document up or down one place, by fake invoking the drag function
   const incrementIndex = useCallback(
-    (shiftFrom: number, shiftTo: number, id: string, entities: SanityDocument[]) => {
+    (shiftFrom: number, shiftTo: number, id: string, entities: SanityDocumentWithOrder[]) => {
       const result = {
         draggableId: id,
         source: {index: shiftFrom},
