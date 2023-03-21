@@ -1,11 +1,11 @@
 import React, {useEffect, useMemo, useState} from 'react'
 import {Box, Flex, Spinner, Stack} from '@sanity/ui'
 
-import type {SanityDocument} from 'sanity'
 import DraggableList from './DraggableList'
 import {ORDER_FIELD_NAME} from './helpers/constants'
 import Feedback from './Feedback'
 import {useSanityClient} from './helpers/client'
+import { SanityDocumentWithOrder } from './types'
 
 export interface DocumentListQueryProps {
   type: string
@@ -27,7 +27,7 @@ export default function DocumentListQuery({
 }: DocumentListQueryProps) {
   const [isLoading, setIsLoading] = useState(true)
   const [listIsUpdating, setListIsUpdating] = useState(false)
-  const [data, setData] = useState<SanityDocument[]>([])
+  const [data, setData] = useState<SanityDocumentWithOrder[]>([])
 
   const client = useSanityClient()
 
@@ -40,9 +40,9 @@ export default function DocumentListQuery({
 
     // eslint-disable-next-line require-await
     const fetchData = async () => {
-      client.fetch<SanityDocument[]>(query, queryParams).then((documents) => {
+      client.fetch<SanityDocumentWithOrder[]>(query, queryParams).then((documents) => {
         // Remove published document from list if draft also exists
-        const filteredDocuments = documents.reduce((acc, cur) => {
+        const filteredDocuments = documents.reduce<SanityDocumentWithOrder[]>((acc, cur) => {
           if (!cur._id.startsWith(`drafts.`)) {
             // eslint-disable-next-line max-nested-callbacks
             const alsoHasDraft = documents.some((doc) => doc._id === `drafts.${cur._id}`)
@@ -51,7 +51,7 @@ export default function DocumentListQuery({
           }
 
           return [...acc, cur]
-        }, [] as SanityDocument[])
+        }, [])
 
         setData(filteredDocuments)
 
