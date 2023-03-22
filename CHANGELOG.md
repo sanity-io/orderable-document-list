@@ -5,6 +5,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.4](https://github.com/sanity-io/orderable-document-list/compare/v1.0.3...v1.0.4) (2023-03-22)
+
+### Bug Fixes
+
+- ui, label text and ordering type ([d3defa3](https://github.com/sanity-io/orderable-document-list/commit/d3defa36cad4d8ea7fa9797dd7cb7df918ae306d))
+- update to lexorank types ([ec3b22c](https://github.com/sanity-io/orderable-document-list/commit/ec3b22c15ac4a5d0d3873753dc34bca0f21c6f81))
+
 ## [1.0.3](https://github.com/sanity-io/orderable-document-list/compare/v1.0.2...v1.0.3) (2023-03-01)
 
 ### Bug Fixes
