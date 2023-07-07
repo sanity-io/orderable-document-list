@@ -9,7 +9,9 @@ import { SanityDocumentWithOrder } from './types'
 
 export interface DocumentListQueryProps {
   type: string
+  // eslint-disable-next-line react/require-default-props
   filter?: string
+  // eslint-disable-next-line react/require-default-props
   params?: Record<string, unknown>
 }
 
@@ -100,10 +102,9 @@ export default function DocumentListQuery({
           <strong>Reset Order</strong> from the Menu above to fix.
         </Feedback>
       )}
-      <Box padding={1}>
+      <Box padding={2}>
         <DraggableList
           data={data}
-          type={type}
           listIsUpdating={listIsUpdating}
           setListIsUpdating={setListIsUpdating}
         />

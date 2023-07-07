@@ -1,14 +1,13 @@
 import React, {useEffect, useState, useMemo, useCallback, CSSProperties} from 'react'
 import {DragDropContext, Draggable, Droppable, type DropResult} from '@hello-pangea/dnd'
 import {Box, Card, useToast} from '@sanity/ui'
-import {usePaneRouter} from 'sanity/desk'
 import type {PatchOperations} from 'sanity'
 
 import Document from './Document'
 import {reorderDocuments} from './helpers/reorderDocuments'
 import {ORDER_FIELD_NAME} from './helpers/constants'
 import {useSanityClient} from './helpers/client'
-import { SanityDocumentWithOrder } from './types'
+import {SanityDocumentWithOrder} from './types'
 
 const getItemStyle = (
   draggableStyle: CSSProperties | undefined,
@@ -40,20 +39,16 @@ interface ListSetting {
 
 export interface DraggableListProps {
   data: SanityDocumentWithOrder[]
-  type: string
   listIsUpdating: boolean
   setListIsUpdating: (val: boolean) => void
 }
 
 export default function DraggableList({
   data,
-  type,
   listIsUpdating,
   setListIsUpdating,
 }: DraggableListProps) {
   const toast = useToast()
-  const router = usePaneRouter()
-  const {navigateIntent} = router
 
   // Maintains local state order before transaction completes
   const [orderedData, setOrderedData] = useState<SanityDocumentWithOrder[]>(data)
@@ -82,7 +77,6 @@ export default function DraggableList({
       // - update selected to just this one
       // - open document
       if (!selectMultiple && !selectAdditional) {
-        navigateIntent('edit', {id: clickedId, type})
         return setSelectedIds([clickedId])
       }
 
@@ -110,7 +104,7 @@ export default function DraggableList({
 
       return setSelectedIds(updatedIds)
     },
-    [setSelectedIds, navigateIntent, orderedData, selectedIds, type]
+    [setSelectedIds, orderedData, selectedIds]
   )
 
   const client = useSanityClient()
