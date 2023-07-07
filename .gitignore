@@ -53,6 +53,8 @@ jspm_packages
 .yalc
 yalc.lock
 
+# npm package zips
+*.tgz
+
 # Compiled plugin
 lib
-

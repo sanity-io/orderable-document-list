@@ -1,9 +1,10 @@
 # @sanity/orderable-document-list
 
->This is a **Sanity Studio v3** plugin.
+> This is a **Sanity Studio v3** plugin.
 > For the v2 version, please refer to the [v2-branch](https://github.com/sanity-io/orderable-document-list/tree/studio-v2).
 
 # What is it?
+
 Drag-and-drop Document Ordering without leaving the Editing surface.
 
 ![2022-04-26 12 23 39](https://user-images.githubusercontent.com/9684022/165289621-dbd9d841-028e-40c7-be14-7398fcdb1210.gif)
@@ -15,18 +16,19 @@ This plugin aims to be OS-like in that you can select and move multiple document
 A Sanity Studio with [Desk Structure](https://www.sanity.io/docs/structure-builder-introduction) configured:
 
 ```ts
-import {defineConfig} from "sanity";
-import {deskTool, StructureBuilder} from "sanity/desk";
+import {defineConfig} from 'sanity'
+import {deskTool, StructureBuilder} from 'sanity/desk'
 
 export default defineConfig({
-    //...
-    plugins: [
-        deskTool({
-            structure: (S, context) => { /* Strucure code */},
-        })
-    ]
+  //...
+  plugins: [
+    deskTool({
+      structure: (S, context) => {
+        /* Structure code */
+      },
+    }),
+  ],
 })
-
 ```
 
 ## Installation
@@ -51,43 +53,43 @@ The config parameter requires `type`, `S` and `context`. It also accepts `title`
 `S` and `context` are available in desk-tool structure callback, and should be forwarded as is:
 
 ```ts
-import {defineConfig} from "sanity";
-import {deskTool, StructureBuilder} from "sanity/desk";
+import {defineConfig} from 'sanity'
+import {deskTool, StructureBuilder} from 'sanity/desk'
 import {orderableDocumentListDeskItem} from '@sanity/orderable-document-list'
 
 export default defineConfig({
-    //...
-    plugins: [
-        deskTool({
-            structure: (S, context) => { 
-                return  S.list()
-                    .title('Content')
-                    .items([
-                        // Minimum required configuration
-                        orderableDocumentListDeskItem({type: 'category', S, context}),
+  //...
+  plugins: [
+    deskTool({
+      structure: (S, context) => {
+        return S.list()
+          .title('Content')
+          .items([
+            // Minimum required configuration
+            orderableDocumentListDeskItem({type: 'category', S, context}),
 
-                        // Optional configuration
-                        orderableDocumentListDeskItem({
-                            type: 'project',
-                            title: 'Projects',
-                            icon: Paint,
-                            // Required if using multiple lists of the same 'type'
-                            id: 'orderable-en-projects',
-                            // See notes on adding a `filter` below
-                            filter: `__i18n_lang == $lang`,
-                            params: {
-                                lang: 'en_US'
-                            },
-                            // pass from the structure callback params above
-                            S, 
-                            context
-                        }),
+            // Optional configuration
+            orderableDocumentListDeskItem({
+              type: 'project',
+              title: 'Projects',
+              icon: Paint,
+              // Required if using multiple lists of the same 'type'
+              id: 'orderable-en-projects',
+              // See notes on adding a `filter` below
+              filter: `__i18n_lang == $lang`,
+              params: {
+                lang: 'en_US',
+              },
+              // pass from the structure callback params above
+              S,
+              context,
+            }),
 
-                        // ... all other desk items
-                ])
-            },
-        })
-    ]
+            // ... all other desk items
+          ])
+      },
+    }),
+  ],
 })
 ```
 
@@ -120,7 +122,7 @@ export default defineConfig({
     schema: {
         types: (previousTypes) => {
             return [
-                ...previousTypes, 
+                ...previousTypes,
                 {
                     name: "category",
                     title: "Category",
@@ -146,10 +148,10 @@ export default defineConfig({
 
 ### 3. Generate initial Ranks
 
-On first load, your Document list will not have any Order. You can select "Reset Order" from the menu in the top right of the list. 
+On first load, your Document list will not have any Order. You can select "Reset Order" from the menu in the top right of the list.
 You can also re-run this at any time.
 
-The `orderRankField` will query the last Document to set an `initialValue` to come after it. 
+The `orderRankField` will query the last Document to set an `initialValue` to come after it.
 New Documents always start at the end of the Ordered list.
 
 ## Querying Ordered Documents
@@ -176,6 +178,7 @@ To get this first version out the door there are few configuration settings and 
 Feedback and PRs welcome :)
 
 ### Breaking change in the v3 version
+
 `orderableDocumentListDeskItem` requires context from sanity config now.
 See the examples above.
 
@@ -184,10 +187,6 @@ See the examples above.
 Uses [kvandakes](https://github.com/kvandake)'s [TypeScript implementation](https://github.com/kvandake/lexorank-ts) of [Jira's Lexorank](https://www.youtube.com/watch?v=OjQv9xMoFbg) to create a "lexographical" Document order.
 
 Put simply it updates the position of an individual – or many – Documents in an ordered list without updating any others. It's fast.
-
-## License
-
-MIT-licensed. See LICENSE.
 
 ## Develop & test
 
@@ -203,3 +202,7 @@ Run ["CI & Release" workflow](https://github.com/sanity-io/orderable-document-li
 Make sure to select the v3 branch and check "Release new version".
 
 Semantic release will only release on configured branches, so it is safe to run release on any branch.
+
+## License
+
+[MIT](LICENSE) © Sanity.io
