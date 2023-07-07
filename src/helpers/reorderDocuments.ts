@@ -1,7 +1,7 @@
 import {LexoRank} from 'lexorank'
 import type {PatchOperations} from 'sanity'
 
-import { SanityDocumentWithOrder } from '../types'
+import {SanityDocumentWithOrder} from '../types'
 import {ORDER_FIELD_NAME} from './constants'
 
 export interface MaifestArgs {
@@ -31,12 +31,7 @@ function lexicographicalSort(a: SanityDocumentWithOrder, b: SanityDocumentWithOr
   return 0
 }
 
-export const reorderDocuments = ({
-  entities,
-  selectedIds,
-  source,
-  destination,
-}: ReorderArgs) => {
+export const reorderDocuments = ({entities, selectedIds, source, destination}: ReorderArgs) => {
   const startIndex = source.index
   const endIndex = destination.index
   const isMovingUp = startIndex > endIndex
@@ -96,15 +91,31 @@ export const reorderDocuments = ({
     {all: [], selected: []}
   )
 
-  const patches: [string, PatchOperations][] = selected.map((doc) => {
-    return [
-      doc._id,
-      {
-        set: {
-          [ORDER_FIELD_NAME]: doc[ORDER_FIELD_NAME],
+  const patches = selected.flatMap((doc) => {
+    const docPatches: [string, PatchOperations][] = [
+      [
+        doc._id,
+        {
+          set: {
+            [ORDER_FIELD_NAME]: doc[ORDER_FIELD_NAME],
+          },
         },
-      },
+      ],
     ]
+
+    // If it's a draft, we need to patch the published document as well
+    if (doc._id.startsWith(`drafts.`)) {
+      docPatches.push([
+        doc._id.replace(`drafts.`, ``),
+        {
+          set: {
+            [ORDER_FIELD_NAME]: doc[ORDER_FIELD_NAME],
+          },
+        },
+      ])
+    }
+
+    return docPatches
   })
 
   // Safety-check to make sure everything is in order
