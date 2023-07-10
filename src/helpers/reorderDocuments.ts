@@ -115,7 +115,7 @@ export const reorderDocuments = ({
     ]
 
     // If it's a draft, we need to patch the published document as well
-    if (doc._id.startsWith(`drafts.`)) {
+    if (doc._id.startsWith(`drafts.`) && doc.hasPublished) {
       docPatches.push([
         doc._id.replace(`drafts.`, ``),
         {

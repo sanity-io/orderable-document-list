@@ -46,9 +46,11 @@ export default function DocumentListQuery({
         if (!cur._id.startsWith(`drafts.`)) {
           // eslint-disable-next-line max-nested-callbacks
           const alsoHasDraft = queryData.some((doc) => doc._id === `drafts.${cur._id}`)
-
           return alsoHasDraft ? acc : [...acc, cur]
         }
+
+        // Check if the draft has a published version
+        cur.hasPublished = queryData.some((doc) => doc._id === cur._id.replace(`drafts.`, ``))
 
         return [...acc, cur]
       }, [])
