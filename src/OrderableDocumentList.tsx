@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import {Component} from 'react'
 
 import {SanityClient} from '@sanity/client'
 import type {ToastParams} from '@sanity/ui'
@@ -8,8 +8,8 @@ import {resetOrder} from './helpers/resetOrder'
 export interface OrderableDocumentListProps {
   options: {
     type: string
-    client: SanityClient,
-    filter?: string,
+    client: SanityClient
+    filter?: string
     params?: Record<string, unknown>
   }
 }

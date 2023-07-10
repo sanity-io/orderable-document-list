@@ -20,6 +20,12 @@ export interface ReorderArgs {
   destination: any
 }
 
+export interface ReorderReturn {
+  newOrder: SanityDocumentWithOrder[]
+  patches: [string, PatchOperations][]
+  message: any
+}
+
 function lexicographicalSort(a: SanityDocumentWithOrder, b: SanityDocumentWithOrder) {
   if (!a[ORDER_FIELD_NAME] || !b[ORDER_FIELD_NAME]) {
     return 0
@@ -31,14 +37,19 @@ function lexicographicalSort(a: SanityDocumentWithOrder, b: SanityDocumentWithOr
   return 0
 }
 
-export const reorderDocuments = ({entities, selectedIds, source, destination}: ReorderArgs) => {
+export const reorderDocuments = ({
+  entities,
+  selectedIds,
+  source,
+  destination,
+}: ReorderArgs): ReorderReturn => {
   const startIndex = source.index
   const endIndex = destination.index
   const isMovingUp = startIndex > endIndex
   const selectedItems = entities.filter((item) => selectedIds.includes(item._id))
   const message = [
     `Moved`,
-    selectedItems.length === 1 ? `1 Document` : `${selectedItems.length} Documents`,
+    selectedItems.length === 1 ? `1 document` : `${selectedItems.length} documents`,
     isMovingUp ? `up` : `down`,
     `from position`,
     `${startIndex + 1} to ${endIndex + 1}`,

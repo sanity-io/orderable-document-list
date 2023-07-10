@@ -2,7 +2,7 @@ import {GenerateIcon, SortIcon} from '@sanity/icons'
 import type {ConfigContext} from 'sanity'
 
 import {ComponentType} from 'react'
-import {StructureBuilder} from 'sanity/desk'
+import {StructureBuilder, type ListItem} from 'sanity/desk'
 import OrderableDocumentList from '../OrderableDocumentList'
 
 export interface OrderableListConfig {
@@ -16,7 +16,7 @@ export interface OrderableListConfig {
   S: StructureBuilder
 }
 
-export function orderableDocumentListDeskItem(config: OrderableListConfig) {
+export function orderableDocumentListDeskItem(config: OrderableListConfig): ListItem {
   if (!config?.type || !config.context || !config.S) {
     throw new Error(`
     type, context and S (StructureBuilder) must be provided.
@@ -54,7 +54,11 @@ export function orderableDocumentListDeskItem(config: OrderableListConfig) {
             .intent({type: 'create', params: {type}})
             .serialize(),
           S.menuItem().title(`Reset Order`).icon(GenerateIcon).action(`resetOrder`).serialize(),
-          S.menuItem().title(`Toggle Increments`).icon(SortIcon).action(`showIncrements`).serialize(),
+          S.menuItem()
+            .title(`Toggle Increments`)
+            .icon(SortIcon)
+            .action(`showIncrements`)
+            .serialize(),
         ],
       })
     )

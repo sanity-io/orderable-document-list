@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useMemo, useCallback, CSSProperties} from 'react'
+import {useEffect, useState, useMemo, useCallback, CSSProperties} from 'react'
 import {DragDropContext, Draggable, Droppable, type DropResult} from '@hello-pangea/dnd'
 import {Box, Card, useToast} from '@sanity/ui'
 import type {PatchOperations} from 'sanity'
@@ -8,6 +8,19 @@ import {reorderDocuments} from './helpers/reorderDocuments'
 import {ORDER_FIELD_NAME} from './helpers/constants'
 import {useSanityClient} from './helpers/client'
 import {SanityDocumentWithOrder} from './types'
+
+interface ListSetting {
+  isDuplicate: boolean
+  isGhosting: boolean
+  isDragging: boolean
+  isSelected: boolean
+}
+
+export interface DraggableListProps {
+  data: SanityDocumentWithOrder[]
+  listIsUpdating: boolean
+  setListIsUpdating: (val: boolean) => void
+}
 
 const getItemStyle = (
   draggableStyle: CSSProperties | undefined,
@@ -28,19 +41,6 @@ const cardTone = (settings: ListSetting) => {
   if (isDuplicate) return `caution`
 
   return undefined
-}
-
-interface ListSetting {
-  isDuplicate: boolean
-  isGhosting: boolean
-  isDragging: boolean
-  isSelected: boolean
-}
-
-export interface DraggableListProps {
-  data: SanityDocumentWithOrder[]
-  listIsUpdating: boolean
-  setListIsUpdating: (val: boolean) => void
 }
 
 export default function DraggableList({
