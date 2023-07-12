@@ -2,6 +2,7 @@ import {useEffect, useState, useMemo, useCallback, CSSProperties} from 'react'
 import {DragDropContext, Draggable, Droppable, type DropResult} from '@hello-pangea/dnd'
 import {Box, Card, useToast} from '@sanity/ui'
 import type {PatchOperations} from 'sanity'
+import {usePaneRouter} from 'sanity/desk'
 
 import Document from './Document'
 import {reorderDocuments} from './helpers/reorderDocuments'
@@ -49,6 +50,10 @@ export default function DraggableList({
   setListIsUpdating,
 }: DraggableListProps) {
   const toast = useToast()
+  const router = usePaneRouter()
+  const {groupIndex, routerPanesState} = router
+
+  const currentDoc = routerPanesState[groupIndex + 1]?.[0]?.id || false
 
   // Maintains local state order before transaction completes
   const [orderedData, setOrderedData] = useState<SanityDocumentWithOrder[]>(data)
@@ -60,7 +65,7 @@ export default function DraggableList({
   }, [data])
 
   const [draggingId, setDraggingId] = useState(``)
-  const [selectedIds, setSelectedIds] = useState<string[]>([])
+  const [selectedIds, setSelectedIds] = useState<string[]>(currentDoc ? [currentDoc] : [])
 
   const clearSelected = useCallback(() => setSelectedIds([]), [setSelectedIds])
 
@@ -78,6 +83,11 @@ export default function DraggableList({
       // - open document
       if (!selectMultiple && !selectAdditional) {
         return setSelectedIds([clickedId])
+      }
+
+      // If shift key was held, prevent default to avoid new window opening
+      if (selectMultiple) {
+        nativeEvent.preventDefault()
       }
 
       // Shift key was held, add id's between last selected and this one
@@ -261,6 +271,9 @@ export default function DraggableList({
                   const isDisabled = Boolean(!item[ORDER_FIELD_NAME])
                   const isDuplicate = duplicateOrders.includes(item[ORDER_FIELD_NAME])
                   const tone = cardTone({isDuplicate, isGhosting, isDragging, isSelected})
+                  const selectedCount = selectedIds.length
+
+                  const dragBadge = isDragging && selectedCount > 1 ? selectedCount : false
 
                   return (
                     <div
@@ -274,15 +287,21 @@ export default function DraggableList({
                       }
                     >
                       <Box paddingBottom={1}>
-                        <Card tone={tone} shadow={isDragging ? 2 : undefined} radius={2}>
+                        <Card
+                          tone={tone}
+                          shadow={isDragging ? 2 : undefined}
+                          radius={2}
+                          // eslint-disable-next-line react/jsx-no-bind
+                          onClick={(e) => handleSelect(item._id, index, e.nativeEvent)}
+                        >
                           <Document
                             doc={item}
                             entities={orderedData}
-                            handleSelect={handleSelect}
                             increment={incrementIndex}
                             index={index}
                             isFirst={index === 0}
                             isLast={index === orderedData.length - 1}
+                            dragBadge={dragBadge}
                           />
                         </Card>
                       </Box>
