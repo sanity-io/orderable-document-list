@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.0](https://github.com/sanity-io/orderable-document-list/compare/v1.0.4...v1.1.0) (2023-07-13)
+
+### Features
+
+- handle drafts and published docs - fixes various issues ([#64](https://github.com/sanity-io/orderable-document-list/issues/64)) ([2bf54a6](https://github.com/sanity-io/orderable-document-list/commit/2bf54a68c527ac9735a7548f0d3fde146294d3b6)), closes [#60](https://github.com/sanity-io/orderable-document-list/issues/60) [#59](https://github.com/sanity-io/orderable-document-list/issues/59) [#63](https://github.com/sanity-io/orderable-document-list/issues/63) [#37](https://github.com/sanity-io/orderable-document-list/issues/37)
+
 ## [1.0.4](https://github.com/sanity-io/orderable-document-list/compare/v1.0.3...v1.0.4) (2023-03-22)
 
 ### Bug Fixes
