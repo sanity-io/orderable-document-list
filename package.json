@@ -90,7 +90,8 @@
     "react-is": "^18.2.0",
     "rimraf": "^5.0.1",
     "sanity": "^3.14.1",
-    "styled-components": "^6.0.2",
+    "semantic-release": "^21.0.7",
+    "styled-components": "^5.3.6",
     "typescript": "^5.1.6"
   },
   "peerDependencies": {
