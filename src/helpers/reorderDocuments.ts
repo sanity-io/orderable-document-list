@@ -1,7 +1,7 @@
 import {LexoRank} from 'lexorank'
 import type {PatchOperations} from 'sanity'
 
-import { SanityDocumentWithOrder } from '../types'
+import {SanityDocumentWithOrder} from '../types'
 import {ORDER_FIELD_NAME} from './constants'
 
 export interface MaifestArgs {
@@ -20,6 +20,12 @@ export interface ReorderArgs {
   destination: any
 }
 
+export interface ReorderReturn {
+  newOrder: SanityDocumentWithOrder[]
+  patches: [string, PatchOperations][]
+  message: any
+}
+
 function lexicographicalSort(a: SanityDocumentWithOrder, b: SanityDocumentWithOrder) {
   if (!a[ORDER_FIELD_NAME] || !b[ORDER_FIELD_NAME]) {
     return 0
@@ -36,14 +42,14 @@ export const reorderDocuments = ({
   selectedIds,
   source,
   destination,
-}: ReorderArgs) => {
+}: ReorderArgs): ReorderReturn => {
   const startIndex = source.index
   const endIndex = destination.index
   const isMovingUp = startIndex > endIndex
   const selectedItems = entities.filter((item) => selectedIds.includes(item._id))
   const message = [
     `Moved`,
-    selectedItems.length === 1 ? `1 Document` : `${selectedItems.length} Documents`,
+    selectedItems.length === 1 ? `1 document` : `${selectedItems.length} documents`,
     isMovingUp ? `up` : `down`,
     `from position`,
     `${startIndex + 1} to ${endIndex + 1}`,
@@ -96,15 +102,31 @@ export const reorderDocuments = ({
     {all: [], selected: []}
   )
 
-  const patches: [string, PatchOperations][] = selected.map((doc) => {
-    return [
-      doc._id,
-      {
-        set: {
-          [ORDER_FIELD_NAME]: doc[ORDER_FIELD_NAME],
+  const patches = selected.flatMap((doc) => {
+    const docPatches: [string, PatchOperations][] = [
+      [
+        doc._id,
+        {
+          set: {
+            [ORDER_FIELD_NAME]: doc[ORDER_FIELD_NAME],
+          },
         },
-      },
+      ],
     ]
+
+    // If it's a draft, we need to patch the published document as well
+    if (doc._id.startsWith(`drafts.`) && doc.hasPublished) {
+      docPatches.push([
+        doc._id.replace(`drafts.`, ``),
+        {
+          set: {
+            [ORDER_FIELD_NAME]: doc[ORDER_FIELD_NAME],
+          },
+        },
+      ])
+    }
+
+    return docPatches
   })
 
   // Safety-check to make sure everything is in order

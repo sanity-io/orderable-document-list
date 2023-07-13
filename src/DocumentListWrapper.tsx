@@ -1,19 +1,21 @@
-import React, {useEffect, useMemo} from 'react'
+import {useEffect, useMemo} from 'react'
 import {useToast} from '@sanity/ui'
 
 import {useSchema} from 'sanity'
-import type {ToastParams} from '@sanity/ui'
+import {Box, type ToastParams} from '@sanity/ui'
+import {Feedback} from 'sanity-plugin-utils'
 import DocumentListQuery from './DocumentListQuery'
 import {OrderableContext} from './OrderableContext'
 
 import {ORDER_FIELD_NAME} from './helpers/constants'
-import Feedback from './Feedback'
 
 export interface DocumentListWrapperProps {
   showIncrements: boolean
   type: string
   resetOrderTransaction: ToastParams
+  // eslint-disable-next-line react/require-default-props
   filter?: string
+  // eslint-disable-next-line react/require-default-props
   params?: Record<string, unknown>
 }
 
@@ -88,7 +90,11 @@ export default function DocumentListWrapper({
   }, [type, schema])
 
   if (schemaIsInvalid) {
-    return <Feedback>{schemaIsInvalid}</Feedback>
+    return (
+      <Box padding={2}>
+        <Feedback description={schemaIsInvalid} tone="caution" />
+      </Box>
+    )
   }
 
   return (

@@ -1,14 +1,27 @@
-import React, {useEffect, useState, useMemo, useCallback, CSSProperties} from 'react'
+import {useEffect, useState, useMemo, useCallback, CSSProperties} from 'react'
 import {DragDropContext, Draggable, Droppable, type DropResult} from '@hello-pangea/dnd'
 import {Box, Card, useToast} from '@sanity/ui'
-import {usePaneRouter} from 'sanity/desk'
 import type {PatchOperations} from 'sanity'
+import {usePaneRouter} from 'sanity/desk'
 
 import Document from './Document'
 import {reorderDocuments} from './helpers/reorderDocuments'
 import {ORDER_FIELD_NAME} from './helpers/constants'
 import {useSanityClient} from './helpers/client'
-import { SanityDocumentWithOrder } from './types'
+import {SanityDocumentWithOrder} from './types'
+
+interface ListSetting {
+  isDuplicate: boolean
+  isGhosting: boolean
+  isDragging: boolean
+  isSelected: boolean
+}
+
+export interface DraggableListProps {
+  data: SanityDocumentWithOrder[]
+  listIsUpdating: boolean
+  setListIsUpdating: (val: boolean) => void
+}
 
 const getItemStyle = (
   draggableStyle: CSSProperties | undefined,
@@ -31,29 +44,16 @@ const cardTone = (settings: ListSetting) => {
   return undefined
 }
 
-interface ListSetting {
-  isDuplicate: boolean
-  isGhosting: boolean
-  isDragging: boolean
-  isSelected: boolean
-}
-
-export interface DraggableListProps {
-  data: SanityDocumentWithOrder[]
-  type: string
-  listIsUpdating: boolean
-  setListIsUpdating: (val: boolean) => void
-}
-
 export default function DraggableList({
   data,
-  type,
   listIsUpdating,
   setListIsUpdating,
 }: DraggableListProps) {
   const toast = useToast()
   const router = usePaneRouter()
-  const {navigateIntent} = router
+  const {groupIndex, routerPanesState} = router
+
+  const currentDoc = routerPanesState[groupIndex + 1]?.[0]?.id || false
 
   // Maintains local state order before transaction completes
   const [orderedData, setOrderedData] = useState<SanityDocumentWithOrder[]>(data)
@@ -65,7 +65,7 @@ export default function DraggableList({
   }, [data])
 
   const [draggingId, setDraggingId] = useState(``)
-  const [selectedIds, setSelectedIds] = useState<string[]>([])
+  const [selectedIds, setSelectedIds] = useState<string[]>(currentDoc ? [currentDoc] : [])
 
   const clearSelected = useCallback(() => setSelectedIds([]), [setSelectedIds])
 
@@ -82,8 +82,12 @@ export default function DraggableList({
       // - update selected to just this one
       // - open document
       if (!selectMultiple && !selectAdditional) {
-        navigateIntent('edit', {id: clickedId, type})
         return setSelectedIds([clickedId])
+      }
+
+      // If shift key was held, prevent default to avoid new window opening
+      if (selectMultiple) {
+        nativeEvent.preventDefault()
       }
 
       // Shift key was held, add id's between last selected and this one
@@ -110,7 +114,7 @@ export default function DraggableList({
 
       return setSelectedIds(updatedIds)
     },
-    [setSelectedIds, navigateIntent, orderedData, selectedIds, type]
+    [setSelectedIds, orderedData, selectedIds]
   )
 
   const client = useSanityClient()
@@ -267,6 +271,9 @@ export default function DraggableList({
                   const isDisabled = Boolean(!item[ORDER_FIELD_NAME])
                   const isDuplicate = duplicateOrders.includes(item[ORDER_FIELD_NAME])
                   const tone = cardTone({isDuplicate, isGhosting, isDragging, isSelected})
+                  const selectedCount = selectedIds.length
+
+                  const dragBadge = isDragging && selectedCount > 1 ? selectedCount : false
 
                   return (
                     <div
@@ -280,15 +287,21 @@ export default function DraggableList({
                       }
                     >
                       <Box paddingBottom={1}>
-                        <Card tone={tone} shadow={isDragging ? 2 : undefined} radius={2}>
+                        <Card
+                          tone={tone}
+                          shadow={isDragging ? 2 : undefined}
+                          radius={2}
+                          // eslint-disable-next-line react/jsx-no-bind
+                          onClick={(e) => handleSelect(item._id, index, e.nativeEvent)}
+                        >
                           <Document
                             doc={item}
                             entities={orderedData}
-                            handleSelect={handleSelect}
                             increment={incrementIndex}
                             index={index}
                             isFirst={index === 0}
                             isLast={index === orderedData.length - 1}
+                            dragBadge={dragBadge}
                           />
                         </Card>
                       </Box>
