@@ -5,7 +5,8 @@ import initialRank from '../helpers/initialRank'
 export type SchemaContext = Omit<ConfigContext, 'schema' | 'currentUser' | 'client'>
 
 export interface RankFieldConfig {
-  type: string
+  type: string,
+  hidden?: boolean,
 }
 
 export const orderRankField = (config: RankFieldConfig) => {
