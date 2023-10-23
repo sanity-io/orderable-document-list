@@ -1,5 +1,5 @@
 import {useContext, useMemo, type ReactNode} from 'react'
-import {ChevronDownIcon, ChevronUpIcon, DragHandleIcon} from '@sanity/icons'
+import {ChevronDownIcon, ChevronUpIcon, DoubleChevronUpIcon, DragHandleIcon} from '@sanity/icons'
 import {AvatarCounter, Card, Box, Button, Flex, Text} from '@sanity/ui'
 import {useSchema, SchemaType, PreviewCard, Preview} from 'sanity'
 import {usePaneRouter} from 'sanity/desk'
@@ -87,6 +87,15 @@ export default function Document({
               // eslint-disable-next-line react/jsx-no-bind
               onClick={() => increment(index, index + 1, doc._id, entities)}
               icon={ChevronDownIcon}
+            />
+
+            <Button
+              padding={2}
+              mode="ghost"
+              disabled={isFirst}
+              // eslint-disable-next-line react/jsx-no-bind
+              onClick={() => increment(index, 0, doc._id, entities)}
+              icon={DoubleChevronUpIcon}
             />
           </Flex>
         )}
