@@ -65,7 +65,7 @@ export default function Document({
       flex={1}
     >
       <Flex align="center">
-        <Box paddingX={3} style={{flexShrink: 0}}>
+        <Box paddingX={2} style={{flexShrink: 0}}>
           <Text size={2}>
             <DragHandleIcon cursor="grab" />
           </Text>
@@ -90,7 +90,7 @@ export default function Document({
             />
           </Flex>
         )}
-        <Box style={{width: `100%`}} padding={2}>
+        <Box style={{width: `100%`}}>
           <Flex flex={1} align="center">
             <Preview
               layout="default"
