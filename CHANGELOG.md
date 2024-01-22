@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](https://github.com/sanity-io/orderable-document-list/compare/v1.1.0...v1.1.1) (2024-01-22)
+
+### Bug Fixes
+
+- sanity ui and styled components versions ([#79](https://github.com/sanity-io/orderable-document-list/issues/79)) ([3697cf1](https://github.com/sanity-io/orderable-document-list/commit/3697cf124194f6b8918f8edc5a73eb95993995d2))
+
 ## [1.1.0](https://github.com/sanity-io/orderable-document-list/compare/v1.0.4...v1.1.0) (2023-07-13)
 
 ### Features
