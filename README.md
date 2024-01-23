@@ -110,6 +110,8 @@ Additionally, pass in overrides for the field, such as making it visible by pass
 
 You cannot override the `name`, `type` or `initialValue` attributes.
 
+You can configure the placement of new documents by setting `newItemPosition` to `before` (defaults to `after`).
+
 ```js
 // sanity.config.js
 import {defineConfig} from "sanity";
@@ -136,8 +138,11 @@ export default defineConfig({
                         // Minimum required configuration
                         orderRankField({ type: "category" }),
 
+                        // OR placing new documents on top
+                        orderRankField({ type: "category", newItemPosition: "before" }),
+
                         // OR you can override _some_ of the field settings
-                        orderRankField({ type: 'category', hidden: false }),
+                        orderRankField({ type: "category", hidden: false }),
 
                         // ...all other fields
                     ],
@@ -153,8 +158,8 @@ export default defineConfig({
 On first load, your Document list will not have any Order. You can select "Reset Order" from the menu in the top right of the list.
 You can also re-run this at any time.
 
-The `orderRankField` will query the last Document to set an `initialValue` to come after it.
-New Documents always start at the end of the Ordered list.
+The `orderRankField` will query the last/first Document to set an `initialValue` to come after/before it.
+The placement of new documents can be configured by `newItemPosition` on the `orderRankField` in the document.
 
 ## Querying Ordered Documents
 

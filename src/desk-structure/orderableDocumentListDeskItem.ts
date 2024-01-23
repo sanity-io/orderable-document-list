@@ -4,6 +4,7 @@ import type {ConfigContext} from 'sanity'
 import {ComponentType} from 'react'
 import {StructureBuilder, type ListItem, type MenuItem} from 'sanity/desk'
 import OrderableDocumentList from '../OrderableDocumentList'
+import {API_VERSION} from '../helpers/constants'
 
 export interface OrderableListConfig {
   type: string
@@ -29,7 +30,7 @@ export function orderableDocumentListDeskItem(config: OrderableListConfig): List
 
   const {type, filter, menuItems = [], createIntent, params, title, icon, id, context, S} = config
   const {schema, getClient} = context
-  const client = getClient({apiVersion: '2021-09-01'})
+  const client = getClient({apiVersion: API_VERSION})
 
   const listTitle = title ?? `Orderable ${type}`
   const listId = id ?? `orderable-${type}`
