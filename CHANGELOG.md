@@ -5,6 +5,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.0](https://github.com/sanity-io/orderable-document-list/compare/v1.1.1...v1.2.0) (2024-01-23)
+
+### Features
+
+- add option to add new documents to top ([#80](https://github.com/sanity-io/orderable-document-list/issues/80)) ([490a87c](https://github.com/sanity-io/orderable-document-list/commit/490a87ca9fb66bf839542fa23b94837836d26076))
+
+## [1.1.1](https://github.com/sanity-io/orderable-document-list/compare/v1.1.0...v1.1.1) (2024-01-22)
+
+### Bug Fixes
+
+- sanity ui and styled components versions ([#79](https://github.com/sanity-io/orderable-document-list/issues/79)) ([3697cf1](https://github.com/sanity-io/orderable-document-list/commit/3697cf124194f6b8918f8edc5a73eb95993995d2))
+
 ## [1.1.0](https://github.com/sanity-io/orderable-document-list/compare/v1.0.4...v1.1.0) (2023-07-13)
 
 ### Features

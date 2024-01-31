@@ -1,5 +1,6 @@
 import {useClient} from 'sanity'
+import {API_VERSION} from './constants'
 
 export function useSanityClient() {
-  return useClient({apiVersion: '2021-09-01'})
+  return useClient({apiVersion: API_VERSION})
 }
