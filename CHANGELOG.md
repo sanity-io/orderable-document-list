@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://github.com/sanity-io/orderable-document-list/compare/v1.2.0...v1.2.1) (2024-01-31)
+
+### Bug Fixes
+
+- update desk to structure ([#83](https://github.com/sanity-io/orderable-document-list/issues/83)) ([86a9859](https://github.com/sanity-io/orderable-document-list/commit/86a98595bc7c064380da5ddad089b0b50c3d10fc))
+
 ## [1.2.0](https://github.com/sanity-io/orderable-document-list/compare/v1.1.1...v1.2.0) (2024-01-23)
 
 ### Features
