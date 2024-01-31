@@ -2,7 +2,7 @@ import {GenerateIcon, SortIcon} from '@sanity/icons'
 import type {ConfigContext} from 'sanity'
 
 import {ComponentType} from 'react'
-import {StructureBuilder, type ListItem, type MenuItem} from 'sanity/desk'
+import {StructureBuilder, type ListItem, type MenuItem} from 'sanity/structure'
 import OrderableDocumentList from '../OrderableDocumentList'
 import {API_VERSION} from '../helpers/constants'
 

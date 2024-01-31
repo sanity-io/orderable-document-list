@@ -2,7 +2,7 @@ import {useContext, useMemo, type ReactNode} from 'react'
 import {ChevronDownIcon, ChevronUpIcon, DragHandleIcon} from '@sanity/icons'
 import {AvatarCounter, Card, Box, Button, Flex, Text} from '@sanity/ui'
 import {useSchema, SchemaType, PreviewCard, Preview} from 'sanity'
-import {usePaneRouter} from 'sanity/desk'
+import {usePaneRouter} from 'sanity/structure'
 
 import {OrderableContext} from './OrderableContext'
 import {SanityDocumentWithOrder} from './types'

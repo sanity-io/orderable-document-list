@@ -2,7 +2,7 @@ import {useEffect, useState, useMemo, useCallback, CSSProperties} from 'react'
 import {DragDropContext, Draggable, Droppable, type DropResult} from '@hello-pangea/dnd'
 import {Box, Card, useToast} from '@sanity/ui'
 import type {PatchOperations} from 'sanity'
-import {usePaneRouter} from 'sanity/desk'
+import {usePaneRouter} from 'sanity/structure'
 
 import Document from './Document'
 import {reorderDocuments} from './helpers/reorderDocuments'
