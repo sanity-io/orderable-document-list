@@ -7,7 +7,7 @@ export type SchemaContext = Omit<ConfigContext, 'schema' | 'currentUser' | 'clie
 
 export interface RankFieldConfig {
   type: string
-  newItemAtStart?: boolean
+  newItemPosition: 'before' | 'after'
 }
 
 export const orderRankField = (config: RankFieldConfig) => {
@@ -20,7 +20,7 @@ export const orderRankField = (config: RankFieldConfig) => {
     )
   }
 
-  const {type, newItemAtStart} = config
+  const {type, newItemPosition} = config
 
   return defineField({
     title: 'Order Rank',
@@ -30,7 +30,7 @@ export const orderRankField = (config: RankFieldConfig) => {
     name: ORDER_FIELD_NAME,
     type: 'string',
     initialValue: async (p, {getClient}) => {
-      if (newItemAtStart === true) {
+      if (newItemPosition === 'before') {
         const firstDocOrderRank = await getClient({apiVersion: '2021-09-01'}).fetch(
           `*[_type == $type]|order(@[$order] asc)[0][$order]`,
           {type, order: ORDER_FIELD_NAME}
