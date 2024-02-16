@@ -21,6 +21,7 @@ export const orderRankField = (config: RankFieldConfig) => {
   }
 
   const {type, newItemPosition = 'after'} = config
+
   return defineField({
     title: 'Order Rank',
     readOnly: true,

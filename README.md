@@ -161,6 +161,15 @@ You can also re-run this at any time.
 The `orderRankField` will query the last/first Document to set an `initialValue` to come after/before it.
 The placement of new documents can be configured by `newItemPosition` on the `orderRankField` in the document.
 
+### 4. Position of new items
+
+New Documents appear at the end of the list by default. You can configure where new Documents are inserted by configuring `orderRankField` with the optional `newItemPosition` option:
+
+```typescript
+// default value of newItemPosition is "after"
+orderRankField({ type: "category", newItemPosition: "before" }),
+```
+
 ## Querying Ordered Documents
 
 Now when writing a GROQ Query for Documents, use the `orderRank` field value to return ordered results:
