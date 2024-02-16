@@ -7,7 +7,7 @@ export type SchemaContext = Omit<ConfigContext, 'schema' | 'currentUser' | 'clie
 
 export interface RankFieldConfig {
   type: string
-  newItemPosition: 'before' | 'after'
+  newItemPosition?: 'before' | 'after'
 }
 
 export const orderRankField = (config: RankFieldConfig) => {
@@ -20,7 +20,7 @@ export const orderRankField = (config: RankFieldConfig) => {
     )
   }
 
-  const {type, newItemPosition} = config
+  const {type, newItemPosition = 'after'} = config
 
   return defineField({
     title: 'Order Rank',
