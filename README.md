@@ -17,7 +17,7 @@ A Sanity Studio with [Desk Structure](https://www.sanity.io/docs/structure-build
 
 ```ts
 import {defineConfig} from 'sanity'
-import {deskTool, StructureBuilder} from 'sanity/desk'
+import {deskTool, StructureBuilder} from 'sanity/structure'
 
 export default defineConfig({
   //...
@@ -54,7 +54,7 @@ The config parameter requires `type`, `S` and `context`. It also accepts `title`
 
 ```ts
 import {defineConfig} from 'sanity'
-import {deskTool, StructureBuilder} from 'sanity/desk'
+import {deskTool, StructureBuilder} from 'sanity/structure'
 import {orderableDocumentListDeskItem} from '@sanity/orderable-document-list'
 
 export default defineConfig({
@@ -80,6 +80,8 @@ export default defineConfig({
               params: {
                 lang: 'en_US',
               },
+              createIntent: false, // do not add an option for item creation
+              menuItems: [], // allow an array of `S.menuItem()` to be injected to orderable document list menu
               // pass from the structure callback params above
               S,
               context,
@@ -108,10 +110,12 @@ Additionally, pass in overrides for the field, such as making it visible by pass
 
 You cannot override the `name`, `type` or `initialValue` attributes.
 
+You can configure the placement of new documents by setting `newItemPosition` to `before` (defaults to `after`).
+
 ```js
 // sanity.config.js
 import {defineConfig} from "sanity";
-import {deskTool, StructureBuilder} from "sanity/desk";
+import {deskTool, StructureBuilder} from "sanity/structure";
 import {orderRankField, orderRankOrdering} from '@sanity/orderable-document-list'
 
 export default defineConfig({
@@ -134,8 +138,11 @@ export default defineConfig({
                         // Minimum required configuration
                         orderRankField({ type: "category" }),
 
+                        // OR placing new documents on top
+                        orderRankField({ type: "category", newItemPosition: "before" }),
+
                         // OR you can override _some_ of the field settings
-                        orderRankField({ type: 'category', hidden: false }),
+                        orderRankField({ type: "category", hidden: false }),
 
                         // ...all other fields
                     ],
@@ -151,8 +158,8 @@ export default defineConfig({
 On first load, your Document list will not have any Order. You can select "Reset Order" from the menu in the top right of the list.
 You can also re-run this at any time.
 
-The `orderRankField` will query the last Document to set an `initialValue` to come after it.
-New Documents always start at the end of the Ordered list.
+The `orderRankField` will query the last/first Document to set an `initialValue` to come after/before it.
+The placement of new documents can be configured by `newItemPosition` on the `orderRankField` in the document.
 
 ### 4. Position of new items
 

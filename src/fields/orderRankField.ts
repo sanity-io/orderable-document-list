@@ -1,7 +1,8 @@
 import {type ConfigContext, defineField} from 'sanity'
-import {ORDER_FIELD_NAME} from '../helpers/constants'
+import {API_VERSION, ORDER_FIELD_NAME} from '../helpers/constants'
 import initialRank from '../helpers/initialRank'
 import prevRank from '../helpers/prevRank'
+import {NewItemPosition} from '../types'
 
 export type SchemaContext = Omit<ConfigContext, 'schema' | 'currentUser' | 'client'>
 
@@ -30,18 +31,13 @@ export const orderRankField = (config: RankFieldConfig) => {
     name: ORDER_FIELD_NAME,
     type: 'string',
     initialValue: async (p, {getClient}) => {
-      if (newItemPosition === 'before') {
-        const firstDocOrderRank = await getClient({apiVersion: '2021-09-01'}).fetch(
-          `*[_type == $type]|order(@[$order] asc)[0][$order]`,
-          {type, order: ORDER_FIELD_NAME}
-        )
-        return prevRank(firstDocOrderRank)
-      }
-      const lastDocOrderRank = await getClient({apiVersion: '2021-09-01'}).fetch(
-        `*[_type == $type]|order(@[$order] desc)[0][$order]`,
+      const direction = newItemPosition === 'before' ? 'asc' : 'desc'
+
+      const lastDocOrderRank = await getClient({apiVersion: API_VERSION}).fetch(
+        `*[_type == $type]|order(@[$order] ${direction})[0][$order]`,
         {type, order: ORDER_FIELD_NAME}
       )
-      return initialRank(lastDocOrderRank)
+      return initialRank(lastDocOrderRank, newItemPosition)
     },
   })
 }
