@@ -2,8 +2,9 @@ import {GenerateIcon, SortIcon} from '@sanity/icons'
 import type {ConfigContext} from 'sanity'
 
 import {ComponentType} from 'react'
-import {StructureBuilder, type ListItem} from 'sanity/desk'
+import {StructureBuilder, type ListItem, type MenuItem} from 'sanity/structure'
 import OrderableDocumentList from '../OrderableDocumentList'
+import {API_VERSION} from '../helpers/constants'
 
 export interface OrderableListConfig {
   type: string
@@ -12,6 +13,8 @@ export interface OrderableListConfig {
   icon?: ComponentType
   params?: Record<string, unknown>
   filter?: string
+  menuItems?: MenuItem[]
+  createIntent?: boolean
   context: ConfigContext
   S: StructureBuilder
 }
@@ -25,15 +28,23 @@ export function orderableDocumentListDeskItem(config: OrderableListConfig): List
     `)
   }
 
-  const {type, filter, params, title, icon, id, context, S} = config
+  const {type, filter, menuItems = [], createIntent, params, title, icon, id, context, S} = config
   const {schema, getClient} = context
-  const client = getClient({apiVersion: '2021-09-01'})
+  const client = getClient({apiVersion: API_VERSION})
 
   const listTitle = title ?? `Orderable ${type}`
   const listId = id ?? `orderable-${type}`
   const listIcon = icon ?? SortIcon
   const typeTitle = schema.get(type)?.title ?? type
 
+  if (createIntent !== false) {
+    menuItems.push(
+      S.menuItem()
+        .title(`Create new ${typeTitle}`)
+        .intent({type: 'create', params: {type}})
+        .serialize()
+    )
+  }
   return S.listItem()
     .title(listTitle)
     .id(listId)
@@ -49,10 +60,7 @@ export function orderableDocumentListDeskItem(config: OrderableListConfig): List
         component: OrderableDocumentList,
         options: {type, filter, params, client},
         menuItems: [
-          S.menuItem()
-            .title(`Create new ${typeTitle}`)
-            .intent({type: 'create', params: {type}})
-            .serialize(),
+          ...menuItems,
           S.menuItem().title(`Reset Order`).icon(GenerateIcon).action(`resetOrder`).serialize(),
           S.menuItem()
             .title(`Toggle Increments`)
