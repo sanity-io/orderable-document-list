@@ -17,12 +17,12 @@ A Sanity Studio with [Desk Structure](https://www.sanity.io/docs/structure-build
 
 ```ts
 import {defineConfig} from 'sanity'
-import {deskTool, StructureBuilder} from 'sanity/structure'
+import {structureTool} from 'sanity/structure'
 
 export default defineConfig({
   //...
   plugins: [
-    deskTool({
+    structureTool({
       structure: (S, context) => {
         /* Structure code */
       },
@@ -54,13 +54,13 @@ The config parameter requires `type`, `S` and `context`. It also accepts `title`
 
 ```ts
 import {defineConfig} from 'sanity'
-import {deskTool, StructureBuilder} from 'sanity/structure'
+import {structureTool} from 'sanity/structure'
 import {orderableDocumentListDeskItem} from '@sanity/orderable-document-list'
 
 export default defineConfig({
   //...
   plugins: [
-    deskTool({
+    structureTool({
       structure: (S, context) => {
         return S.list()
           .title('Content')
@@ -115,13 +115,13 @@ You can configure the placement of new documents by setting `newItemPosition` to
 ```js
 // sanity.config.js
 import {defineConfig} from "sanity";
-import {deskTool, StructureBuilder} from "sanity/structure";
+import {structureTool} from "sanity/structure";
 import {orderRankField, orderRankOrdering} from '@sanity/orderable-document-list'
 
 export default defineConfig({
     //...
     plugins: [
-        deskTool({structure: (S, context) => {/* snip */}})
+        structureTool({structure: (S, context) => {/* snip */}})
     ],
     schema: {
         types: (previousTypes) => {
