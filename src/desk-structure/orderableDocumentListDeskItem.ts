@@ -49,26 +49,32 @@ export function orderableDocumentListDeskItem(config: OrderableListConfig): List
     .title(listTitle)
     .id(listId)
     .icon(listIcon)
+    .schemaType(type)
     .child(
-      Object.assign(S.documentTypeList(type).serialize(), {
-        // Prevents the component from re-rendering when switching documents
-        __preserveInstance: true,
-        // Prevents the component from NOT re-rendering when switching listItems
-        key: listId,
+      Object.assign(
+        S.documentTypeList(type)
+          .canHandleIntent(() => !!createIntent)
+          .serialize(),
+        {
+          // Prevents the component from re-rendering when switching documents
+          __preserveInstance: true,
+          // Prevents the component from NOT re-rendering when switching listItems
+          key: listId,
 
-        type: 'component',
-        component: OrderableDocumentList,
-        options: {type, filter, params, client},
-        menuItems: [
-          ...menuItems,
-          S.menuItem().title(`Reset Order`).icon(GenerateIcon).action(`resetOrder`).serialize(),
-          S.menuItem()
-            .title(`Toggle Increments`)
-            .icon(SortIcon)
-            .action(`showIncrements`)
-            .serialize(),
-        ],
-      })
+          type: 'component',
+          component: OrderableDocumentList,
+          options: {type, filter, params, client},
+          menuItems: [
+            ...menuItems,
+            S.menuItem().title(`Reset Order`).icon(GenerateIcon).action(`resetOrder`).serialize(),
+            S.menuItem()
+              .title(`Toggle Increments`)
+              .icon(SortIcon)
+              .action(`showIncrements`)
+              .serialize(),
+          ],
+        }
+      )
     )
     .serialize()
 }
