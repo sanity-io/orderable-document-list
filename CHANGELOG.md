@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.2](https://github.com/sanity-io/orderable-document-list/compare/v1.2.1...v1.2.2) (2024-09-15)
+
+### Bug Fixes
+
+- better intent handling ([#99](https://github.com/sanity-io/orderable-document-list/issues/99)) ([2c73e39](https://github.com/sanity-io/orderable-document-list/commit/2c73e391f69029877d0dd45c9fa408f15ba371fa))
+
 ## [1.2.1](https://github.com/sanity-io/orderable-document-list/compare/v1.2.0...v1.2.1) (2024-01-31)
 
 ### Bug Fixes
