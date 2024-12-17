@@ -2,9 +2,9 @@ import {useEffect, useMemo, useState} from 'react'
 import {Box, Flex, Container, Spinner, Stack, Text} from '@sanity/ui'
 
 import {useListeningQuery, Feedback} from 'sanity-plugin-utils'
-import DraggableList from './DraggableList'
+import {DraggableList} from './DraggableList'
 import {ORDER_FIELD_NAME} from './helpers/constants'
-import {SanityDocumentWithOrder} from './types'
+import type {SanityDocumentWithOrder} from './types'
 
 export interface DocumentListQueryProps {
   type: string
@@ -14,11 +14,7 @@ export interface DocumentListQueryProps {
 
 const DEFAULT_PARAMS = {}
 
-export default function DocumentListQuery({
-  type,
-  filter,
-  params = DEFAULT_PARAMS,
-}: DocumentListQueryProps) {
+export function DocumentListQuery({type, filter, params = DEFAULT_PARAMS}: DocumentListQueryProps) {
   const [listIsUpdating, setListIsUpdating] = useState(false)
   const [data, setData] = useState<SanityDocumentWithOrder[] | null>([])
 
@@ -32,13 +28,15 @@ export default function DocumentListQuery({
   }
 
   const {
-    data: queryData,
+    data: _queryData,
     loading,
     error,
   } = useListeningQuery<SanityDocumentWithOrder[]>(query, {
     params: queryParams,
     initialValue: [],
   })
+  // @ts-expect-error Should not be needed to "cast", but sanity-plugin-utils is not typed correctly
+  const queryData: SanityDocumentWithOrder[] = _queryData
 
   useEffect(() => {
     if (queryData) {
