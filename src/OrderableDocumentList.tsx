@@ -1,8 +1,8 @@
 import {Component} from 'react'
 
-import {SanityClient} from '@sanity/client'
+import type {SanityClient} from '@sanity/client'
 import type {ToastParams} from '@sanity/ui'
-import DocumentListWrapper from './DocumentListWrapper'
+import {DocumentListWrapper} from './DocumentListWrapper'
 import {resetOrder} from './helpers/resetOrder'
 
 export interface OrderableDocumentListProps {
@@ -20,7 +20,7 @@ interface State {
 }
 
 // Must use a Class Component here so the actionHandlers can be called
-export default class OrderableDocumentList extends Component<OrderableDocumentListProps, State> {
+export class OrderableDocumentList extends Component<OrderableDocumentListProps, State> {
   constructor(props: OrderableDocumentListProps) {
     super(props)
     this.state = {

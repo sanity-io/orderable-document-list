@@ -5,7 +5,7 @@ import {useSchema, SchemaType, PreviewCard, Preview} from 'sanity'
 import {usePaneRouter} from 'sanity/structure'
 
 import {OrderableContext} from './OrderableContext'
-import {SanityDocumentWithOrder} from './types'
+import type {SanityDocumentWithOrder} from './types'
 
 export interface DocumentProps {
   doc: SanityDocumentWithOrder
@@ -22,7 +22,7 @@ export interface DocumentProps {
   dragBadge: number | false
 }
 
-export default function Document({
+export function Document({
   doc,
   increment,
   entities,

@@ -1,4 +1,4 @@
-import {SortOrdering} from 'sanity'
+import type {SortOrdering} from 'sanity'
 import {ORDER_FIELD_NAME} from '../helpers/constants'
 
 export const orderRankOrdering: SortOrdering = {

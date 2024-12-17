@@ -1,14 +1,14 @@
-import {useEffect, useState, useMemo, useCallback, CSSProperties} from 'react'
+import {useEffect, useState, useMemo, useCallback, type CSSProperties} from 'react'
 import {DragDropContext, Draggable, Droppable, type DropResult} from '@hello-pangea/dnd'
 import {Box, Card, useToast} from '@sanity/ui'
 import type {PatchOperations} from 'sanity'
 import {usePaneRouter} from 'sanity/structure'
 
-import Document from './Document'
+import {Document} from './Document'
 import {reorderDocuments} from './helpers/reorderDocuments'
 import {ORDER_FIELD_NAME} from './helpers/constants'
 import {useSanityClient} from './helpers/client'
-import {SanityDocumentWithOrder} from './types'
+import type {SanityDocumentWithOrder} from './types'
 
 interface ListSetting {
   isDuplicate: boolean
@@ -28,27 +28,23 @@ const getItemStyle = (
   itemIsUpdating: boolean
 ): CSSProperties => ({
   userSelect: 'none',
-  transition: `opacity 500ms ease-in-out`,
+  transition: 'opacity 500ms ease-in-out',
   opacity: itemIsUpdating ? 0.2 : 1,
-  pointerEvents: itemIsUpdating ? `none` : undefined,
+  pointerEvents: itemIsUpdating ? 'none' : undefined,
   ...draggableStyle,
 })
 
 const cardTone = (settings: ListSetting) => {
   const {isDuplicate, isGhosting, isDragging, isSelected} = settings
 
-  if (isGhosting) return `transparent`
-  if (isDragging || isSelected) return `primary`
-  if (isDuplicate) return `caution`
+  if (isGhosting) return 'transparent'
+  if (isDragging || isSelected) return 'primary'
+  if (isDuplicate) return 'caution'
 
   return undefined
 }
 
-export default function DraggableList({
-  data,
-  listIsUpdating,
-  setListIsUpdating,
-}: DraggableListProps) {
+export function DraggableList({data, listIsUpdating, setListIsUpdating}: DraggableListProps) {
   const toast = useToast()
   const router = usePaneRouter()
   const {groupIndex, routerPanesState} = router
@@ -64,7 +60,7 @@ export default function DraggableList({
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [data])
 
-  const [draggingId, setDraggingId] = useState(``)
+  const [draggingId, setDraggingId] = useState('')
   const [selectedIds, setSelectedIds] = useState<string[]>(currentDoc ? [currentDoc] : [])
 
   const clearSelected = useCallback(() => setSelectedIds([]), [setSelectedIds])
@@ -125,35 +121,36 @@ export default function DraggableList({
 
       patches.forEach(([docId, ops]) => transaction.patch(docId, ops))
 
-      await transaction
-        .commit()
-        .then((updated) => {
-          clearSelected()
-          setDraggingId(``)
-          setListIsUpdating(false)
-          toast.push({
-            title: `${
-              updated.results.length === 1 ? `1 Document` : `${updated.results.length} Documents`
-            } Reordered`,
-            status: `success`,
-            description: message,
-          })
+      try {
+        const updated = await transaction.commit({
+          visibility: 'async',
+          tag: 'orderable-document-list.reorder',
         })
-        .catch(() => {
-          setDraggingId(``)
-          setListIsUpdating(false)
-          toast.push({
-            title: `Reordering failed`,
-            status: `error`,
-          })
+        clearSelected()
+        setDraggingId('')
+        setListIsUpdating(false)
+        toast.push({
+          title: `${
+            updated.results.length === 1 ? '1 document' : `${updated.results.length} documents`
+          } reordered`,
+          status: 'success',
+          description: message,
         })
+      } catch (err) {
+        setDraggingId('')
+        setListIsUpdating(false)
+        toast.push({
+          title: 'Reordering failed',
+          status: 'error',
+        })
+      }
     },
     [client, setDraggingId, clearSelected, setListIsUpdating, toast]
   )
 
   const handleDragEnd = useCallback(
     (result: DropResult | undefined, entities: SanityDocumentWithOrder[]) => {
-      setDraggingId(``)
+      setDraggingId('')
 
       const {source, destination, draggableId} = result ?? {}
 
@@ -282,7 +279,7 @@ export default function DraggableList({
                       {...innerProvided.dragHandleProps}
                       style={
                         isDisabled
-                          ? {opacity: 0.2, pointerEvents: `none`}
+                          ? {opacity: 0.2, pointerEvents: 'none'}
                           : getItemStyle(innerProvided.draggableProps.style, isUpdating)
                       }
                     >
