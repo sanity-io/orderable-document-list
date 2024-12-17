@@ -25,7 +25,7 @@ export interface DraggableListProps {
 
 const getItemStyle = (
   draggableStyle: CSSProperties | undefined,
-  itemIsUpdating: boolean
+  itemIsUpdating: boolean,
 ): CSSProperties => ({
   userSelect: 'none',
   transition: 'opacity 500ms ease-in-out',
@@ -110,7 +110,7 @@ export function DraggableList({data, listIsUpdating, setListIsUpdating}: Draggab
 
       return setSelectedIds(updatedIds)
     },
-    [setSelectedIds, orderedData, selectedIds]
+    [setSelectedIds, orderedData, selectedIds],
   )
 
   const client = useSanityClient()
@@ -145,7 +145,7 @@ export function DraggableList({data, listIsUpdating, setListIsUpdating}: Draggab
         })
       }
     },
-    [client, setDraggingId, clearSelected, setListIsUpdating, toast]
+    [client, setDraggingId, clearSelected, setListIsUpdating, toast],
   )
 
   const handleDragEnd = useCallback(
@@ -187,7 +187,7 @@ export function DraggableList({data, listIsUpdating, setListIsUpdating}: Draggab
         transactPatches(patches, message)
       }
     },
-    [selectedIds, setDraggingId, setSelectedIds, transactPatches, setListIsUpdating]
+    [selectedIds, setDraggingId, setSelectedIds, transactPatches, setListIsUpdating],
   )
 
   const handleDragStart = useCallback(
@@ -200,7 +200,7 @@ export function DraggableList({data, listIsUpdating, setListIsUpdating}: Draggab
 
       setDraggingId(id)
     },
-    [selectedIds, clearSelected, setDraggingId]
+    [selectedIds, clearSelected, setDraggingId],
   )
 
   // Move one document up or down one place, by fake invoking the drag function
@@ -214,7 +214,7 @@ export function DraggableList({data, listIsUpdating, setListIsUpdating}: Draggab
 
       return handleDragEnd(result as DropResult, entities)
     },
-    [handleDragEnd]
+    [handleDragEnd],
   )
 
   const onWindowKeyDown = useCallback(
@@ -223,7 +223,7 @@ export function DraggableList({data, listIsUpdating, setListIsUpdating}: Draggab
         clearSelected()
       }
     },
-    [clearSelected]
+    [clearSelected],
   )
 
   useEffect(() => {
@@ -245,7 +245,7 @@ export function DraggableList({data, listIsUpdating, setListIsUpdating}: Draggab
 
   const onDragEnd = useCallback(
     (result: DropResult) => handleDragEnd(result, orderedData),
-    [orderedData, handleDragEnd]
+    [orderedData, handleDragEnd],
   )
 
   return (

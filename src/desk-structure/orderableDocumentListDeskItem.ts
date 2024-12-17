@@ -42,7 +42,7 @@ export function orderableDocumentListDeskItem(config: OrderableListConfig): List
       S.menuItem()
         .title(`Create new ${typeTitle}`)
         .intent({type: 'create', params: {type}})
-        .serialize()
+        .serialize(),
     )
   }
   return S.listItem()
@@ -73,8 +73,8 @@ export function orderableDocumentListDeskItem(config: OrderableListConfig): List
               .action(`showIncrements`)
               .serialize(),
           ],
-        }
-      )
+        },
+      ),
     )
     .serialize()
 }

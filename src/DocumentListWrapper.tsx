@@ -74,7 +74,7 @@ export function DocumentListWrapper({
     if (
       'fields' in typeSchema &&
       typeSchema.fields.some(
-        (field) => field?.name === ORDER_FIELD_NAME && field?.type?.name !== 'string'
+        (field) => field?.name === ORDER_FIELD_NAME && field?.type?.name !== 'string',
       )
     ) {
       return (

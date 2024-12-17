@@ -5,7 +5,7 @@ import {NewItemPosition} from '../types'
 // If not value passed, generate a sensibly low rank
 export function initialRank(
   compareRankValue = ``,
-  newItemPosition: NewItemPosition = 'after'
+  newItemPosition: NewItemPosition = 'after',
 ): string {
   const compareRank = compareRankValue ? LexoRank.parse(compareRankValue) : LexoRank.min()
   const rank =

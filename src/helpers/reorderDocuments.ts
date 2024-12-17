@@ -99,7 +99,7 @@ export const reorderDocuments = ({
 
       return {all: [...acc.all, cur], selected: acc.selected}
     },
-    {all: [], selected: []}
+    {all: [], selected: []},
   )
 
   const patches = selected.flatMap((doc) => {
