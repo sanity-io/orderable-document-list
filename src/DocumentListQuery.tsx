@@ -61,7 +61,7 @@ export function DocumentListQuery({type, filter, params = DEFAULT_PARAMS}: Docum
 
   const unorderedDataCount = useMemo(
     () => (data?.length ? data.filter((doc) => !doc[ORDER_FIELD_NAME]).length : 0),
-    [data]
+    [data],
   )
 
   if (loading) {

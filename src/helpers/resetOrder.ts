@@ -6,7 +6,7 @@ import {ORDER_FIELD_NAME} from './constants'
 // Will at least attempt to start with the current order
 export async function resetOrder(
   type: string,
-  client: SanityClient
+  client: SanityClient,
 ): Promise<MultipleMutationResult | null> {
   const query = `*[_type == $type]|order(@[$order] asc)._id`
   const queryParams = {type, order: ORDER_FIELD_NAME}

@@ -16,7 +16,7 @@ export const orderRankField = (config: RankFieldConfig) => {
       `
       type must be provided.
       Example: orderRankField({type: 'category'})
-      `
+      `,
     )
   }
 
@@ -34,7 +34,7 @@ export const orderRankField = (config: RankFieldConfig) => {
       const lastDocOrderRank = await getClient({apiVersion: API_VERSION}).fetch(
         `*[_type == $type]|order(@[$order] ${direction})[0][$order]`,
         {type, order: ORDER_FIELD_NAME},
-        {tag: 'orderable-document-list.last-doc-order-rank'}
+        {tag: 'orderable-document-list.last-doc-order-rank'},
       )
       return initialRank(lastDocOrderRank, newItemPosition)
     },

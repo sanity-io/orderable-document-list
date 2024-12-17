@@ -14,7 +14,7 @@ export interface DocumentProps {
     index: number,
     nextIndex: number,
     docId: string,
-    entities: SanityDocumentWithOrder[]
+    entities: SanityDocumentWithOrder[],
   ) => void
   index: number
   isFirst: boolean
@@ -45,7 +45,7 @@ export function Document({
       function LinkComponent(linkProps: {children: ReactNode}) {
         return <ChildLink {...linkProps} childId={doc._id} />
       },
-    [ChildLink, doc._id]
+    [ChildLink, doc._id],
   )
 
   return (
