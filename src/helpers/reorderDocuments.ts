@@ -1,7 +1,7 @@
 import {LexoRank} from 'lexorank'
 import type {PatchOperations} from 'sanity'
 
-import {SanityDocumentWithOrder} from '../types'
+import type {SanityDocumentWithOrder} from '../types'
 import {ORDER_FIELD_NAME} from './constants'
 
 export interface MaifestArgs {
@@ -48,10 +48,10 @@ export const reorderDocuments = ({
   const isMovingUp = startIndex > endIndex
   const selectedItems = entities.filter((item) => selectedIds.includes(item._id))
   const message = [
-    `Moved`,
-    selectedItems.length === 1 ? `1 document` : `${selectedItems.length} documents`,
-    isMovingUp ? `up` : `down`,
-    `from position`,
+    'Moved',
+    selectedItems.length === 1 ? '1 document' : `${selectedItems.length} documents`,
+    isMovingUp ? 'up' : 'down',
+    'from position',
     `${startIndex + 1} to ${endIndex + 1}`,
   ].join(' ')
 
@@ -99,7 +99,7 @@ export const reorderDocuments = ({
 
       return {all: [...acc.all, cur], selected: acc.selected}
     },
-    {all: [], selected: []}
+    {all: [], selected: []},
   )
 
   const patches = selected.flatMap((doc) => {
@@ -115,9 +115,9 @@ export const reorderDocuments = ({
     ]
 
     // If it's a draft, we need to patch the published document as well
-    if (doc._id.startsWith(`drafts.`) && doc.hasPublished) {
+    if (doc._id.startsWith('drafts.') && doc.hasPublished) {
       docPatches.push([
-        doc._id.replace(`drafts.`, ``),
+        doc._id.replace('drafts.', ''),
         {
           set: {
             [ORDER_FIELD_NAME]: doc[ORDER_FIELD_NAME],

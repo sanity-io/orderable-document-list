@@ -1,7 +1,7 @@
-import React from 'react'
+import {createContext} from 'react'
 
 export interface OrderableContextValue {
   showIncrements?: boolean
 }
 
-export const OrderableContext = React.createContext<OrderableContextValue>({})
+export const OrderableContext = createContext<OrderableContextValue>({})

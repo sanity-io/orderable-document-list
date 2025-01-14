@@ -1,9 +1,9 @@
 import {GenerateIcon, SortIcon} from '@sanity/icons'
 import type {ConfigContext} from 'sanity'
 
-import {ComponentType} from 'react'
+import type {ComponentType} from 'react'
 import {StructureBuilder, type ListItem, type MenuItem} from 'sanity/structure'
-import OrderableDocumentList from '../OrderableDocumentList'
+import {OrderableDocumentList} from '../OrderableDocumentList'
 import {API_VERSION} from '../helpers/constants'
 
 export interface OrderableListConfig {
@@ -42,7 +42,7 @@ export function orderableDocumentListDeskItem(config: OrderableListConfig): List
       S.menuItem()
         .title(`Create new ${typeTitle}`)
         .intent({type: 'create', params: {type}})
-        .serialize()
+        .serialize(),
     )
   }
   return S.listItem()
@@ -73,8 +73,8 @@ export function orderableDocumentListDeskItem(config: OrderableListConfig): List
               .action(`showIncrements`)
               .serialize(),
           ],
-        }
-      )
+        },
+      ),
     )
     .serialize()
 }

@@ -5,7 +5,7 @@ import {useSchema, SchemaType, PreviewCard, Preview} from 'sanity'
 import {usePaneRouter} from 'sanity/structure'
 
 import {OrderableContext} from './OrderableContext'
-import {SanityDocumentWithOrder} from './types'
+import type {SanityDocumentWithOrder} from './types'
 
 export interface DocumentProps {
   doc: SanityDocumentWithOrder
@@ -14,7 +14,7 @@ export interface DocumentProps {
     index: number,
     nextIndex: number,
     docId: string,
-    entities: SanityDocumentWithOrder[]
+    entities: SanityDocumentWithOrder[],
   ) => void
   index: number
   isFirst: boolean
@@ -22,7 +22,7 @@ export interface DocumentProps {
   dragBadge: number | false
 }
 
-export default function Document({
+export function Document({
   doc,
   increment,
   entities,
@@ -45,7 +45,7 @@ export default function Document({
       function LinkComponent(linkProps: {children: ReactNode}) {
         return <ChildLink {...linkProps} childId={doc._id} />
       },
-    [ChildLink, doc._id]
+    [ChildLink, doc._id],
   )
 
   return (

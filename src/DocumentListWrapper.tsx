@@ -1,10 +1,9 @@
 import {useEffect, useMemo} from 'react'
-import {useToast} from '@sanity/ui'
+import {useToast, Box, type ToastParams} from '@sanity/ui'
 
 import {useSchema} from 'sanity'
-import {Box, type ToastParams} from '@sanity/ui'
 import {Feedback} from 'sanity-plugin-utils'
-import DocumentListQuery from './DocumentListQuery'
+import {DocumentListQuery} from './DocumentListQuery'
 import {OrderableContext} from './OrderableContext'
 
 import {ORDER_FIELD_NAME} from './helpers/constants'
@@ -21,7 +20,7 @@ export interface DocumentListWrapperProps {
 
 // 1. Validate first that the schema has been configured for ordering
 // 2. Setup context for showIncrements
-export default function DocumentListWrapper({
+export function DocumentListWrapper({
   type,
   showIncrements,
   resetOrderTransaction,
@@ -75,7 +74,7 @@ export default function DocumentListWrapper({
     if (
       'fields' in typeSchema &&
       typeSchema.fields.some(
-        (field) => field?.name === ORDER_FIELD_NAME && field?.type?.name !== 'string'
+        (field) => field?.name === ORDER_FIELD_NAME && field?.type?.name !== 'string',
       )
     ) {
       return (
