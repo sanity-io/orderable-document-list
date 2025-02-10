@@ -5,6 +5,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.3](https://github.com/sanity-io/orderable-document-list/compare/v1.2.2...v1.2.3) (2025-02-10)
+
+### Bug Fixes
+
+- full react 19 support ([7546b8e](https://github.com/sanity-io/orderable-document-list/commit/7546b8ec10453a4464f609d4f0c7c8689aa14e5e))
+- partial support for react 19, bump deps, tag requests, use async visibility ([#103](https://github.com/sanity-io/orderable-document-list/issues/103)) ([25ab0c2](https://github.com/sanity-io/orderable-document-list/commit/25ab0c24c651273250fb08519094bd497b559094))
+
 ## [1.2.2](https://github.com/sanity-io/orderable-document-list/compare/v1.2.1...v1.2.2) (2024-09-15)
 
 ### Bug Fixes
