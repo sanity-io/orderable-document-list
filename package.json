@@ -96,6 +96,9 @@
     "sanity": "^3.0.0",
     "styled-components": "^6.1"
   },
+  "overrides": {
+    "conventional-changelog-conventionalcommits": ">= 8.0.0"
+  },
   "engines": {
     "node": ">=18"
   },
