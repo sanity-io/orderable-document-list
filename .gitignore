@@ -58,3 +58,6 @@ yalc.lock
 
 # Compiled plugin
 lib
+
+# Sanity runtime
+.sanity

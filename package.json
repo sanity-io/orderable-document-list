@@ -38,6 +38,7 @@
   ],
   "scripts": {
     "build": "plugin-kit verify-package --silent && pkg-utils build --strict --check --clean",
+    "dev": "sanity dev",
     "clean": "rimraf lib",
     "compile": "tsc --noEmit",
     "format": "prettier --write --cache --ignore-unknown .",
@@ -88,6 +89,7 @@
     "rimraf": "^6.0.1",
     "sanity": "^3.74.1",
     "semantic-release": "^24.2.0",
+    "styled-components": "^6.1.15",
     "typescript": "^5.1.6"
   },
   "peerDependencies": {
