@@ -1,8 +1,64 @@
 import {useContext, useMemo, type ReactNode} from 'react'
+import {getPublishedId} from '@sanity/client/csm'
 import {ChevronDownIcon, ChevronUpIcon, DragHandleIcon} from '@sanity/icons'
-import {AvatarCounter, Card, Box, Button, Flex, Text} from '@sanity/ui'
-import {useSchema, SchemaType, PreviewCard, Preview} from 'sanity'
+import {AvatarCounter, Box, Button, Card, Flex, Text} from '@sanity/ui'
+import {useObservable} from 'react-rx'
+import {combineLatest, of} from 'rxjs'
+import {map} from 'rxjs/operators'
+import {
+  DocumentStatusIndicator,
+  getDraftId,
+  Preview,
+  PreviewCard,
+  SchemaType,
+  useDocumentPreviewStore,
+  useSchema,
+} from 'sanity'
 import {usePaneRouter} from 'sanity/structure'
+
+/**
+ * START
+ * Code that we can replace by importing useDocumentVersionInfo from Sanity
+ * once we upgrade to a more recent version of Sanity
+ **/
+interface VersionInfoDocumentStub {
+  _id: string
+  _rev: string
+  _createdAt: string
+  _updatedAt: string
+}
+
+function exists(value: any) {
+  return value?._rev
+}
+const DOCUMENT_STUB_PATHS = ['_id', '_type', '_rev', '_createdAt', '_updatedAt']
+
+function useDocumentVersionInfo(documentId: string) {
+  const documentPreviewStore = useDocumentPreviewStore()
+  const [draftId, publishedId] = [getDraftId(documentId), getPublishedId(documentId)]
+
+  const observable = useMemo(() => {
+    return combineLatest({
+      isLoading: of(false),
+      draft: documentPreviewStore
+        .observePaths({_id: draftId}, DOCUMENT_STUB_PATHS)
+        .pipe(map((value) => (exists(value) ? (value as VersionInfoDocumentStub) : undefined))),
+      published: documentPreviewStore
+        .observePaths({_id: publishedId}, DOCUMENT_STUB_PATHS)
+        .pipe(map((value) => (exists(value) ? (value as VersionInfoDocumentStub) : undefined))),
+    })
+  }, [draftId, documentPreviewStore, publishedId])
+
+  return useObservable(observable, {
+    isLoading: true,
+    draft: undefined,
+    published: undefined,
+  })
+}
+
+/**
+ * END
+ **/
 
 import {OrderableContext} from './OrderableContext'
 import type {SanityDocumentWithOrder} from './types'
@@ -47,6 +103,8 @@ export function Document({
       },
     [ChildLink, doc._id],
   )
+
+  const versionsInfo = useDocumentVersionInfo(doc._id)
 
   return (
     <PreviewCard
@@ -104,6 +162,13 @@ export function Document({
             <AvatarCounter count={dragBadge} />
           </Card>
         )}
+        <Box display={['none', 'block']} marginX={[2, 2, 3]} style={{flexShrink: 0}}>
+          <DocumentStatusIndicator
+            draft={versionsInfo.draft}
+            published={versionsInfo.published}
+            versions={undefined}
+          />
+        </Box>
       </Flex>
     </PreviewCard>
   )
