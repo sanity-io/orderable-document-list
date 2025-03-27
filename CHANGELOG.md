@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.1](https://github.com/sanity-io/orderable-document-list/compare/v1.3.0...v1.3.1) (2025-03-27)
+
+### Bug Fixes
+
+- only require 'type' ([#110](https://github.com/sanity-io/orderable-document-list/issues/110)) ([adac46a](https://github.com/sanity-io/orderable-document-list/commit/adac46ab2fed4012a70d90fc4a736d8d8206a835))
+
 ## [1.3.0](https://github.com/sanity-io/orderable-document-list/compare/v1.2.3...v1.3.0) (2025-03-27)
 
 ### Features
