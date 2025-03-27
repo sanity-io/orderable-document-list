@@ -5,7 +5,8 @@ import type {NewItemPosition} from '../types'
 
 export type SchemaContext = Omit<ConfigContext, 'schema' | 'currentUser' | 'client'>
 
-export interface RankFieldConfig extends Omit<StringDefinition, 'name' | 'type' | 'initialValue'> {
+export interface RankFieldConfig
+  extends Partial<Omit<StringDefinition, 'name' | 'type' | 'initialValue'>> {
   type: string
   newItemPosition?: NewItemPosition
 }
