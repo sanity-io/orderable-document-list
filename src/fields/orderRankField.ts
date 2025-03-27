@@ -1,4 +1,4 @@
-import {type ConfigContext, defineField, type StringDefinition} from 'sanity'
+import {type ConfigContext, defineField, FieldDefinition, type StringDefinition} from 'sanity'
 import {API_VERSION, ORDER_FIELD_NAME} from '../helpers/constants'
 import {initialRank} from '../helpers/initialRank'
 import type {NewItemPosition} from '../types'
@@ -11,7 +11,7 @@ export interface RankFieldConfig
   newItemPosition?: NewItemPosition
 }
 
-export const orderRankField = (config: RankFieldConfig): StringDefinition => {
+export const orderRankField = (config: RankFieldConfig): FieldDefinition<'string'> => {
   if (!config?.type) {
     throw new Error(
       `
