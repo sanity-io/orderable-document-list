@@ -1,16 +1,16 @@
-import {type ConfigContext, defineField} from 'sanity'
+import {type ConfigContext, defineField, type StringDefinition} from 'sanity'
 import {API_VERSION, ORDER_FIELD_NAME} from '../helpers/constants'
 import {initialRank} from '../helpers/initialRank'
 import type {NewItemPosition} from '../types'
 
 export type SchemaContext = Omit<ConfigContext, 'schema' | 'currentUser' | 'client'>
 
-export interface RankFieldConfig {
+export interface RankFieldConfig extends Omit<StringDefinition, 'name' | 'type' | 'initialValue'> {
   type: string
   newItemPosition?: NewItemPosition
 }
 
-export const orderRankField = (config: RankFieldConfig) => {
+export const orderRankField = (config: RankFieldConfig): StringDefinition => {
   if (!config?.type) {
     throw new Error(
       `
@@ -20,12 +20,12 @@ export const orderRankField = (config: RankFieldConfig) => {
     )
   }
 
-  const {type, newItemPosition = 'after'} = config
+  const {type, newItemPosition = 'after', ...rest} = config
   return defineField({
     title: 'Order Rank',
     readOnly: true,
     hidden: true,
-    ...config,
+    ...rest,
     name: ORDER_FIELD_NAME,
     type: 'string',
     initialValue: async (p, {getClient}) => {
