@@ -5,27 +5,13 @@ import {useListeningQuery, Feedback} from 'sanity-plugin-utils'
 import {DraggableList} from './DraggableList'
 import {ORDER_FIELD_NAME} from './helpers/constants'
 import type {SanityDocumentWithOrder} from './types'
+import {DocumentListQueryProps, getDocumentQuery} from './helpers/query'
 
-export interface DocumentListQueryProps {
-  type: string
-  filter?: string
-  params?: Record<string, unknown>
-}
-
-const DEFAULT_PARAMS = {}
-
-export function DocumentListQuery({type, filter, params = DEFAULT_PARAMS}: DocumentListQueryProps) {
+export function DocumentListQuery(props: DocumentListQueryProps) {
   const [listIsUpdating, setListIsUpdating] = useState(false)
   const [data, setData] = useState<SanityDocumentWithOrder[] | null>([])
 
-  const query = `*[_type == $type ${filter ? `&& ${filter}` : ''}]|order(@[$order] asc){
-    _id, _type, ${ORDER_FIELD_NAME}
-  }`
-  const queryParams = {
-    ...params,
-    type,
-    order: ORDER_FIELD_NAME,
-  }
+  const {query, queryParams} = getDocumentQuery(props)
 
   const {
     data: _queryData,

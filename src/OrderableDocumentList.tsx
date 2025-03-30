@@ -45,7 +45,7 @@ export class OrderableDocumentList extends Component<OrderableDocumentListProps,
         },
       }))
 
-      const update = await resetOrder(this.props.options.type, this.props.options.client)
+      const update = await resetOrder(this.props.options)
 
       const reorderWasSuccessful = update?.results?.length
 
