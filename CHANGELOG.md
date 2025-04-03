@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.3](https://github.com/sanity-io/orderable-document-list/compare/v1.3.2...v1.3.3) (2025-04-03)
+
+### Bug Fixes
+
+- respect filter when resetting document order ([#112](https://github.com/sanity-io/orderable-document-list/issues/112)) ([98b75e0](https://github.com/sanity-io/orderable-document-list/commit/98b75e062a2368a4eac3f9bf572c910a938bc2fa))
+
 ## [1.3.2](https://github.com/sanity-io/orderable-document-list/compare/v1.3.1...v1.3.2) (2025-03-27)
 
 ### Bug Fixes
