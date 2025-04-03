@@ -1,15 +1,17 @@
 import {LexoRank} from 'lexorank'
 import type {MultipleMutationResult, SanityClient} from '@sanity/client'
 import {ORDER_FIELD_NAME} from './constants'
+import {DocumentListQueryProps, getDocumentQuery} from './query'
+
+export interface ResetOrderParams extends DocumentListQueryProps {
+  client: SanityClient
+}
 
 // Function to wipe and re-do ordering with LexoRank
 // Will at least attempt to start with the current order
-export async function resetOrder(
-  type: string,
-  client: SanityClient,
-): Promise<MultipleMutationResult | null> {
-  const query = `*[_type == $type]|order(@[$order] asc)._id`
-  const queryParams = {type, order: ORDER_FIELD_NAME}
+export async function resetOrder(params: ResetOrderParams): Promise<MultipleMutationResult | null> {
+  const {client, ...queryProps} = params
+  const {query, queryParams} = getDocumentQuery(queryProps)
   const documentIds = await client.fetch<Array<string>>(query, queryParams, {
     tag: 'orderable-document-list.reset-order',
   })
