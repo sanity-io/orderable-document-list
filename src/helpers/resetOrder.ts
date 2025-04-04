@@ -12,24 +12,32 @@ export interface ResetOrderParams extends DocumentListQueryProps {
 export async function resetOrder(params: ResetOrderParams): Promise<MultipleMutationResult | null> {
   const {client, ...queryProps} = params
   const {query, queryParams} = getDocumentQuery(queryProps)
-  const documentIds = await client.fetch<Array<string>>(query, queryParams, {
+  const documents = await client.fetch<
+    Array<{
+      _id: string
+      _type: string
+      [ORDER_FIELD_NAME]: string
+    }>
+  >(query, queryParams, {
     tag: 'orderable-document-list.reset-order',
   })
 
-  if (documentIds.length === 0) {
+  if (documents.length === 0) {
     return null
   }
 
   let aLexoRank = LexoRank.min()
 
-  const transaction = documentIds.reduce((trx, documentId) => {
-    // Generate next rank before even the first document so there's room to move!
-    aLexoRank = aLexoRank.genNext().genNext()
+  const transaction = documents
+    .map((doc) => doc._id)
+    .reduce((trx, documentId) => {
+      // Generate next rank before even the first document so there's room to move!
+      aLexoRank = aLexoRank.genNext().genNext()
 
-    return trx.patch(documentId, {
-      set: {[ORDER_FIELD_NAME]: aLexoRank.toString()},
-    })
-  }, client.transaction())
+      return trx.patch(documentId, {
+        set: {[ORDER_FIELD_NAME]: aLexoRank.toString()},
+      })
+    }, client.transaction())
 
   return transaction.commit({
     visibility: 'async',
