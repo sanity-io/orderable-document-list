@@ -87,7 +87,9 @@ export default defineConfig({
               context,
             }),
 
-            // ... all other desk items
+            // ... all other desk items, e.g. all other document types not already included
+            // @see https://www.sanity.io/docs/studio/structure-builder-cheat-sheet#k4eb3b1891dc2
+            ...S.documentTypeListItems().filter((item) => !(['category', 'project'].includes(item.getId())))
           ])
       },
     }),
