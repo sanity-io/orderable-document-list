@@ -7,6 +7,9 @@ import {ORDER_FIELD_NAME} from './helpers/constants'
 import type {SanityDocumentWithOrder} from './types'
 import {DocumentListQueryProps, getDocumentQuery} from './helpers/query'
 
+import {getFilteredAndDeduplicatedDocuments} from './helpers/getFilteredAndDeduplicatedDocuments'
+import {usePerspective} from 'sanity'
+
 export function DocumentListQuery(props: DocumentListQueryProps) {
   const [listIsUpdating, setListIsUpdating] = useState(false)
   const [data, setData] = useState<SanityDocumentWithOrder[] | null>([])
@@ -23,27 +26,24 @@ export function DocumentListQuery(props: DocumentListQueryProps) {
   })
   // @ts-expect-error Should not be needed to "cast", but sanity-plugin-utils is not typed correctly
   const queryData: SanityDocumentWithOrder[] = _queryData
+  const {selectedPerspective, selectedPerspectiveName} = usePerspective()
 
   useEffect(() => {
     if (queryData) {
-      const filteredDocuments = queryData.reduce<SanityDocumentWithOrder[]>((acc, cur) => {
-        if (!cur._id.startsWith(`drafts.`)) {
-          // eslint-disable-next-line max-nested-callbacks
-          const alsoHasDraft = queryData.some((doc) => doc._id === `drafts.${cur._id}`)
-          return alsoHasDraft ? acc : [...acc, cur]
-        }
-
-        // Check if the draft has a published version
-        cur.hasPublished = queryData.some((doc) => doc._id === cur._id.replace(`drafts.`, ``))
-
-        return [...acc, cur]
-      }, [])
-
-      setData(filteredDocuments)
+      const uniqueDocuments = getFilteredAndDeduplicatedDocuments(
+        queryData,
+        selectedPerspective,
+        selectedPerspectiveName,
+      )
+      setData(uniqueDocuments)
     } else {
       setData([])
     }
-  }, [queryData])
+
+    return () => {
+      setData([])
+    }
+  }, [queryData, selectedPerspective, selectedPerspectiveName])
 
   const unorderedDataCount = useMemo(
     () => (data?.length ? data.filter((doc) => !doc[ORDER_FIELD_NAME]).length : 0),
