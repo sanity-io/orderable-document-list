@@ -1,6 +1,6 @@
 import {describe, it, expect} from 'vitest'
-import type {SanityDocumentWithOrder} from './types'
-import {getFilteredAndDeduplicatedDocuments} from './helpers/getFilteredAndDeduplicatedDocuments'
+import type {SanityDocumentWithOrder} from '../../types'
+import {getFilteredAndDeduplicatedDocuments} from '../getFilteredAndDeduplicatedDocuments'
 
 describe('getFilteredAndDeduplicatedDocuments', () => {
   const mockDocuments: SanityDocumentWithOrder[] = [
