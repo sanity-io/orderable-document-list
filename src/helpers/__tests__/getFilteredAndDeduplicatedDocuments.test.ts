@@ -182,6 +182,67 @@ describe('getFilteredAndDeduplicatedDocuments', () => {
     expect(result[0]._id).toBe('versions.rEZnogJnx.123')
   })
 
+  it('should show draft of other versions when the selected version doesnt exist for the document', () => {
+    const result = getFilteredAndDeduplicatedDocuments(
+      [
+        {
+          _id: 'drafts.123',
+          _type: 'test',
+          orderRank: 'a',
+          _createdAt: new Date().toISOString(),
+          _updatedAt: new Date().toISOString(),
+          _rev: '123',
+        },
+        {
+          _id: 'versions.rEZnogJnx.123',
+          _type: 'test',
+          orderRank: 'b',
+          _createdAt: new Date().toISOString(),
+          _updatedAt: new Date().toISOString(),
+          _rev: '123',
+        },
+        {
+          _id: 'versions.other-version.456',
+          _type: 'test',
+          orderRank: 'b',
+          _createdAt: new Date().toISOString(),
+          _updatedAt: new Date().toISOString(),
+          _rev: '123',
+        },
+        {
+          _id: '789',
+          _type: 'test',
+          orderRank: 'b',
+          _createdAt: new Date().toISOString(),
+          _updatedAt: new Date().toISOString(),
+          _rev: '123',
+        },
+      ],
+      {
+        _id: '_.releases.other-version',
+        _type: 'system.release',
+        _createdAt: new Date().toISOString(),
+        _updatedAt: new Date().toISOString(),
+        _rev: '123',
+        name: 'other-version',
+        state: 'published',
+        metadata: {
+          title: 'other-version',
+          releaseType: 'asap',
+        },
+      },
+      'other-version',
+    )
+
+    // Should show the draft of the other version
+    expect(result).toHaveLength(3)
+    expect(result.map((doc) => doc._id)).toEqual([
+      'drafts.123',
+      'versions.other-version.456',
+      '789',
+    ])
+  })
+
   it('should handle empty input', () => {
     const result = getFilteredAndDeduplicatedDocuments([], 'drafts')
     expect(result).toEqual([])

@@ -45,12 +45,19 @@ export const getFilteredAndDeduplicatedDocuments = (
       const versionFromId = getVersionFromId(cur._id)
       const isCorrectVersion = versionFromId === perspectiveName
       // should include if the version that is being evaluated exists in the release selected
-      // or if the document is a draft or published
+      // or if the document is a draft or published (as fallbacks)
       shouldInclude = isCorrectVersion || isDraftId(cur._id) || isPublishedId(cur._id)
-      // should be replaced if the existingDoc exists and the existing doc is not a version
-      // but the current one that is being evalualed is
+      // should be replaced if the existingDoc exists and the current doc has higher priority
       // priority is version > draft > published
-      shouldReplace = Boolean(existingDoc && isCorrectVersion && !isVersionId(existingDoc._id))
+      shouldReplace = Boolean(
+        existingDoc &&
+          ((isCorrectVersion && !isVersionId(existingDoc._id)) ||
+            (isDraftId(cur._id) && !isDraftId(existingDoc._id) && !isVersionId(existingDoc._id)) ||
+            (isPublishedId(cur._id) &&
+              !isPublishedId(existingDoc._id) &&
+              !isVersionId(existingDoc._id) &&
+              !isDraftId(existingDoc._id))),
+      )
     }
 
     if (shouldInclude) {
