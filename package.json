@@ -62,7 +62,7 @@
     "@sanity/incompatible-plugin": "^1.0.5",
     "@sanity/ui": "^2.10.11",
     "lexorank": "^1.0.4",
-    "sanity-plugin-utils": "^1.6.7"
+    "sanity-plugin-utils": "^1.6.8"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.6.1",
