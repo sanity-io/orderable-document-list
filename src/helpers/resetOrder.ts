@@ -13,6 +13,7 @@ export interface ResetOrderParams extends DocumentListQueryProps {
 export async function resetOrder(params: ResetOrderParams): Promise<MultipleMutationResult | null> {
   const {client, currentVersion, ...queryProps} = params
   const {query, queryParams} = getDocumentQuery({...queryProps, currentVersion})
+
   const documents = await client.fetch<
     Array<{
       _id: string

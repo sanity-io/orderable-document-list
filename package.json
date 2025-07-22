@@ -95,7 +95,7 @@
     "vitest": "^3.2.4"
   },
   "peerDependencies": {
-    "@sanity/vision": "^4.0.0",
+    "@sanity/vision": "^4.1.0",
     "react": "^18 || ^19",
     "react-dom": "^18 || ^19",
     "sanity": "^3.0.0 || ^4.0.0-0",
