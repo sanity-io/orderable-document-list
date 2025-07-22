@@ -1,66 +1,103 @@
 import {getPublishedId, getVersionFromId, isDraftId, isPublishedId, isVersionId} from 'sanity'
 import {type SanityDocumentWithOrder} from '../types'
 
-// this removes dedupped docs (specifically versions) from the list and makes sure that it keeps the right docs
-// in the list
+const isVersionForCurrentPerspective = (
+  document: SanityDocumentWithOrder,
+  perspectiveName: string,
+  publishedId: string,
+) => {
+  return (
+    document._id &&
+    isVersionId(document._id) &&
+    getVersionFromId(document._id) === perspectiveName &&
+    getPublishedId(document._id) === publishedId
+  )
+}
+
+// this removes dedupped docs from the list and makes sure that it keeps the right docs
+// in the list while preserving the order established by the orderRank field
 export const getFilteredDedupedDocs = (
   documents: SanityDocumentWithOrder[],
   perspectiveName?: string,
 ): SanityDocumentWithOrder[] => {
-  return documents.reduce<SanityDocumentWithOrder[]>((acc, cur) => {
-    const baseId = getPublishedId(cur._id)
-    const existingIndex = acc.findIndex((doc) => getPublishedId(doc._id) === baseId)
-    const existingDoc = existingIndex >= 0 ? acc[existingIndex] : null
+  // Flatten the documents array in case it's nested (like in test data)
+  const flatDocuments = documents.flat()
 
-    // Determine if this document should be included and if it should replace existing
-    let shouldInclude = false
-    let shouldReplace = false
-
-    // where published and drafts will be shown
-    if (perspectiveName === 'drafts') {
-      // should include draft or published document that doesn't have a version
-      shouldInclude = (isDraftId(cur._id) || isPublishedId(cur._id)) && !isVersionId(cur._id)
-      // should be replaced if the existingDoc exists and the existing doc is not a draft but the current is
-      // priority is draft > published
-      shouldReplace = Boolean(existingDoc && isDraftId(cur._id) && !isDraftId(existingDoc._id))
+  return flatDocuments.reduce<SanityDocumentWithOrder[]>((acc, cur) => {
+    if (!cur._id) {
+      return acc
     }
-    // where only publisheddocs will be shown
-    else if (perspectiveName === 'published') {
-      // should include published document
-      shouldInclude = !isDraftId(cur._id) && !isVersionId(cur._id)
-      // should be replaced if the existingDoc exists and the existing doc is not a published
-      // but the current one that is being evalualed is
-      // priority is published
-      shouldReplace = Boolean(
-        existingDoc && isPublishedId(cur._id) && !isPublishedId(existingDoc._id),
-      )
-    } else {
+
+    // Handle version-only documents
+    if (isVersionId(cur._id)) {
       const versionFromId = getVersionFromId(cur._id)
       const isCorrectVersion = versionFromId === perspectiveName
-      // should include if the version that is being evaluated exists in the release selected
-      // or if the document is a draft or published (as fallbacks)
-      shouldInclude = isCorrectVersion || isDraftId(cur._id) || isPublishedId(cur._id)
-      // should be replaced if the existingDoc exists and the current doc has higher priority
-      // priority is version > draft > published
-      shouldReplace = Boolean(
-        existingDoc &&
-          ((isCorrectVersion && !isVersionId(existingDoc._id)) ||
-            (isDraftId(cur._id) && !isDraftId(existingDoc._id) && !isVersionId(existingDoc._id)) ||
-            (isPublishedId(cur._id) &&
-              !isPublishedId(existingDoc._id) &&
-              !isVersionId(existingDoc._id) &&
-              !isDraftId(existingDoc._id))),
-      )
+
+      // Only include versions that match the current perspective
+      if (
+        perspectiveName &&
+        perspectiveName !== 'drafts' &&
+        perspectiveName !== 'published' &&
+        isCorrectVersion
+      ) {
+        return [...acc, cur]
+      }
+      return acc
     }
 
-    if (shouldInclude) {
-      if (!existingDoc) {
-        acc.push(cur)
-      } else if (shouldReplace) {
-        acc[existingIndex] = cur
+    // Handle published perspective - only include published documents
+    if (perspectiveName === 'published') {
+      if (isPublishedId(cur._id)) {
+        return [...acc, cur]
+      }
+      return acc
+    }
+
+    // in situations where the document is not a draft, we need to check if
+    // the version should override a published document or a draft
+    if (!isDraftId(cur._id)) {
+      const publishedId = getPublishedId(cur._id)
+
+      const countNrPublished = JSON.stringify(flatDocuments).match(`/${publishedId}/g`)
+
+      // Check if there's a version that matches the perspectiveName
+      const hasMatchingVersion =
+        perspectiveName && perspectiveName !== 'drafts' && perspectiveName !== 'published'
+          ? flatDocuments.some((doc) =>
+              isVersionForCurrentPerspective(doc, perspectiveName, publishedId),
+            )
+          : false
+
+      // Check if there's a draft
+      const hasDraft = flatDocuments.some((doc) => doc._id === `drafts.${cur._id}`)
+
+      // Priority: version > draft > published
+      // If there's a matching version, skip published
+      if (hasMatchingVersion) {
+        return acc
+      }
+
+      // eslint-disable-next-line max-nested-callbacks
+      const alsoHasDraft = hasDraft || countNrPublished
+      return alsoHasDraft ? acc : [...acc, cur]
+    }
+
+    // For drafts, check if there's a version for this document in version perspective
+    if (perspectiveName && perspectiveName !== 'drafts' && perspectiveName !== 'published') {
+      const baseId = getPublishedId(cur._id)
+      const hasVersion = flatDocuments.some((doc) =>
+        isVersionForCurrentPerspective(doc, perspectiveName, baseId),
+      )
+
+      // If there's a version for this document, skip the draft
+      if (hasVersion) {
+        return acc
       }
     }
 
-    return acc
+    // Check if the draft has a published version
+    cur.hasPublished = flatDocuments.some((doc) => doc._id === cur._id.replace(`drafts.`, ``))
+
+    return [...acc, cur]
   }, [])
 }

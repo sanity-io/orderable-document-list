@@ -1,61 +1,171 @@
 import {describe, it, expect} from 'vitest'
-import type {SanityDocumentWithOrder} from '../../types'
+import {type SanityDocumentWithOrder} from '../../types'
 import {getFilteredDedupedDocs} from '../getFilteredDedupedDocs'
 
 describe('getFilteredDedupedDocs', () => {
-  const mockDocuments: SanityDocumentWithOrder[] = [
+  const mockDocumentsFromVersionPerspective: SanityDocumentWithOrder[] = [
     {
-      _id: 'drafts.123',
-      _type: 'test',
+      _id: 'drafts.document-1',
+      _type: 'orderableCategory',
+      orderRank: '0|10000o:',
       _createdAt: new Date().toISOString(),
       _updatedAt: new Date().toISOString(),
       _rev: '123',
     },
+    {
+      _id: 'versions.rmWGG9z1W.document-2',
+      _type: 'orderableCategory',
+      orderRank: '0|100014:',
+      _createdAt: new Date().toISOString(),
+      _updatedAt: new Date().toISOString(),
+      _rev: '123',
+    },
+    {
+      _id: 'drafts.document-3',
+      _type: 'orderableCategory',
+      orderRank: '0|10001k:',
+      _createdAt: new Date().toISOString(),
+      _updatedAt: new Date().toISOString(),
+      _rev: '123',
+    },
+    {
+      _id: 'document-4',
+      _type: 'orderableCategory',
+      orderRank: '0|100020:',
+      _createdAt: new Date().toISOString(),
+      _updatedAt: new Date().toISOString(),
+      _rev: '123',
+    },
+    {
+      _id: 'versions.rmWGG9z1W.document-6',
+      _type: 'orderableCategory',
+      orderRank: '0|10002w:',
+      _createdAt: new Date().toISOString(),
+      _updatedAt: new Date().toISOString(),
+      _rev: '123',
+    },
+    {
+      _id: 'document-5',
+      _type: 'orderableCategory',
+      orderRank: '0|100034:',
+      _createdAt: new Date().toISOString(),
+      _updatedAt: new Date().toISOString(),
+      _rev: '123',
+    },
+    {
+      _id: 'drafts.document-5',
+      _type: 'orderableCategory',
+      orderRank: '0|100034:',
+      _createdAt: new Date().toISOString(),
+      _updatedAt: new Date().toISOString(),
+      _rev: '123',
+    },
+    {
+      _id: 'document-9',
+      _type: 'orderableCategory',
+      orderRank: '0|10003c:',
+      _createdAt: new Date().toISOString(),
+      _updatedAt: new Date().toISOString(),
+      _rev: '123',
+    },
+    {
+      _id: 'drafts.document-8',
+      _type: 'orderableCategory',
+      orderRank: '0|10003s:',
+      _createdAt: new Date().toISOString(),
+      _updatedAt: new Date().toISOString(),
+      _rev: '123',
+    },
+    {
+      _id: 'versions.rmWGG9z1W.document-3',
+      _type: 'orderableCategory',
+      orderRank: '0|100048:',
+      _createdAt: new Date().toISOString(),
+      _updatedAt: new Date().toISOString(),
+      _rev: '123',
+    },
+  ]
+
+  const mockDocumentsInDraftsPerspective: SanityDocumentWithOrder[] = [
+    {
+      _id: 'drafts.document-1',
+      _type: 'orderableCategory',
+      orderRank: '0|10000o:',
+      _createdAt: new Date().toISOString(),
+      _updatedAt: new Date().toISOString(),
+      _rev: '123',
+    },
+    {
+      _id: 'drafts.document-3',
+      _type: 'orderableCategory',
+      orderRank: '0|10001k:',
+      _createdAt: new Date().toISOString(),
+      _updatedAt: new Date().toISOString(),
+      _rev: '123',
+    },
+    {
+      _id: 'document-4',
+      _type: 'orderableCategory',
+      orderRank: '0|100020:',
+      _createdAt: new Date().toISOString(),
+      _updatedAt: new Date().toISOString(),
+      _rev: '123',
+    },
+    {
+      _id: 'document-5',
+      _type: 'orderableCategory',
+      orderRank: '0|100034:',
+      _createdAt: new Date().toISOString(),
+      _updatedAt: new Date().toISOString(),
+      _rev: '123',
+    },
+    {
+      _id: 'drafts.document-5',
+      _type: 'orderableCategory',
+      orderRank: '0|100034:',
+      _createdAt: new Date().toISOString(),
+      _updatedAt: new Date().toISOString(),
+      _rev: '123',
+    },
+    {
+      _id: 'document-7',
+      _type: 'orderableCategory',
+      orderRank: '0|10003c:',
+      _createdAt: new Date().toISOString(),
+      _updatedAt: new Date().toISOString(),
+      _rev: '123',
+    },
+    {
+      _id: 'drafts.document-8',
+      _type: 'orderableCategory',
+      orderRank: '0|10003s:',
+      _createdAt: new Date().toISOString(),
+      _updatedAt: new Date().toISOString(),
+      _rev: '123',
+    },
+  ]
+
+  const mockDocumentsPublishedPerspective: SanityDocumentWithOrder[] = [
     {
       _id: '123',
-      _type: 'test',
-      _createdAt: new Date().toISOString(),
-      _updatedAt: new Date().toISOString(),
-      _rev: '123',
-    },
-    {
-      _id: 'versions.rEZnogJnx.123',
-      _type: 'test',
-      _createdAt: new Date().toISOString(),
-      _updatedAt: new Date().toISOString(),
-      _rev: '123',
-    },
-    {
-      _id: 'drafts.456',
-      _type: 'test',
+      _type: 'orderableCategory',
+      orderRank: '0|100035:',
       _createdAt: new Date().toISOString(),
       _updatedAt: new Date().toISOString(),
       _rev: '123',
     },
     {
       _id: '456',
-      _type: 'test',
+      _type: 'orderableCategory',
+      orderRank: '0|100036:',
       _createdAt: new Date().toISOString(),
       _updatedAt: new Date().toISOString(),
       _rev: '123',
     },
     {
       _id: '789',
-      _type: 'test',
-      _createdAt: new Date().toISOString(),
-      _updatedAt: new Date().toISOString(),
-      _rev: '123',
-    },
-    {
-      _id: 'versions.rOrphanVersion.789',
-      _type: 'test',
-      _createdAt: new Date().toISOString(),
-      _updatedAt: new Date().toISOString(),
-      _rev: '123',
-    },
-    {
-      _id: 'drafts.only-draft-id',
-      _type: 'test',
+      _type: 'orderableCategory',
+      orderRank: '0|10003h:',
       _createdAt: new Date().toISOString(),
       _updatedAt: new Date().toISOString(),
       _rev: '123',
@@ -63,15 +173,20 @@ describe('getFilteredDedupedDocs', () => {
   ]
 
   it('should filter and deduplicate documents in draft perspective', () => {
-    const result = getFilteredDedupedDocs(mockDocuments, 'drafts')
+    const result = getFilteredDedupedDocs(
+      mockDocumentsInDraftsPerspective as SanityDocumentWithOrder[],
+      'drafts',
+    )
 
     // Should only include drafts and published (if it doesn't have a published)
-    expect(result).toHaveLength(4)
+    expect(result).toHaveLength(6)
     expect(result.map((doc) => doc._id)).toEqual([
-      'drafts.123',
-      'drafts.456',
-      '789',
-      'drafts.only-draft-id',
+      'drafts.document-1',
+      'drafts.document-3',
+      'document-4',
+      'drafts.document-5',
+      'document-7',
+      'drafts.document-8',
     ])
   })
 
@@ -103,7 +218,7 @@ describe('getFilteredDedupedDocs', () => {
   })
 
   it('should filter and deduplicate documents in published perspective', () => {
-    const result = getFilteredDedupedDocs(mockDocuments, 'published')
+    const result = getFilteredDedupedDocs(mockDocumentsPublishedPerspective, 'published')
 
     // Should only include published documents
     expect(result).toHaveLength(3)
@@ -111,32 +226,39 @@ describe('getFilteredDedupedDocs', () => {
   })
 
   it('should filter and deduplicate documents in version perspective', () => {
-    const result = getFilteredDedupedDocs(mockDocuments, 'rEZnogJnx')
+    const result = getFilteredDedupedDocs(
+      mockDocumentsFromVersionPerspective as SanityDocumentWithOrder[],
+      'rmWGG9z1W',
+    )
 
     // Should include versions for the specific release, drafts, and published
-    expect(result).toHaveLength(4)
+    expect(result).toHaveLength(8)
     expect(result.map((doc) => doc._id)).toEqual([
-      'versions.rEZnogJnx.123',
-      'drafts.456',
-      '789',
-      'drafts.only-draft-id',
+      'drafts.document-1',
+      'versions.rmWGG9z1W.document-2',
+      'document-4',
+      'versions.rmWGG9z1W.document-6',
+      'drafts.document-5',
+      'document-9',
+      'drafts.document-8',
+      'versions.rmWGG9z1W.document-3',
     ])
   })
 
   it('should prioritize versions over drafts in version perspective', () => {
-    const documentsWithVersionAndDraft = [
+    const documentsWithVersionAndDraft: SanityDocumentWithOrder[] = [
       {
-        _id: 'drafts.123',
-        _type: 'test',
-        orderRank: 'a',
+        _id: 'drafts.document-1',
+        _type: 'orderableCategory',
+        orderRank: '0|10001k:',
         _createdAt: new Date().toISOString(),
         _updatedAt: new Date().toISOString(),
         _rev: '123',
       },
       {
-        _id: 'versions.rEZnogJnx.123',
-        _type: 'test',
-        orderRank: 'b',
+        _id: 'versions.rEZnogJnx.document-1',
+        _type: 'orderableCategory',
+        orderRank: '0|10000o:',
         _createdAt: new Date().toISOString(),
         _updatedAt: new Date().toISOString(),
         _rev: '123',
@@ -147,7 +269,7 @@ describe('getFilteredDedupedDocs', () => {
 
     // Should prioritize the version over the draft
     expect(result).toHaveLength(1)
-    expect(result[0]._id).toBe('versions.rEZnogJnx.123')
+    expect(result.map((doc) => doc._id)).toEqual(['versions.rEZnogJnx.document-1'])
   })
 
   it('should show draft of other versions when the selected version doesnt exist for the document', () => {
