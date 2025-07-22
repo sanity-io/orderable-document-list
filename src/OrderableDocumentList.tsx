@@ -11,6 +11,7 @@ export interface OrderableDocumentListProps {
     client: SanityClient
     filter?: string
     params?: Record<string, unknown>
+    currentVersion?: string
   }
 }
 
@@ -73,6 +74,7 @@ export class OrderableDocumentList extends Component<OrderableDocumentListProps,
         type={type}
         showIncrements={this.state.showIncrements}
         resetOrderTransaction={this.state.resetOrderTransaction}
+        currentVersion={this?.props?.options?.currentVersion}
       />
     )
   }

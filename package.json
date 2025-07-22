@@ -47,7 +47,8 @@
     "lint:fix": "eslint . --fix",
     "prepare": "husky install",
     "prepublishOnly": "npm run build",
-    "watch": "pkg-utils watch --strict"
+    "watch": "pkg-utils watch --strict",
+    "test": "vitest"
   },
   "husky": {
     "hooks": {
@@ -87,12 +88,14 @@
     "react-dom": "19",
     "react-is": "^19",
     "rimraf": "^6.0.1",
-    "sanity": "^3.74.1",
+    "sanity": "^4.1.0",
     "semantic-release": "^24.2.0",
     "styled-components": "^6.1.15",
-    "typescript": "^5.1.6"
+    "typescript": "^5.1.6",
+    "vitest": "^3.2.4"
   },
   "peerDependencies": {
+    "@sanity/vision": "^4.0.0",
     "react": "^18 || ^19",
     "react-dom": "^18 || ^19",
     "sanity": "^3.0.0 || ^4.0.0-0",

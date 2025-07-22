@@ -1,6 +1,7 @@
 import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
 import {orderableDocumentListDeskItem, orderRankField, orderRankOrdering} from './src'
+import {visionTool} from '@sanity/vision'
 
 export default defineConfig({
   projectId: 'ppsg7ml5',
@@ -12,6 +13,7 @@ export default defineConfig({
           .title('Content')
           .items([orderableDocumentListDeskItem({type: 'orderableCategory', S, context})]),
     }),
+    visionTool(),
   ],
   schema: {
     types: [

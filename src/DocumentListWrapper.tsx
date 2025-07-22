@@ -16,6 +16,8 @@ export interface DocumentListWrapperProps {
   filter?: string
   // eslint-disable-next-line react/require-default-props
   params?: Record<string, unknown>
+  // eslint-disable-next-line react/require-default-props
+  currentVersion?: string
 }
 
 // 1. Validate first that the schema has been configured for ordering
@@ -26,6 +28,7 @@ export function DocumentListWrapper({
   resetOrderTransaction,
   filter,
   params,
+  currentVersion,
 }: DocumentListWrapperProps) {
   const toast = useToast()
   const schema = useSchema()
@@ -98,7 +101,12 @@ export function DocumentListWrapper({
 
   return (
     <OrderableContext.Provider value={{showIncrements}}>
-      <DocumentListQuery type={type} filter={filter} params={params} />
+      <DocumentListQuery
+        type={type}
+        filter={filter}
+        params={params}
+        currentVersion={currentVersion}
+      />
     </OrderableContext.Provider>
   )
 }

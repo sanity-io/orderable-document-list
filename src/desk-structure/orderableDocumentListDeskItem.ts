@@ -30,7 +30,11 @@ export function orderableDocumentListDeskItem(config: OrderableListConfig): List
 
   const {type, filter, menuItems = [], createIntent, params, title, icon, id, context, S} = config
   const {schema, getClient} = context
+  // 'perspectiveStack' may not exist on ConfigContext in some versions
+  const perspectiveStack = (context as any).perspectiveStack || []
   const client = getClient({apiVersion: API_VERSION})
+  // the first position in the perspective stack is the current version
+  const currentVersion = perspectiveStack[0]
 
   const listTitle = title ?? `Orderable ${type}`
   const listId = id ?? `orderable-${type}`
@@ -63,7 +67,7 @@ export function orderableDocumentListDeskItem(config: OrderableListConfig): List
 
           type: 'component',
           component: OrderableDocumentList,
-          options: {type, filter, params, client},
+          options: {type, filter, params, client, currentVersion},
           menuItems: [
             ...menuItems,
             S.menuItem().title(`Reset Order`).icon(GenerateIcon).action(`resetOrder`).serialize(),
