@@ -1,7 +1,15 @@
 import {useContext, useMemo, type ReactNode} from 'react'
 import {ChevronDownIcon, ChevronUpIcon, DragHandleIcon} from '@sanity/icons'
-import {AvatarCounter, Card, Box, Button, Flex, Text} from '@sanity/ui'
-import {useSchema, SchemaType, PreviewCard, Preview} from 'sanity'
+import {AvatarCounter, Card, Box, Button, Flex, Text, Tooltip} from '@sanity/ui'
+import {
+  useSchema,
+  SchemaType,
+  PreviewCard,
+  Preview,
+  DocumentStatusIndicator,
+  DocumentStatus,
+  useDocumentVersionInfo,
+} from 'sanity'
 import {usePaneRouter} from 'sanity/structure'
 
 import {OrderableContext} from './OrderableContext'
@@ -34,6 +42,8 @@ export function Document({
   const {showIncrements} = useContext(OrderableContext)
   const schema = useSchema()
   const router = usePaneRouter()
+  const versionsInfo = useDocumentVersionInfo(doc._id)
+
   const {ChildLink, groupIndex, routerPanesState} = router
 
   const currentDoc = routerPanesState[groupIndex + 1]?.[0]?.id || false
@@ -46,6 +56,14 @@ export function Document({
         return <ChildLink {...linkProps} childId={doc._id} />
       },
     [ChildLink, doc._id],
+  )
+
+  const tooltip = (
+    <DocumentStatus
+      draft={versionsInfo.draft}
+      published={versionsInfo.published}
+      versions={versionsInfo.versions}
+    />
   )
 
   return (
@@ -91,12 +109,22 @@ export function Document({
           </Flex>
         )}
         <Box style={{width: `100%`}}>
-          <Flex flex={1} align="center">
+          <Flex flex={1} align="center" justify="space-between" paddingRight={3}>
             <Preview
               layout="default"
               value={doc}
               schemaType={schema.get(doc._type) as SchemaType}
             />
+
+            <Tooltip content={tooltip} portal placement="right" boundaryElement={null}>
+              <Flex align="center">
+                <DocumentStatusIndicator
+                  draft={versionsInfo.draft}
+                  published={versionsInfo.published}
+                  versions={versionsInfo.versions}
+                />
+              </Flex>
+            </Tooltip>
           </Flex>
         </Box>
         {dragBadge && (
