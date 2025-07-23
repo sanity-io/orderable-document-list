@@ -14,22 +14,12 @@ export function DocumentListQuery(props: DocumentListQueryProps) {
 
   const {query, queryParams} = getDocumentQuery(props)
 
-  // Memoize the query and params with stable dependencies
-  const memoizedQuery = useMemo(
-    () => query,
-    [props.type, props.filter, props.params, props.currentVersion],
-  )
-  const memoizedQueryParams = useMemo(
-    () => queryParams,
-    [props.type, props.filter, props.params, props.currentVersion],
-  )
-
   const {
     data: _queryData,
     loading,
     error,
-  } = useListeningQuery<SanityDocumentWithOrder[]>(memoizedQuery, {
-    params: memoizedQueryParams,
+  } = useListeningQuery<SanityDocumentWithOrder[]>(query, {
+    params: queryParams,
     initialValue: [],
   })
   // @ts-expect-error Should not be needed to "cast", but sanity-plugin-utils is not typed correctly
