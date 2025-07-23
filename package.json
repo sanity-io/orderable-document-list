@@ -69,6 +69,7 @@
     "@commitlint/config-conventional": "^19.6.0",
     "@sanity/pkg-utils": "^6.12.0",
     "@sanity/plugin-kit": "^4.0.18",
+    "@sanity/vision": "^4.1.0",
     "@sanity/semantic-release-preset": "^5.0.0",
     "@types/react": "^19",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
@@ -95,7 +96,6 @@
     "vitest": "^3.2.4"
   },
   "peerDependencies": {
-    "@sanity/vision": "^4.1.0",
     "react": "^18 || ^19",
     "react-dom": "^18 || ^19",
     "sanity": "^3.0.0 || ^4.0.0-0",
