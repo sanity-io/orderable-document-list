@@ -61,3 +61,6 @@ lib
 
 # Sanity runtime
 .sanity
+
+# TypeScript
+tsconfig.tsbuildinfo

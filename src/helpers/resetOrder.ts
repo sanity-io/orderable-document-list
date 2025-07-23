@@ -5,13 +5,15 @@ import {DocumentListQueryProps, getDocumentQuery} from './query'
 
 export interface ResetOrderParams extends DocumentListQueryProps {
   client: SanityClient
+  currentVersion?: string
 }
 
 // Function to wipe and re-do ordering with LexoRank
 // Will at least attempt to start with the current order
 export async function resetOrder(params: ResetOrderParams): Promise<MultipleMutationResult | null> {
-  const {client, ...queryProps} = params
-  const {query, queryParams} = getDocumentQuery(queryProps)
+  const {client, currentVersion, ...queryProps} = params
+  const {query, queryParams} = getDocumentQuery({...queryProps, currentVersion})
+
   const documents = await client.fetch<
     Array<{
       _id: string
