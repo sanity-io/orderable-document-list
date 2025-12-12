@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.1](https://github.com/sanity-io/orderable-document-list/compare/v1.4.0...v1.4.1) (2025-12-12)
+
+### Bug Fixes
+
+- prevent status indicators from being squished by long titles ([#122](https://github.com/sanity-io/orderable-document-list/issues/122)) ([86adf8b](https://github.com/sanity-io/orderable-document-list/commit/86adf8bcc09228352289ec0c3730ef3719859f19))
+
 ## [1.4.0](https://github.com/sanity-io/orderable-document-list/compare/v1.3.5...v1.4.0) (2025-07-23)
 
 ### Features
