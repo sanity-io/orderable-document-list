@@ -117,7 +117,7 @@ export function Document({
             />
 
             <Tooltip content={tooltip} portal placement="right" boundaryElement={null}>
-              <Flex align="center">
+              <Flex align="center" style={{flexShrink: 0}}>
                 <DocumentStatusIndicator
                   draft={versionsInfo.draft}
                   published={versionsInfo.published}
