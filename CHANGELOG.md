@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.2](https://github.com/sanity-io/orderable-document-list/compare/v1.4.1...v1.4.2) (2025-12-29)
+
+### Bug Fixes
+
+- **deps:** allow studio v5 in peer deps ranges ([#124](https://github.com/sanity-io/orderable-document-list/issues/124)) ([41cb565](https://github.com/sanity-io/orderable-document-list/commit/41cb565a35670db75ab14b01543e974d148c005c))
+
 ## [1.4.1](https://github.com/sanity-io/orderable-document-list/compare/v1.4.0...v1.4.1) (2025-12-12)
 
 ### Bug Fixes
