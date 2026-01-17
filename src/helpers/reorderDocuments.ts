@@ -3,6 +3,7 @@ import type {PatchOperations} from 'sanity'
 
 import type {SanityDocumentWithOrder} from '../types'
 import {ORDER_FIELD_NAME} from './constants'
+import {parseOrderRank} from './parseOrderRank'
 
 export interface MaifestArgs {
   entities: SanityDocumentWithOrder[]
@@ -68,16 +69,12 @@ export const reorderDocuments = ({
       // Drop selected items in
       if (curIndex === endIndex) {
         const prevIndex = curIndex - 1
-        const prevRank = entities[prevIndex]?.[ORDER_FIELD_NAME]
-          ? LexoRank.parse(entities[prevIndex]?.[ORDER_FIELD_NAME] as string)
-          : LexoRank.min()
+        const prevRank = parseOrderRank(entities[prevIndex]?.[ORDER_FIELD_NAME], LexoRank.min())
 
-        const curRank = LexoRank.parse(entities[curIndex][ORDER_FIELD_NAME] as string)
+        const curRank = parseOrderRank(entities[curIndex][ORDER_FIELD_NAME], LexoRank.min())
 
         const nextIndex = curIndex + 1
-        const nextRank = entities[nextIndex]?.[ORDER_FIELD_NAME]
-          ? LexoRank.parse(entities[nextIndex]?.[ORDER_FIELD_NAME] as string)
-          : LexoRank.max()
+        const nextRank = parseOrderRank(entities[nextIndex]?.[ORDER_FIELD_NAME], LexoRank.max())
 
         let betweenRank = isMovingUp ? prevRank.between(curRank) : curRank.between(nextRank)
 
