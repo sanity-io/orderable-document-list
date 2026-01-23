@@ -1,10 +1,8 @@
-import {orderRankField, RankFieldConfig} from './fields/orderRankField'
-import {orderRankOrdering} from './fields/orderRankOrdering'
-import {
+export {orderRankField, type RankFieldConfig} from './fields/orderRankField'
+export {orderRankOrdering} from './fields/orderRankOrdering'
+export {
   orderableDocumentListDeskItem,
   type OrderableListConfig,
 } from './desk-structure/orderableDocumentListDeskItem'
-import OrderableDocumentList from './OrderableDocumentList'
+export {OrderableDocumentList} from './OrderableDocumentList'
 
-export type {OrderableListConfig, RankFieldConfig}
-export {orderRankField, orderRankOrdering, orderableDocumentListDeskItem, OrderableDocumentList}
