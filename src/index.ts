@@ -5,4 +5,3 @@ export {
   type OrderableListConfig,
 } from './desk-structure/orderableDocumentListDeskItem'
 export {OrderableDocumentList} from './OrderableDocumentList'
-
