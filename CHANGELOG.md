@@ -5,6 +5,16 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0](https://github.com/sanity-io/orderable-document-list/compare/v1.4.2...v1.5.0) (2026-01-26)
+
+### Features
+
+- export OrderableDocumentList component ([#92](https://github.com/sanity-io/orderable-document-list/issues/92)) ([db58527](https://github.com/sanity-io/orderable-document-list/commit/db585271a88288cbd1359083aed040c30fa2e93d))
+
+### Bug Fixes
+
+- guard against invalid orderRank data to prevent studio crashes ([#126](https://github.com/sanity-io/orderable-document-list/issues/126)) ([10b56bc](https://github.com/sanity-io/orderable-document-list/commit/10b56bc90eeee50f56cc0edf0d5b94c5482b06bf)), closes [#89](https://github.com/sanity-io/orderable-document-list/issues/89)
+
 ## [1.4.2](https://github.com/sanity-io/orderable-document-list/compare/v1.4.1...v1.4.2) (2025-12-29)
 
 ### Bug Fixes
