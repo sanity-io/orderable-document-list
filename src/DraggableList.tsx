@@ -123,7 +123,7 @@ export function DraggableList({data, listIsUpdating, setListIsUpdating}: Draggab
 
       try {
         const updated = await transaction.commit({
-          visibility: 'async',
+          visibility: 'sync',
           tag: 'orderable-document-list.reorder',
         })
         clearSelected()
