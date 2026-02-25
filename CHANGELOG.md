@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.1](https://github.com/sanity-io/orderable-document-list/compare/v1.5.0...v1.5.1) (2026-02-25)
+
+### Bug Fixes
+
+- use sync visibility for reorder transaction ([#129](https://github.com/sanity-io/orderable-document-list/issues/129)) ([790ea4f](https://github.com/sanity-io/orderable-document-list/commit/790ea4f31962b36fc2fa768b3a2cb3fda75e3b4e))
+
 ## [1.5.0](https://github.com/sanity-io/orderable-document-list/compare/v1.4.2...v1.5.0) (2026-01-26)
 
 ### Features
