@@ -1,12 +1,12 @@
 {
   "name": "@sanity/orderable-document-list",
   "version": "1.5.1",
-  "description": "Drag-and-drop Document Ordering without leaving the Editing surface",
+  "description": "Drag-and-drop Document Ordering without leaving the Editing surface. Moved to https://github.com/sanity-io/plugins/tree/main/plugins/@sanity/orderable-document-list",
   "keywords": [
     "sanity",
     "sanity-plugin"
   ],
-  "homepage": "https://github.com/sanity-io/orderable-document-list#readme",
+  "homepage": "https://github.com/sanity-io/plugins/tree/main/plugins/@sanity/orderable-document-list",
   "bugs": {
     "url": "https://github.com/sanity-io/orderable-document-list/issues"
   },
