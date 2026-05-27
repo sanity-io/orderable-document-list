@@ -1,5 +1,11 @@
 # @sanity/orderable-document-list
 
+> ⚠️ **Repository moved**
+>
+> `@sanity/orderable-document-list` is now maintained in the [sanity-io/plugins](https://github.com/sanity-io/plugins) monorepo at [`plugins/@sanity/orderable-document-list`](https://github.com/sanity-io/plugins/tree/main/plugins/@sanity/orderable-document-list).
+>
+> Please open issues and PRs in the monorepo. This repository is archived.
+
 > For the v2 version, please refer to the [v2-branch](https://github.com/sanity-io/orderable-document-list/tree/studio-v2).
 
 # What is it?
